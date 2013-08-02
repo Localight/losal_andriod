@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LosalA</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <!-- Personal Options -->
+    <string name="social_feed">Social Feed</string>
+    <string name="events">Events</string>
+    <string name="grades">Grades</string>
+    <string name="schedule">Scheule</string>
+    <string name="socrative">Socrative</string>
+    <string name="edmodo">Edmodo</string>
+    
+    
+    
+    <string name="login_fb">Login to Facebook</string>
+    <string name="activate_social">Activate Your Social Networks</string>
+    <string name="fb">Facebook</string>
+    <string name="fb_app_id">253614024715719</string>
+
+</resources>

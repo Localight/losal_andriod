@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+<com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
+    xmlns:sliding="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rightslidingmenulayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+        sliding:viewAbove="@layout/activity_main"
+    
+    sliding:viewBehind="@layout/notices"
+    sliding:behindOffset="20dp"
+    sliding:selectorEnabled="false"
+    />
+
+    </LinearLayout>

@@ -1,5 +1,11 @@
 package co.localism.losal.activities;
 
+import java.io.IOException;
+
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParseException;
+import com.larvalabs.svgandroid.SVGParser;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -14,11 +20,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import co.localism.losal.R;
-import com.larvalabs.svgandroid.SVG;
-import com.larvalabs.svgandroid.SVGParser;
+import co.localism.losal.SVGHandler;
 
 public class ActivateSocialActivity extends Activity{
 
+	private static final String tag = "ActivateSocialActivity";
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,28 +37,9 @@ public class ActivateSocialActivity extends Activity{
 			public void onClick(View v) {
 //				onBackPressed();
 			}});
-        
-//        SVG svg = SVGParser.getSVGFromResource(getResources(), R.raw.fb);
-//        Picture picture = svg.getPicture();
-//        Drawable drawable = svg.createPictureDrawable();
-//        
-     // Create a new ImageView
-        ImageView imageView = new ImageView(this);
-        // Set the background color to white
-        imageView.setBackgroundColor(Color.WHITE);
-        // Parse the SVG file from the resource
-        SVG fb = SVGParser.getSVGFromResource(getResources(), R.raw.fb);//, getResources().getColor(R.color.black), getResources().getColor(R.color.white));
-        // Get a drawable from the parsed SVG and set it as the drawable for the ImageView
-        
-        imageView.setImageDrawable(fb.createPictureDrawable());
-//        imageView.setBackgroundColor(Color.BLUE);
         LinearLayout ll_fb = (LinearLayout) findViewById(R.id.ll_activate_fb);
-//        ll_fb.setBackgroundDrawable(fb.createPictureDrawable());
-        
-        
-        
-        ll_fb.addView(imageView, 0);
-        
+        ll_fb.addView(new SVGHandler().svg_to_imageview(this, R.raw.fb2, R.color.black, R.color.white, 0.6f), 0);
+
         ll_fb.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {

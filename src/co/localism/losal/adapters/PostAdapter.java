@@ -72,16 +72,15 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		Post cur = mPosts.get(position);
 		// ViewBinder holder;
 		if (convertView == null)
 			convertView = mInflater.inflate(mViewResourceId, null);
-		
         SharedPreferences user_info = ctx.getSharedPreferences("UserInfo",
 				ctx.MODE_PRIVATE);
         user_info.getBoolean("registered", false);
 //        TODO: change what is visible based on whether the user is registered or not
         
-		Post cur = mPosts.get(position);
 		
 		TextView name = (TextView) convertView.findViewById(R.id.tv_name);
 		name.setText(cur.Name);

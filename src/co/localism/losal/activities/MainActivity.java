@@ -42,6 +42,7 @@ public class MainActivity extends ListActivity {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+   
         setContentView(R.layout.activity_main);
         SlidingMenu sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_CONTENT);
         new PersonalOptionsOnClickListeners((LinearLayout) findViewById(R.id.po), this);
@@ -66,6 +67,7 @@ public class MainActivity extends ListActivity {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(ctx, ActivateSocialActivity.class);
+
 				startActivity(i);
 			}});
     
@@ -95,6 +97,8 @@ public class MainActivity extends ListActivity {
 //				 }
 //			}
 //		});
+ 
+
     }
 
 

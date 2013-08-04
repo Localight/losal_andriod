@@ -14,6 +14,11 @@ import com.facebook.SessionState;
 import com.facebook.internal.SessionTracker;
 import com.facebook.internal.Utility;
 import com.facebook.model.GraphUser;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseFacebookUtils.Permissions;
+import com.parse.ParseUser;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -34,7 +39,27 @@ public class FbLoginActivity extends Activity {
 	  public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_main);
-	    signInWithFacebook();
+        ParseFacebookUtils.initialize(getResources().getString(R.string.fb_app_id));
+
+        ParseFacebookUtils.logIn(Arrays.asList("email", Permissions.Friends.ABOUT_ME), this, new LogInCallback() {
+			@Override
+			public void done(ParseUser user, ParseException e) {
+				// TODO Auto-generated method stub
+				 if (user == null) {
+			  	      Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+			  	    } else if (user.isNew()) {
+			  	      Log.d("MyApp", "User signed up and logged in through Facebook!");
+			  	    } else {
+			  	      Log.d("MyApp", "User logged in through Facebook!");
+			  	    }
+			}
+        	});
+      
+  	
+        
+        
+        
+//	    signInWithFacebook();
 /*
 	    // start Facebook Login
 	    Session.openActiveSession(this, true, new Session.StatusCallback() {
@@ -64,15 +89,19 @@ public class FbLoginActivity extends Activity {
 	    */
 	  }
 
-	  @Override
-	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	      super.onActivityResult(requestCode, resultCode, data);
-	      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-	  }
-
+//	  @Override
+//	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//	      super.onActivityResult(requestCode, resultCode, data);
+//	      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+//	  }
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	  super.onActivityResult(requestCode, resultCode, data);
+	  ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+	}
 	
 
-	  
+	/*  
 	  private void signInWithFacebook() {
 
 		    mSessionTracker = new SessionTracker(getBaseContext(), new StatusCallback() {
@@ -112,6 +141,6 @@ public class FbLoginActivity extends Activity {
 		            });
 		    }
 		}
-
+*/
 	  
 }

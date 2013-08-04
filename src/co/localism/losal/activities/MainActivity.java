@@ -13,6 +13,9 @@ import co.localism.losal.objects.Post;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -47,8 +50,12 @@ public class MainActivity extends ListActivity {
         SlidingMenu sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_CONTENT);
         new PersonalOptionsOnClickListeners((LinearLayout) findViewById(R.id.po), this);
         getActionBar();
-    
+        Parse.initialize(this, getResources().getString(R.string.parse_app_id), getResources().getString(R.string.parse_app_id));
+        ParseAnalytics.trackAppOpened(getIntent());
         
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("fooJoe", "barJoe");
+        testObject.saveInBackground();
         
         SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);

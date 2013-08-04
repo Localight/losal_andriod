@@ -25,4 +25,15 @@
 
     <string name="social_footer">The #LOSAL APP uses Localism! to protect your privacy and unite our community.  Your private information is not shared. 
     </string>
+    
+    
+    
+    <!-- Parse -->
+    
+    
+    <string name="parse_app_id">zFi294oXTVT6vj6Tfed5heeF6XPmutl0y1Rf7syg</string>
+    <string name="parse_client_key">jyL9eoOizsJqQK5KtADNX5ILpjgSdP6jW9Lz1nAU</string>
+
+
+
 </resources>

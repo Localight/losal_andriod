@@ -42,6 +42,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 	private Context ctx;
 	private static final String tag = "PostAdapter";
 	public static Filter filter;
+	private static String[] CLASS_YEAR= new String[]{"", "Freshman", "Sophomore", "Junior", "Senior"};
 
 	// public ImageAndTextAdapter(Context ctx, int viewResourceId,
 	// String[] strings, TypedArray icons, ArrayList<Integer> openclose,
@@ -86,10 +87,15 @@ public class PostAdapter extends ArrayAdapter<String> {
 		name.setText(cur.Name);
 
 
-		TextView tv = (TextView) convertView.findViewById(R.id.tv_class_year);
-		tv.setText(cur.class_year+"");
+		TextView tv_class_year = (TextView) convertView.findViewById(R.id.tv_class_year);
+		tv_class_year.setText(CLASS_YEAR[cur.class_year]);
 //		tv.setTypeface(Times.font);
 
+		
+		TextView tv_time_posted= (TextView) convertView.findViewById(R.id.tv_time_posted);
+		tv_time_posted.setText("1 hour ago ");
+		
+		
 		ImageView iv_user_icon = (ImageView) convertView.findViewById(R.id.iv_user_icon);
 		
 		ImageView iv_post_image = (ImageView) convertView.findViewById(R.id.iv_post_image);

@@ -22,6 +22,7 @@ import com.parse.ParseUser;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -51,6 +52,12 @@ public class FbLoginActivity extends Activity {
 			  	      Log.d("MyApp", "User signed up and logged in through Facebook!");
 			  	    } else {
 			  	      Log.d("MyApp", "User logged in through Facebook!");
+//			  	      TODO: Link fb user to parse user. If we keep facebook.
+			  	    SharedPreferences user_info = getSharedPreferences("UserInfo",
+							MODE_PRIVATE);
+					 SharedPreferences.Editor prefEditor = user_info.edit();
+					 prefEditor.putBoolean("hasFacebook", true);
+					 prefEditor.commit();
 			  	    }
 			}
         	});

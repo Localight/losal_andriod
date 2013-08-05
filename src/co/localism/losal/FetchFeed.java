@@ -40,8 +40,7 @@ public class FetchFeed extends Observable{
 			public void done(List<ParseObject> postList, ParseException e) {
 				if (e == null) {
 					Log.d(tag, "Retrieved " + postList.size() + " posts");
-//					posts.add(postList.get(0));// = postList;
-					posts.addAll(createPosts(postList));// = postList;
+					posts.addAll(createPosts(postList));
 					triggerObservers();
 				} else {
 					Log.d(tag, "Error: " + e.getMessage());
@@ -68,7 +67,7 @@ public class FetchFeed extends Observable{
 
 				p.setText(postsList.get(i).getString("text"));
 				Log.d(tag, postsList.get(i).getString("text"));
-//				p.setSocialNetworkName(postsList.get(i).getString("socialNetworkName"));
+				p.setSocialNetworkName(postsList.get(i).getString("socialNetworkName"));
 				
 				posts.add(p);
 			}

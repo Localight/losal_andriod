@@ -44,14 +44,15 @@ public class PostAdapter extends ArrayAdapter<String> {
 	private int mViewResourceId;
 	private Context ctx;
 	private ImageView TW_IMAGE_VIEW, FB_IMAGE_VIEW, INSTA_IMAGE_VIEW;
-	private static final String tag = "PostAdapter";
+	private static final String tag = "PostAdapter", TWITTER = "Twitter", FACEBOOK = "Facebook", INSTAGRAM= "Instagram";
 	public static Filter filter;
 	private static String[] CLASS_YEAR= new String[]{"", "Freshman", "Sophomore", "Junior", "Senior"};
-
+	private SharedPreferences user_info;
+	private OnClickListener activate_onClick, fb_onClick, insta_onClick, tw_onClick;
 	// public ImageAndTextAdapter(Context ctx, int viewResourceId,
 	// String[] strings, TypedArray icons, ArrayList<Integer> openclose,
 	// ArrayList<String> companies, ArrayList<String> place_ids) {
-	public PostAdapter(Context ctx, int viewResourceId, ArrayList<Post> posts, int UserType) {
+	public PostAdapter(final Context ctx, int viewResourceId, ArrayList<Post> posts, int UserType) {
 		super(ctx, viewResourceId);
 		mInflater = (LayoutInflater) ctx
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,7 +63,33 @@ public class PostAdapter extends ArrayAdapter<String> {
 		TW_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.tw, 1f);
 		FB_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.fb, 1f);
 		INSTA_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.insta, 1f);
-
+		
+		activate_onClick = new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+// 				check which social site it is and either like, or show activate social activity
+				Intent intent = new Intent(ctx, ActivateSocialActivity.class);
+		 		ctx.startActivity(intent);	
+			}
+		};	
+		fb_onClick = new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+// 				like the post on fb
+			}
+		};	
+		tw_onClick = new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+// 				favorite the post on twitter
+			}
+		};	
+		insta_onClick = new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+// 				like the post on instagram
+			}
+		};	
 		
 	}
 
@@ -87,21 +114,29 @@ public class PostAdapter extends ArrayAdapter<String> {
 		// ViewBinder holder;
 		if (convertView == null){
 			convertView = mInflater.inflate(mViewResourceId, null);
-			LinearLayout ll_social = (LinearLayout) convertView.findViewById(R.id.ll_social_like_area);
-			ll_social.setOnClickListener(new OnClickListener(){
-
-				@Override
-				public void onClick(View arg0) {
-//	 				check which social site it is and either like, or show activate social activity
-					Intent intent = new Intent(ctx, ActivateSocialActivity.class);
-			 		ctx.startActivity(intent);	
-				}
-				
-			});	
+			
+			 user_info = ctx.getSharedPreferences("UserInfo",
+						ctx.MODE_PRIVATE);
+		        user_info.getBoolean("registered", false);
+		        LinearLayout ll_social = (LinearLayout) convertView.findViewById(R.id.ll_social_like_area);
+		      
+		        if(cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
+		        	if(user_info.getBoolean("hasTwitter", false))
+		        		ll_social.setOnClickListener(tw_onClick);
+		        	else
+		        		ll_social.setOnClickListener(activate_onClick);
+		        if(cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+		        	if(user_info.getBoolean("hasInstagram", false))
+		        		ll_social.setOnClickListener(insta_onClick);
+		        	else
+		        		ll_social.setOnClickListener(activate_onClick);
+		        if(cur.getSocialNetworkName().equalsIgnoreCase(FACEBOOK))
+		        	if(user_info.getBoolean("hasFacebook", false))
+		        		ll_social.setOnClickListener(fb_onClick);
+		        	else
+		        		ll_social.setOnClickListener(activate_onClick);
 		}
-        SharedPreferences user_info = ctx.getSharedPreferences("UserInfo",
-				ctx.MODE_PRIVATE);
-        user_info.getBoolean("registered", false);
+       
 //        TODO: change what is visible based on whether the user is registered or not
         
 		
@@ -130,13 +165,26 @@ public class PostAdapter extends ArrayAdapter<String> {
 		
 //		Social Site Like Icon
 		ImageView iv_social_like_icon = (ImageView) convertView.findViewById(R.id.iv_social_like_icon);
-		iv_social_like_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.tw_like));
+		if(cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
+			iv_social_like_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.fb_like));
+		else if(cur.getSocialNetworkName().equalsIgnoreCase("twitter"))
+			iv_social_like_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.tw_like));
+		else if(cur.getSocialNetworkName().equalsIgnoreCase("facebook"))
+			iv_social_like_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.fb_like));
+
 		iv_social_like_icon.setAlpha(1f);
 		iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		
 //		Social Site Icon
 		ImageView iv_social_site_icon = (ImageView) convertView.findViewById(R.id.iv_social_site_icon);
-		iv_social_site_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.tw));
+		if(cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
+			iv_social_site_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.insta));
+		else if(cur.getSocialNetworkName().equalsIgnoreCase("twitter"))
+			iv_social_site_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.tw));
+		else if(cur.getSocialNetworkName().equalsIgnoreCase("facebook"))
+			iv_social_site_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.fb));
+
+
 		iv_social_site_icon.setAlpha(0.6f);
 		iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 

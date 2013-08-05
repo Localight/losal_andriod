@@ -17,12 +17,15 @@ import co.localism.losal.objects.Post;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
 import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -76,7 +79,7 @@ public class MainActivity extends ListActivity implements Observer{
 		} catch (Exception e) {
 			Log.d(tag, e.toString());
 		}
-
+//		createTestparseUser();
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
 		// SharedPreferences.Editor prefEditor = user_info.edit();
@@ -123,4 +126,42 @@ public class MainActivity extends ListActivity implements Observer{
 		super.onResume();
 		updateView();
 	}
+	
+	
+	
+	private void loginParseUser(){
+	ParseUser.logInInBackground("joe", "1234", new LogInCallback() {
+		  public void done(ParseUser user, ParseException e) {
+		    if (user != null) {
+		      // Hooray! The user is logged in.
+		    } else {
+		      // Signup failed. Look at the ParseException to see what happened.
+		    }
+		  }
+		});
+}
+	private void createTestparseUser(){
+		ParseUser user = new ParseUser();
+		user.setUsername("joe");
+		user.setPassword("1234");
+		user.setEmail("joeczubiak@gmail.com");
+		 
+		// other fields can be set just like with ParseObject
+//		user.put("phone", "650-253-0000");
+		 
+		user.signUpInBackground(new SignUpCallback() {
+		  public void done(ParseException e) {
+		    if (e == null) {
+		      // Hooray! Let them use the app now.
+		    } else {
+		      // Sign up didn't succeed. Look at the ParseException
+		      // to figure out what went wrong
+		    }
+		  }
+		});
+	}
+	
+	
+	
+	
 }

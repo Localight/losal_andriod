@@ -73,7 +73,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public String getItem(int position) {
-		return mPosts.get(position).Name;
+		return mPosts.get(position).getName();
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class PostAdapter extends ArrayAdapter<String> {
         
 		
 		TextView name = (TextView) convertView.findViewById(R.id.tv_name);
-		name.setText(cur.Name);
+		name.setText(cur.getName());
 
 
 		TextView tv_class_year = (TextView) convertView.findViewById(R.id.tv_class_year);
@@ -116,6 +116,9 @@ public class PostAdapter extends ArrayAdapter<String> {
 		
 		TextView tv_time_posted= (TextView) convertView.findViewById(R.id.tv_time_posted);
 		tv_time_posted.setText("1 hour ago ");
+		
+		TextView tv_post_text= (TextView) convertView.findViewById(R.id.tv_post_text);
+		tv_post_text.setText(cur.getText());
 		
 		
 
@@ -182,6 +185,4 @@ public class PostAdapter extends ArrayAdapter<String> {
 	}
 	
 	
-	
-
 }

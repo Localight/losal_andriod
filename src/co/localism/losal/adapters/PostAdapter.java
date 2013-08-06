@@ -1,11 +1,17 @@
 package co.localism.losal.adapters;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import co.localism.losal.R;
 import co.localism.losal.SVGHandler;
@@ -19,6 +25,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
@@ -59,6 +66,9 @@ public class PostAdapter extends ArrayAdapter<String> {
 	public static ImageLoader mImageLoader;
 	private ImageLoadingListener animateFirstDisplayListener;
 	private PostViewHolder holder;
+	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+
+	private DisplayImageOptions options;
 
 	// public ImageAndTextAdapter(Context ctx, int viewResourceId,
 	// String[] strings, TypedArray icons, ArrayList<Integer> openclose,
@@ -107,6 +117,18 @@ public class PostAdapter extends ArrayAdapter<String> {
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(ctx));
 
+		
+		options = new DisplayImageOptions.Builder()
+//		.showStubImage(R.drawable.ic_stub)
+//		.showImageForEmptyUri(R.drawable.ic_empty)
+//		.showImageOnFail(R.drawable.ic_error)
+		.showStubImage(R.drawable.ic_launcher)
+		.showImageForEmptyUri(R.drawable.ic_launcher)
+		.showImageOnFail(R.drawable.ic_launcher)
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+//		.displayer(new RoundedBitmapDisplayer(20))
+		.build();
 	}
 
 	@Override
@@ -126,7 +148,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Post cur = mPosts.get(position);
+		final Post cur = mPosts.get(position);
 		// ViewBinder holder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(mViewResourceId, null);
@@ -245,9 +267,12 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 		// ImageView iv_social_like_icon = (ImageView)
 		// convertView.findViewById(R.id.iv_social_like_icon);
-
-		mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image);
-
+		if(cur.getUrl() != null && cur.getUrl().length() > 3){//this post has an image to display
+			holder.iv_post_image.setVisibility(View.VISIBLE);
+			mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image, options, animateFirstListener);
+		}else{//this post does not have an image to display so hide the imageview
+			holder.iv_post_image.setVisibility(View.GONE);
+		}
 		// final int imageResource = R.drawable.test_bg;
 		// iv_post_image.setImageResource(imageResource);
 		Log.d("", "");
@@ -261,6 +286,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 				// intent.putExtra("imageID",
 				// holder.iv_post_image.getDrawable());
 				// TODO: fix this to send image to new activity
+				 intent.putExtra("imageURL",cur.getUrl());
 				ctx.startActivity(intent);
 			}
 
@@ -285,4 +311,21 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 	}
 
+	
+	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+
+		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+		@Override
+		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+			if (loadedImage != null) {
+				ImageView imageView = (ImageView) view;
+				boolean firstDisplay = !displayedImages.contains(imageUri);
+				if (firstDisplay) {
+					FadeInBitmapDisplayer.animate(imageView, 500);
+					displayedImages.add(imageUri);
+				}
+			}
+		}
+	}
 }

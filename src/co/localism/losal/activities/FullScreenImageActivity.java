@@ -1,10 +1,16 @@
 package co.localism.losal.activities;
 
 import co.localism.losal.R;
+import co.localism.losal.adapters.PostAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
-
+/**
+ * This activity displays an image at full screen when it is called from PostAdapter.class
+ * 
+ * @author Joe
+ *
+ */
 public class FullScreenImageActivity extends Activity {
 
 	
@@ -16,6 +22,9 @@ public class FullScreenImageActivity extends Activity {
 	        Bundle extras = getIntent().getExtras();
 	        
 	        ImageView iv = (ImageView) findViewById(R.id.iv_fullscreen);
-	        iv.setImageResource(extras.getInt("imageID"));
+//	        iv.setImageResource(extras.getInt("imageID"));
+			
+	        PostAdapter.mImageLoader.displayImage(extras.getString("imageURL"), iv);
+
 	 }
 }

@@ -58,7 +58,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 			tw_onClick;
 	public static ImageLoader mImageLoader;
 	private ImageLoadingListener animateFirstDisplayListener;
-
+	private PostViewHolder holder;
 	
 	
 	// public ImageAndTextAdapter(Context ctx, int viewResourceId,
@@ -131,85 +131,108 @@ public class PostAdapter extends ArrayAdapter<String> {
 		// ViewBinder holder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(mViewResourceId, null);
+			holder = new PostViewHolder();
+			holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
+			holder.tv_class_year = (TextView) convertView
+					.findViewById(R.id.tv_class_year);
+			holder.tv_time_posted = (TextView) convertView
+					.findViewById(R.id.tv_time_posted);
+			
+			holder.iv_social_like_icon = (ImageView) convertView
+					.findViewById(R.id.iv_social_like_icon);
+			holder.iv_user_icon = (ImageView) convertView
+					.findViewById(R.id.iv_user_icon);
+
+			holder.iv_post_image = (ImageView) convertView
+					.findViewById(R.id.iv_post_image);
+			holder.iv_social_site_icon = (ImageView) convertView
+					.findViewById(R.id.iv_social_site_icon);
+			holder.iv_clock = (ImageView) convertView.findViewById(R.id.iv_time);
+			
+			holder.tv_post_text = (TextView) convertView
+					.findViewById(R.id.tv_post_text);
+			
+			holder.ll_social = (LinearLayout) convertView
+					.findViewById(R.id.ll_social_like_area);
+			
+			// Clock Icon. Only needs to be set once
+			holder.iv_clock.setImageDrawable(new SVGHandler().svg_to_drawable(ctx,
+					R.raw.clock));
+			holder.iv_clock.setAlpha(0.6f);
+			holder.iv_clock.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            convertView.setTag(holder);
+
+		}else{
+	         holder = (PostViewHolder) convertView.getTag();
 		}
+		
 		user_info = ctx.getSharedPreferences("UserInfo", ctx.MODE_PRIVATE);
 		user_info.getBoolean("registered", false);
-		LinearLayout ll_social = (LinearLayout) convertView
-				.findViewById(R.id.ll_social_like_area);
-
+		
+try{
 		if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
 			if (user_info.getBoolean("hasTwitter", false))
-				ll_social.setOnClickListener(tw_onClick);
+				holder.ll_social.setOnClickListener(tw_onClick);
 			else
-				ll_social.setOnClickListener(activate_onClick);
-		if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+				holder.ll_social.setOnClickListener(activate_onClick);
+		else if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
 			if (user_info.getBoolean("hasInstagram", false))
-				ll_social.setOnClickListener(insta_onClick);
+				holder.ll_social.setOnClickListener(insta_onClick);
 			else
-				ll_social.setOnClickListener(activate_onClick);
-		if (cur.getSocialNetworkName().equalsIgnoreCase(FACEBOOK))
+				holder.ll_social.setOnClickListener(activate_onClick);
+		else if (cur.getSocialNetworkName().equalsIgnoreCase(FACEBOOK))
 			if (user_info.getBoolean("hasFacebook", false))
-				ll_social.setOnClickListener(fb_onClick);
+				holder.ll_social.setOnClickListener(fb_onClick);
 			else
-				ll_social.setOnClickListener(activate_onClick);
-
+				holder.ll_social.setOnClickListener(activate_onClick);
+}catch(Exception e){
+	Log.e(tag,e.toString());
+	
+}
 		// TODO: change what is visible based on whether the user is registered
 		// or not
 
-		TextView name = (TextView) convertView.findViewById(R.id.tv_name);
-		name.setText(cur.getName());
+		
+		holder.tv_name.setText(cur.getName());
 
-		TextView tv_class_year = (TextView) convertView
-				.findViewById(R.id.tv_class_year);
-		tv_class_year.setText(CLASS_YEAR[cur.class_year]);
+		
+		holder.tv_class_year.setText(CLASS_YEAR[cur.class_year]);
 		// tv.setTypeface(Times.font);
 
-		TextView tv_time_posted = (TextView) convertView
-				.findViewById(R.id.tv_time_posted);
-		tv_time_posted.setText("1 hour ago ");
+		holder.tv_time_posted.setText("1 hour ago ");
 
-		TextView tv_post_text = (TextView) convertView
-				.findViewById(R.id.tv_post_text);
-		tv_post_text.setText(cur.getText());
+		holder.tv_post_text.setText(cur.getText());
 
-		// Clock Icon
-		ImageView iv_clock = (ImageView) convertView.findViewById(R.id.iv_time);
-		iv_clock.setImageDrawable(new SVGHandler().svg_to_drawable(ctx,
-				R.raw.clock));
-		iv_clock.setAlpha(0.6f);
-		iv_clock.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		// Social Site Like Icon
-		ImageView iv_social_like_icon = (ImageView) convertView
-				.findViewById(R.id.iv_social_like_icon);
+
 		if (cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
-			iv_social_like_icon.setImageDrawable(new SVGHandler()
+			holder.iv_social_like_icon.setImageDrawable(new SVGHandler()
 					.svg_to_drawable(ctx, R.raw.fb_like));
 		else if (cur.getSocialNetworkName().equalsIgnoreCase("twitter"))
-			iv_social_like_icon.setImageDrawable(new SVGHandler()
+			holder.iv_social_like_icon.setImageDrawable(new SVGHandler()
 					.svg_to_drawable(ctx, R.raw.tw_like));
 		else if (cur.getSocialNetworkName().equalsIgnoreCase("facebook"))
-			iv_social_like_icon.setImageDrawable(new SVGHandler()
+			holder.iv_social_like_icon.setImageDrawable(new SVGHandler()
 					.svg_to_drawable(ctx, R.raw.fb_like));
 
-		iv_social_like_icon.setAlpha(1f);
-		iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		holder.iv_social_like_icon.setAlpha(1f);
+		holder.iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		// Social Site Icon
-		ImageView iv_social_site_icon = (ImageView) convertView
-				.findViewById(R.id.iv_social_site_icon);
+		
 		if (cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
-			iv_social_site_icon.setImageDrawable(new SVGHandler()
+			holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
 					.svg_to_drawable(ctx, R.raw.insta));
 		else if (cur.getSocialNetworkName().equalsIgnoreCase("twitter"))
-			iv_social_site_icon.setImageDrawable(new SVGHandler()
+			holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
 					.svg_to_drawable(ctx, R.raw.tw));
 		else if (cur.getSocialNetworkName().equalsIgnoreCase("facebook"))
-			iv_social_site_icon.setImageDrawable(new SVGHandler()
+			holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
 					.svg_to_drawable(ctx, R.raw.fb));
 
-		iv_social_site_icon.setAlpha(0.6f);
-		iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		holder.iv_social_site_icon.setAlpha(0.6f);
+		holder.iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		// if(ll_social_site_icon.getChildCount() > 0){
 		// ll_social_site_icon.removeViewAt(0);
@@ -226,25 +249,22 @@ public class PostAdapter extends ArrayAdapter<String> {
 		// ImageView iv_social_like_icon = (ImageView)
 		// convertView.findViewById(R.id.iv_social_like_icon);
 
-		ImageView iv_user_icon = (ImageView) convertView
-				.findViewById(R.id.iv_user_icon);
+		
 
-		ImageView iv_post_image = (ImageView) convertView
-				.findViewById(R.id.iv_post_image);
+		mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image);
 
-		mImageLoader.displayImage(cur.getUrl(), iv_post_image);
-
-		final int imageResource = R.drawable.test_bg;
-		iv_post_image.setImageResource(imageResource);
+//		final int imageResource = R.drawable.test_bg;
+//		iv_post_image.setImageResource(imageResource);
 		Log.d("", "");
-		iv_post_image.setOnClickListener(new OnClickListener() {
+		holder.iv_post_image.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
 				Log.d(tag, "image pressed");
 				// Long imageID = parent.getAdapter().getItemId(position);
 				Intent intent = new Intent(ctx, FullScreenImageActivity.class);
-				intent.putExtra("imageID", imageResource);
+//				intent.putExtra("imageID", holder.iv_post_image.getDrawable());
+//			TODO: fix this to send image to new activity
 				ctx.startActivity(intent);
 			}
 
@@ -254,4 +274,20 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 	}
 
+	public static class PostViewHolder{
+
+		TextView tv_name;
+		TextView tv_class_year;
+		TextView tv_time_posted;
+		TextView tv_post_text;
+		ImageView iv_social_like_icon;
+		ImageView iv_social_site_icon; 
+		ImageView iv_user_icon;
+		ImageView iv_post_image; 
+		ImageView iv_clock;
+		LinearLayout ll_social;
+		
+	}
+	
+	
 }

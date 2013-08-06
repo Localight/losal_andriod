@@ -36,6 +36,12 @@ public class SVGHandler {
 		return iv;
 	}
 	
+	public ImageView svg_to_imageview(Context ctx, int resId, float opacity, int width, int height){
+		ImageView iv = svg_to_imageview(ctx, resId, -1, -1, opacity);
+		LayoutParams params = new LayoutParams(width, height); 
+        iv.setLayoutParams(params);
+        return iv;
+	}
 	
 	
 	

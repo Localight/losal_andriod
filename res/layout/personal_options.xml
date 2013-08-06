@@ -7,21 +7,26 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal" >
 
         <LinearLayout
             android:id="@+id/po_social_feed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/personal_options_space_between_items"
+            android:gravity="center"
             android:orientation="vertical" >
 
-            <ImageView
+            <!--
+                 <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher" />
+            -->
 
             <TextView
                 android:id="@+id/textView1"
@@ -36,13 +41,16 @@
             android:id="@+id/po_events"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical" >
 
-            <ImageView
+            <!--
+                 <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher" />
+            -->
 
             <TextView
                 android:id="@+id/textView1"
@@ -55,14 +63,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal" >
 
         <LinearLayout
             android:id="@+id/po_grades"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/personal_options_space_between_items"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <ImageView
@@ -84,6 +95,7 @@
             android:id="@+id/po_schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <ImageView
@@ -103,21 +115,26 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal" >
 
         <LinearLayout
             android:id="@+id/po_socrative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/personal_options_space_between_items"
+            android:gravity="center"
             android:orientation="vertical" >
 
-            <ImageView
+            <!--
+                 <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher" />
+            -->
 
             <TextView
                 android:id="@+id/textView1"
@@ -132,13 +149,16 @@
             android:id="@+id/po_edmodo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical" >
 
-            <ImageView
+            <!--
+                 <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher" />
+            -->
 
             <TextView
                 android:id="@+id/textView1"

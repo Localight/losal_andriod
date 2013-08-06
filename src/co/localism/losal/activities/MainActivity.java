@@ -25,6 +25,7 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -69,7 +70,10 @@ public class MainActivity extends ListActivity implements Observer{
 
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
 				getResources().getString(R.string.parse_client_key));
+		ParseTwitterUtils.initialize(getResources().getString(R.string.tw_consumer_key), getResources().getString(R.string.tw_consumer_secret));
 		ParseAnalytics.trackAppOpened(getIntent());
+		loginParseUser();
+
 		// ParseFacebookUtils.initialize(getResources().getString(R.string.fb_app_id));
 		try {
 			FetchFeed ff = new FetchFeed();

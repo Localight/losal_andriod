@@ -23,10 +23,19 @@
     
     <string name="fb_app_id">253614024715719</string>
 
+    <!-- Instagram -->
+    <string name="instagram_authorize_url">https://api.instagram.com/oauth/authorize/</string>
+    <string name="instagram_access_token_url">https://api.instagram.com/oauth/access_token/</string>
+       <string name="instagram_version_url">https://api.instagram.com/v1</string>
     
-    <!-- THIS IS TEMPORARY -->
-        <string name="tw_consumer_key">dj96LHLknDZy4hKjCrImgg</string>
-        <string name="tw_consumer_secret">8tFbcOn0htARSSMKdRpvIAfwYAEy3wZVaKRI4u0Mtms</string>
+           <string name="instagram_client_id">64392b8719fb49f59f71213ed640fb68</string>
+           <string name="instagram_client_secret">7897fc2fa21d4572a0218fe1a012847d</string>
+           
+           <string name="instagram_callback_url"></string>
+           
+    
+        <string name="tw_consumer_key">wNe7Ugi45G8YKu3jih1NA</string>
+        <string name="tw_consumer_secret">xgtZlqu75hA4SVAccJa0L2pXmeaehblxbTNKgE4aNM</string>
     
     <string name="social_footer">The #LOSAL APP uses Localism! to protect your privacy and unite our community.  Your private information is not shared. 
     </string>

@@ -16,6 +16,7 @@ import co.localism.losal.objects.Post;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
+import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
@@ -101,6 +102,10 @@ public class MainActivity extends ListActivity implements Observer{
 		// posts.add(new Post("Josh A", 4));
 
 		ListView lv = getListView();
+		boolean pauseOnScroll = false; // or true
+		boolean pauseOnFling = true; // or false
+		PauseOnScrollListener listener = new PauseOnScrollListener(PostAdapter.mImageLoader, pauseOnScroll, pauseOnFling);
+		lv.setOnScrollListener(listener);
 	}
 
 	@Override

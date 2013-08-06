@@ -7,7 +7,7 @@ public class Post {
 //	private timestamp;
 //	private img user_icon;
 	private String text = "";
-	private String img_URL ="";
+	private String url ="";
 	
 	
 	public Post(){
@@ -44,6 +44,12 @@ public class Post {
 		return this.socialNetworkName;
 	}
 	
+	public void setUrl(String url){
+		this.url = url;
+	}
+	public String getUrl(){
+		return this.url;
+	}
 	
 	
 }

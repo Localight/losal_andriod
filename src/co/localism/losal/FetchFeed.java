@@ -68,7 +68,8 @@ public class FetchFeed extends Observable{
 				p.setText(postsList.get(i).getString("text"));
 				Log.d(tag, postsList.get(i).getString("text"));
 				p.setSocialNetworkName(postsList.get(i).getString("socialNetworkName"));
-				
+				p.setUrl(postsList.get(i).getString("url"));
+
 				posts.add(p);
 			}
 		}

@@ -122,9 +122,10 @@ public class PostAdapter extends ArrayAdapter<String> {
 //		.showStubImage(R.drawable.ic_stub)
 //		.showImageForEmptyUri(R.drawable.ic_empty)
 //		.showImageOnFail(R.drawable.ic_error)
-		.showStubImage(R.drawable.ic_launcher)
+//		.showStubImage(R.drawable.ic_launcher)
 		.showImageForEmptyUri(R.drawable.ic_launcher)
 		.showImageOnFail(R.drawable.ic_launcher)
+		.resetViewBeforeLoading(false)
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
 //		.displayer(new RoundedBitmapDisplayer(20))
@@ -215,14 +216,22 @@ public class PostAdapter extends ArrayAdapter<String> {
 		// or not
 
 		holder.tv_name.setText(cur.getName());
+//		holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
 
-		holder.tv_class_year.setText(CLASS_YEAR[cur.class_year]);
+		holder.tv_class_year.setText(CLASS_YEAR[cur.getClassYear()]);
 		// tv.setTypeface(Times.font);
 
 		holder.tv_time_posted.setText("1 hour ago ");
 
 		holder.tv_post_text.setText(cur.getText());
 
+//		user icon
+		String UserIcon = cur.getUserIcon();
+//		TODO: use string UserIcon to get the correct svg from R.raw and use the color pulled down and 
+//		stored (still need to do this) in the post object
+		holder.iv_user_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.edmodo, R.color.white, R.color.holo_light_blue));
+		holder.iv_user_icon.setAlpha(1f);
+		holder.iv_user_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		// Social Site Like Icon
 
 		if (cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
@@ -263,7 +272,6 @@ public class PostAdapter extends ArrayAdapter<String> {
 		// Log.e(tag, e.toString());
 		// }
 
-		// Add image view to layout instead of setting image resource
 
 		// ImageView iv_social_like_icon = (ImageView)
 		// convertView.findViewById(R.id.iv_social_like_icon);

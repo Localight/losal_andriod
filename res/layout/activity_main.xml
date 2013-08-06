@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <ImageView
+   <!--  <ImageView
         android:id="@+id/imageView1"
         android:layout_width="fill_parent"
         android:scaleType="matrix"
                 android:layout_height="fill_parent"
-        android:src="@drawable/test_bg" />
+        android:src="@drawable/test_bg" /> -->
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -21,7 +21,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin" >
 
-        <TextView
+      <!--   <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,12 +31,12 @@
             android:id="@+id/btn_social"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Button" /> -->
 
         <ListView
             android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
         </ListView>
     </LinearLayout>
 

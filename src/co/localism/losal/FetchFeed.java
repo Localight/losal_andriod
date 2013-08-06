@@ -73,6 +73,8 @@ public class FetchFeed extends Observable{
 				}catch(NullPointerException npe){
 					p.setUrl("");
 				}
+				p.setName("Elena C");//placeholder data
+				p.setClassYear(3);//placeholder data
 				posts.add(p);
 			}
 		}

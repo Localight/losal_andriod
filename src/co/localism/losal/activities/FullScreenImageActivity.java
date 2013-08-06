@@ -25,6 +25,8 @@ public class FullScreenImageActivity extends Activity {
 //	        iv.setImageResource(extras.getInt("imageID"));
 			
 	        PostAdapter.mImageLoader.displayImage(extras.getString("imageURL"), iv);
-
+//	        TODO: make sure that it scales the image correctly and leaves black space if needed. 
+//	        For Example: A square image should scale so that the image fits to the edge horizontally
+//	        but has black space on the top and bottom. Assuming the phone is being held in portrait mode.
 	 }
 }

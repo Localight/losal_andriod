@@ -47,22 +47,23 @@ public class ActivateSocialActivity extends Activity {
 	private static final int icon_width = 60;
 	private static final int icon_height = 60;
 	private ParseUser currentUser;
-	protected InstaImpl mInstaImpl; 
+	protected InstaImpl mInstaImpl;
 	private Context ctx = this;
 	private BroadcastReceiver mResponseListener;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_activate_social);
-		
+
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser != null) {
-		  // do stuff with the user
+			// do stuff with the user
 		} else {
-		  // show the signup or login screen
+			// show the signup or login screen
 		}
-		
+
 		LinearLayout ll = (LinearLayout) findViewById(R.id.ll_social_bg);
 		ll.setOnClickListener(new OnClickListener() {
 			@Override
@@ -113,7 +114,7 @@ public class ActivateSocialActivity extends Activity {
 				startActivity(i);
 			}
 		};
-		
+
 		tw_onclick = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -122,95 +123,97 @@ public class ActivateSocialActivity extends Activity {
 				linkTwitterUser();
 			}
 		};
-		
-		
+
 		insta_onclick = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Log.d("activate", "start twitter login ");
-		
+
 				mInstaImpl = new InstaImpl(ctx);
 				mInstaImpl.setAuthAuthenticationListener(new AuthListener());
 			}
 		};
-		
-		
-	}
-	
-	private void twitterLogin(){
-//		ParseTwitterUtils.initialize(getResources().getString(R.string.tw_consumer_key), getResources().getString(R.string.tw_consumer_secret));
 
-	
-		ParseTwitterUtils.logIn(this, new LogInCallback() {
-			  @Override
-			  public void done(ParseUser user, ParseException err) {
-			    if (user == null) {
-			      Log.d("MyApp", "Uh oh. The user cancelled the Twitter login.");
-			    } else if (user.isNew()) {
-			      Log.d("MyApp", "User signed up and logged in through Twitter!");
-			    } else {
-			      Log.d("MyApp", "User logged in through Twitter!");
-			    }
-			  }
-			});
-	
 	}
-	
-	private void linkTwitterUser(){
-		ParseTwitterUtils.initialize(getResources().getString(R.string.tw_consumer_key), getResources().getString(R.string.tw_consumer_secret));
+
+	private void twitterLogin() {
+		// ParseTwitterUtils.initialize(getResources().getString(R.string.tw_consumer_key),
+		// getResources().getString(R.string.tw_consumer_secret));
+
+		ParseTwitterUtils.logIn(this, new LogInCallback() {
+			@Override
+			public void done(ParseUser user, ParseException err) {
+				if (user == null) {
+					Log.d("MyApp",
+							"Uh oh. The user cancelled the Twitter login.");
+				} else if (user.isNew()) {
+					Log.d("MyApp",
+							"User signed up and logged in through Twitter!");
+				} else {
+					Log.d("MyApp", "User logged in through Twitter!");
+				}
+			}
+		});
+
+	}
+
+	private void linkTwitterUser() {
+		ParseTwitterUtils.initialize(
+				getResources().getString(R.string.tw_consumer_key),
+				getResources().getString(R.string.tw_consumer_secret));
 
 		if (!ParseTwitterUtils.isLinked(currentUser)) {
-			  ParseTwitterUtils.link(currentUser, this, new SaveCallback() {
-			    @Override
-			    public void done(ParseException ex) {
-			      if (ParseTwitterUtils.isLinked(currentUser)) {
-			        Log.d("MyApp", "Woohoo, user logged in with Twitter!");
-//			        add this info to user_info
-					SharedPreferences user_info = getSharedPreferences("UserInfo",
-							MODE_PRIVATE);
-					 SharedPreferences.Editor prefEditor = user_info.edit();
-					 prefEditor.putBoolean("hasTwitter", true);
-					 prefEditor.commit();
-			      }
-			    }
-			  });
-			}
+			ParseTwitterUtils.link(currentUser, this, new SaveCallback() {
+				@Override
+				public void done(ParseException ex) {
+					if (ParseTwitterUtils.isLinked(currentUser)) {
+						Log.d("MyApp", "Woohoo, user logged in with Twitter!");
+						// add this info to user_info
+						SharedPreferences user_info = getSharedPreferences(
+								"UserInfo", MODE_PRIVATE);
+						SharedPreferences.Editor prefEditor = user_info.edit();
+						prefEditor.putBoolean("hasTwitter", true);
+						prefEditor.commit();
+					}
+				}
+			});
+		}
 	}
-	
-	
-	
-	public class AuthListener implements AuthAuthenticationListener
-	{
+
+	public class AuthListener implements AuthAuthenticationListener {
 		@Override
 		public void onSuccess() {
-//			Toast.makeText(this, "Instagram Authorization Successful", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this, "Instagram Authorization Successful",
+			// Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onFail(String error) {
-//			Toast.makeText(this, "Authorization Failed", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this, "Authorization Failed",
+			// Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
 		IntentFilter filter = new IntentFilter();
-        filter.addAction("com.varundroid.instademo.responselistener");
-        filter.addCategory("com.varundroid.instademo");
-        registerReceiver(mResponseListener, filter);
+		filter.addAction("co.localism.losal.responselistener");
+		filter.addCategory("co.localism.losal.instademo");
+		if(mResponseListener != null)
+			registerReceiver(mResponseListener, filter);
 	}
-	
-	
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		unregisterReceiver(mResponseListener);
+		if(mResponseListener != null)
+			unregisterReceiver(mResponseListener);
 	}
-	
+
 	public class ResponseListener extends BroadcastReceiver {
-		
+
 		public static final String ACTION_RESPONSE = "com.varundroid.instademo.responselistener";
 		public static final String EXTRA_NAME = "90293d69-2eae-4ccd-b36c-a8d0c4c1bec6";
 		public static final String EXTRA_ACCESS_TOKEN = "bed6838a-65b0-44c9-ab91-ea404aa9eefc";
@@ -221,19 +224,21 @@ public class ActivateSocialActivity extends Activity {
 			Bundle extras = intent.getExtras();
 			String name = extras.getString(EXTRA_NAME);
 			String accessToken = extras.getString(EXTRA_ACCESS_TOKEN);
-			final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+			final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+					context);
 			alertDialog.setTitle("Your Details");
-			alertDialog.setMessage("Name - " + name + ", Access Token - " + accessToken);
-			alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					
-				}
-			});
+			alertDialog.setMessage("Name - " + name + ", Access Token - "
+					+ accessToken);
+			alertDialog.setPositiveButton("Ok",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+
+						}
+					});
 			alertDialog.show();
 		}
 	}
-	
-	
+
 }

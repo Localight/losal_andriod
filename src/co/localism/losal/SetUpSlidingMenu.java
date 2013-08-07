@@ -26,7 +26,7 @@ public class SetUpSlidingMenu extends SlidingMenu {
 
 		LinearLayout ll_po_events= (LinearLayout) activity
 				.findViewById(R.id.po_events);
-		ll_po_events.addView(new SVGHandler().svg_to_imageview(activity.getApplicationContext(), R.raw.clock, 1f, (int) getResources().getDimension(R.dimen.personal_options_icon_size), (int) getResources().getDimension(R.dimen.personal_options_icon_size)) , 0);
+		ll_po_events.addView(new SVGHandler().svg_to_imageview(activity.getApplicationContext(), R.raw.calendar, 1f, (int) getResources().getDimension(R.dimen.personal_options_icon_size), (int) getResources().getDimension(R.dimen.personal_options_icon_size)) , 0);
 
 		LinearLayout ll_po_edmodo= (LinearLayout) activity
 				.findViewById(R.id.po_edmodo);
@@ -39,9 +39,9 @@ public class SetUpSlidingMenu extends SlidingMenu {
 //				.findViewById(R.id.po_grades);
 //		ll_po_grades.addView(new SVGHandler().svg_to_imageview(activity.getApplicationContext(), R.raw.grades, 1f, (int) getResources().getDimension(R.dimen.personal_options_icon_size), (int) getResources().getDimension(R.dimen.personal_options_icon_size)) , 0);
 
-		//		LinearLayout ll_po_schedule= (LinearLayout) activity
-//				.findViewById(R.id.po_schedule);
-//		ll_po_schedule.addView(new SVGHandler().svg_to_imageview(activity.getApplicationContext(), R.raw.schedule, 1f, (int) getResources().getDimension(R.dimen.personal_options_icon_size), (int) getResources().getDimension(R.dimen.personal_options_icon_size)) , 0);
+				LinearLayout ll_po_schedule= (LinearLayout) activity
+				.findViewById(R.id.po_schedule);
+		ll_po_schedule.addView(new SVGHandler().svg_to_imageview(activity.getApplicationContext(), R.raw.schedule, 1f, (int) getResources().getDimension(R.dimen.personal_options_icon_size), (int) getResources().getDimension(R.dimen.personal_options_icon_size)) , 0);
 
 		
 		

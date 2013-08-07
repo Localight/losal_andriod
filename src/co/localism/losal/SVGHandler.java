@@ -14,14 +14,37 @@ public class SVGHandler {
 	public SVGHandler(){
 		
 	}
+	
+	/**
+	 * 
+	 * @param ctx
+	 * @param resId
+	 * @return
+	 */
 	public ImageView svg_to_imageview(Context ctx, int resId){
 		return svg_to_imageview(ctx,resId, -1, -1, 1f);
 	}
 	
+	/**
+	 * 
+	 * @param ctx
+	 * @param resId
+	 * @param opacity
+	 * @return
+	 */
 	public ImageView svg_to_imageview(Context ctx, int resId, float opacity){
 		return svg_to_imageview(ctx,resId, -1, -1, opacity);
 	}
 	
+	/**
+	 * 
+	 * @param ctx
+	 * @param resId 
+	 * @param original_color
+	 * @param desired_color
+	 * @param opacity
+	 * @return ImageView
+	 */
 	public ImageView svg_to_imageview(Context ctx, int resId, int original_color, int desired_color, float opacity) {
 		ImageView iv = new ImageView(ctx);
 		SVG svg;
@@ -36,6 +59,15 @@ public class SVGHandler {
 		return iv;
 	}
 	
+	/**
+	 * 
+	 * @param ctx
+	 * @param resId
+	 * @param opacity
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	public ImageView svg_to_imageview(Context ctx, int resId, float opacity, int width, int height){
 		ImageView iv = svg_to_imageview(ctx, resId, -1, -1, opacity);
 		LayoutParams params = new LayoutParams(width, height); 
@@ -43,15 +75,25 @@ public class SVGHandler {
         return iv;
 	}
 	
-	
-	
-	
+	/**
+	 * 
+	 * @param ctx
+	 * @param resId
+	 * @return
+	 */
 	public Drawable svg_to_drawable(Context ctx, int resId){
 		return svg_to_drawable(ctx,resId, -1, -1);
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param ctx
+	 * @param resId
+	 * @param original_color
+	 * @param desired_color
+	 * @return
+	 */
 	public Drawable svg_to_drawable(Context ctx, int resId, int original_color, int desired_color) {
 		ImageView iv = new ImageView(ctx);
 		SVG svg;

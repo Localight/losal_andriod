@@ -62,7 +62,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 			"Sophomore", "Junior", "Senior" };
 	private SharedPreferences user_info;
 	private OnClickListener activate_onClick, fb_onClick, insta_onClick,
-			tw_onClick;
+			fullscreen_onClick, tw_onClick;
 	public static ImageLoader mImageLoader;
 	private ImageLoadingListener animateFirstDisplayListener;
 	private PostViewHolder holder;
@@ -114,22 +114,21 @@ public class PostAdapter extends ArrayAdapter<String> {
 				// like the post on instagram
 			}
 		};
+
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(ctx));
 
-		
 		options = new DisplayImageOptions.Builder()
-//		.showStubImage(R.drawable.ic_stub)
-//		.showImageForEmptyUri(R.drawable.ic_empty)
-//		.showImageOnFail(R.drawable.ic_error)
-//		.showStubImage(R.drawable.ic_launcher)
-		.showImageForEmptyUri(R.drawable.ic_launcher)
-		.showImageOnFail(R.drawable.ic_launcher)
-		.resetViewBeforeLoading(false)
-		.cacheInMemory(true)
-		.cacheOnDisc(true)
-//		.displayer(new RoundedBitmapDisplayer(20))
-		.build();
+				// .showStubImage(R.drawable.ic_stub)
+				// .showImageForEmptyUri(R.drawable.ic_empty)
+				// .showImageOnFail(R.drawable.ic_error)
+				// .showStubImage(R.drawable.ic_launcher)
+				.showImageForEmptyUri(R.drawable.ic_launcher)
+				.showImageOnFail(R.drawable.ic_launcher)
+				.resetViewBeforeLoading(false).cacheInMemory(true)
+				.cacheOnDisc(true)
+				// .displayer(new RoundedBitmapDisplayer(20))
+				.build();
 	}
 
 	@Override
@@ -150,8 +149,10 @@ public class PostAdapter extends ArrayAdapter<String> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final Post cur = mPosts.get(position);
-		// ViewBinder holder;
+
 		if (convertView == null) {
+			// Put things in here that only need to be set once and can be
+			// reused.
 			convertView = mInflater.inflate(mViewResourceId, null);
 			holder = new PostViewHolder();
 			holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
@@ -183,6 +184,20 @@ public class PostAdapter extends ArrayAdapter<String> {
 					ctx, R.raw.clock));
 			holder.iv_clock.setAlpha(0.6f);
 			holder.iv_clock.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+			// Post Image onclick only needs to be set once
+			fullscreen_onClick = new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					Log.d(tag, "image pressed");
+					Intent intent = new Intent(ctx,
+							FullScreenImageActivity.class);
+					intent.putExtra("imageURL", cur.getUrl());
+					ctx.startActivity(intent);
+				}
+
+			};
 			convertView.setTag(holder);
 
 		} else {
@@ -216,20 +231,22 @@ public class PostAdapter extends ArrayAdapter<String> {
 		// or not
 
 		holder.tv_name.setText(cur.getName());
-//		holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
+		// holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
 
 		holder.tv_class_year.setText(CLASS_YEAR[cur.getClassYear()]);
-		// tv.setTypeface(Times.font);
+		// tv.setTypeface(some_font);
 
 		holder.tv_time_posted.setText("1 hour ago ");
 
 		holder.tv_post_text.setText(cur.getText());
 
-//		user icon
+		// User Icon
 		String UserIcon = cur.getUserIcon();
-//		TODO: use string UserIcon to get the correct svg from R.raw and use the color pulled down and 
-//		stored (still need to do this) in the post object
-		holder.iv_user_icon.setImageDrawable(new SVGHandler().svg_to_drawable(ctx, R.raw.edmodo, R.color.white, R.color.holo_light_blue));
+		// TODO: use string UserIcon to get the correct svg from R.raw and use
+		// the color pulled down and
+		// stored (still need to do this) in the post object
+		holder.iv_user_icon.setImageDrawable(new SVGHandler().svg_to_drawable(
+				ctx, R.raw.edmodo, R.color.white, R.color.holo_light_blue));
 		holder.iv_user_icon.setAlpha(1f);
 		holder.iv_user_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		// Social Site Like Icon
@@ -248,7 +265,6 @@ public class PostAdapter extends ArrayAdapter<String> {
 		holder.iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		// Social Site Icon
-
 		if (cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
 			holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
 					.svg_to_drawable(ctx, R.raw.insta));
@@ -262,46 +278,21 @@ public class PostAdapter extends ArrayAdapter<String> {
 		holder.iv_social_site_icon.setAlpha(0.6f);
 		holder.iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-		// if(ll_social_site_icon.getChildCount() > 0){
-		// ll_social_site_icon.removeViewAt(0);
-		// }
-		// try{
-		// ll_social_site_icon.removeView(TW_IMAGE_VIEW);
-		// ll_social_site_icon.addView(TW_IMAGE_VIEW, 0);
-		// }catch(Exception e){
-		// Log.e(tag, e.toString());
-		// }
-
-
-		// ImageView iv_social_like_icon = (ImageView)
-		// convertView.findViewById(R.id.iv_social_like_icon);
-		if(cur.getUrl() != null && cur.getUrl().length() > 3){//this post has an image to display
+		// Post Image
+		if (cur.getUrl() != null && cur.getUrl().length() > 3) {// this post has
+																// an image to
+																// display
 			holder.iv_post_image.setVisibility(View.VISIBLE);
-			mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image, options, animateFirstListener);
-		}else{//this post does not have an image to display so hide the imageview
+			mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image,
+					options, animateFirstListener);
+		} else {// this post does not have an image to display so hide the
+				// imageview
 			holder.iv_post_image.setVisibility(View.GONE);
 		}
-		// final int imageResource = R.drawable.test_bg;
-		// iv_post_image.setImageResource(imageResource);
 		Log.d("", "");
-		holder.iv_post_image.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				Log.d(tag, "image pressed");
-				// Long imageID = parent.getAdapter().getItemId(position);
-				Intent intent = new Intent(ctx, FullScreenImageActivity.class);
-				// intent.putExtra("imageID",
-				// holder.iv_post_image.getDrawable());
-				// TODO: fix this to send image to new activity
-				 intent.putExtra("imageURL",cur.getUrl());
-				ctx.startActivity(intent);
-			}
-
-		});
+		holder.iv_post_image.setOnClickListener(fullscreen_onClick);
 
 		return convertView;
-
 	}
 
 	public static class PostViewHolder {
@@ -319,13 +310,20 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 	}
 
-	
-	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+	/**
+	 * 
+	 * This is used to animate the images when they first display
+	 * 
+	 */
+	private static class AnimateFirstDisplayListener extends
+			SimpleImageLoadingListener {
 
-		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+		static final List<String> displayedImages = Collections
+				.synchronizedList(new LinkedList<String>());
 
 		@Override
-		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+		public void onLoadingComplete(String imageUri, View view,
+				Bitmap loadedImage) {
 			if (loadedImage != null) {
 				ImageView imageView = (ImageView) view;
 				boolean firstDisplay = !displayedImages.contains(imageUri);

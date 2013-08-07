@@ -19,13 +19,14 @@ import java.util.Observer;
 
 import co.localism.losal.FetchFeed;
 import co.localism.losal.R;
+import co.localism.losal.SVGHandler;
 import co.localism.losal.SetUpSlidingMenu;
 import co.localism.losal.R.layout;
 import co.localism.losal.R.menu;
 import co.localism.losal.adapters.PostAdapter;
+
 import co.localism.losal.listens.PersonalOptionsOnClickListeners;
 import co.localism.losal.objects.Post;
-
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
@@ -42,6 +43,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.BroadcastReceiver;
@@ -51,6 +53,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -60,6 +64,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends ListActivity implements Observer {
 
@@ -78,7 +83,9 @@ public class MainActivity extends ListActivity implements Observer {
 		SlidingMenu sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(
 				(LinearLayout) findViewById(R.id.po), this);
-		getActionBar();
+		ActionBar a = getActionBar();
+//		a.setIcon(new SVGHandler().svg_to_drawable(ctx, R.raw.left_chevron));
+		a.setDisplayHomeAsUpEnabled(true);
 
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
 				getResources().getString(R.string.parse_client_key));
@@ -98,15 +105,6 @@ public class MainActivity extends ListActivity implements Observer {
 		// prefEditor.putString("user_type", "student");
 		// prefEditor.commit();
 
- /*	Button btn = (Button) findViewById(R.id.btn_social);
-		btn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(ctx, ActivateSocialActivity.class);
-				startActivity(i);
-			}
-		});
-		*/
 		// dummy data
 		// posts.add(new Post("Mary H", 1));
 		// posts.add(new Post("Joe C", 2));
@@ -127,17 +125,19 @@ public class MainActivity extends ListActivity implements Observer {
 	private void getPosts() {
 		// check current time against the time that we serialized last.
 		SharedPreferences dm = getSharedPreferences("DataManager", MODE_PRIVATE);
-//		TODO: Time isn't the best option for this. While the app is running we should check parse every 5 min
-//		The school can manually push new data whenever they want.
-//		Also on start up we should check parse but maybe load serialized data first and then replace that or 
-//		add onto it when a new payload is ready
+		// TODO: Time isn't the best option for this. While the app is running
+		// we should check parse every 5 min
+		// The school can manually push new data whenever they want.
+		// Also on start up we should check parse but maybe load serialized data
+		// first and then replace that or
+		// add onto it when a new payload is ready
 		final Calendar c = Calendar.getInstance();
 		if (c.get(Calendar.MONTH) == dm.getInt("LastUpdateMonth", -1)) {
 			if (c.get(Calendar.DAY_OF_MONTH) == dm.getInt("LastUpdateDay", -1))
 				if ((c.get(Calendar.HOUR_OF_DAY) < 7 && dm.getInt(
 						"LastUpdateDay", -1) < 7)
 						|| (c.get(Calendar.HOUR_OF_DAY) < 19 && dm.getInt(
-								"LastUpdateDay", -1) < 19)){
+								"LastUpdateDay", -1) < 19)) {
 					Log.d(tag, "chose to deserialize the data");
 					posts = (ArrayList<Post>) fromFile("posts.ser");
 				}
@@ -160,7 +160,18 @@ public class MainActivity extends ListActivity implements Observer {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		menu.findItem(R.id.notices).setIcon(
+				new SVGHandler().svg_to_drawable(ctx, R.raw.lightning));
 		return true;
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		if (item.getItemId() == R.id.notices) {
+			
+			return true;
+		}
+		return false;
 	}
 
 	public void updateView() {
@@ -307,5 +318,8 @@ public class MainActivity extends ListActivity implements Observer {
 			return null;
 		}
 	}
+	
+	
+	
 
 }

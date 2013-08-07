@@ -1,9 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:id="@+id/notices"
+        android:alphabeticShortcut="n"
+        android:checkable="true"
+        android:showAsAction="always"
+        android:title="Notices"
+        android:visible="true">
+    </item>
 
 </menu>

@@ -237,6 +237,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 		// tv.setTypeface(some_font);
 
 		holder.tv_time_posted.setText("1 hour ago ");
+		holder.tv_time_posted.setText("cur.getPostTime()");
 
 		holder.tv_post_text.setText(cur.getText());
 

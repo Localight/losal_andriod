@@ -34,7 +34,9 @@ public class FetchFeed extends Observable{
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Posts");
 		final ArrayList<Post> posts;
 		posts = new ArrayList<Post>();
-		// query.whereEqualTo("socialNetworkName", "Instagram");
+//		 query.whereEqualTo("socialNetworkName", "Instagram");
+		 query.whereEqualTo("status", "1");
+
 		// query.whereStartsWith("socialNetworkName", "Instagram");
 		query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> postList, ParseException e) {
@@ -64,7 +66,17 @@ public class FetchFeed extends Observable{
 
 			for (int i = 0; i < postsList.size(); i++) {
 				Post p = new Post();
+				
+				
+				p.setPostTime(postsList.get(i).getDate("postTime"));
+//				(postsList.get(i).getString("featured"));
+				p.setSocialNetworkPostId(postsList.get(i).getString("socialNetworkPostID"));
+//				(postsList.get(i).getString("createdAt"));
+				p.setParseObjectId(postsList.get(i).getString("objectId"));
 
+				
+				
+				
 				p.setText(postsList.get(i).getString("text"));
 				Log.d(tag, postsList.get(i).getString("text"));
 				p.setSocialNetworkName(postsList.get(i).getString("socialNetworkName"));

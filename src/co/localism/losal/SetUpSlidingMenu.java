@@ -1,14 +1,24 @@
 package co.localism.losal;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import co.localism.losal.R;
+import co.localism.losal.adapters.NoticeAdapter;
+import co.localism.losal.objects.Notice;
+
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class SetUpSlidingMenu extends SlidingMenu {
+
+	private ArrayList<Notice> notices;
 
 	public SetUpSlidingMenu(Activity activity, int slideStyle) {
 		super(activity, slideStyle);
@@ -44,8 +54,21 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		ll_po_schedule.addView(new SVGHandler().svg_to_imageview(activity.getApplicationContext(), R.raw.schedule, 1f, (int) getResources().getDimension(R.dimen.personal_options_icon_size), (int) getResources().getDimension(R.dimen.personal_options_icon_size)) , 0);
 
 		
-		
-		
+		notices = new ArrayList<Notice>();
+		Notice n = new Notice();
+		n.setTitle("asdf  sfdfd asf");
+		n.setDetails("");
+		notices.add(n);
+//		TODO: possibly serialize and de when this is created and destroyed
+//		NOTICES
+		ListView myList = (ListView)findViewById(R.id.notices_list);
+		 
+		 String[] listContent = {"abc","def", "ghi", "Jkl"};
+		 
+		 ListAdapter adapter = new NoticeAdapter(activity, R.layout.notice_list_item, notices, 1);
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,R.layout.notice_list_item,listContent);
+		 
+		   myList.setAdapter(adapter);
 		
 		
 		// attachToActivity(this, SlidingMenu.SLIDING_CONTENT);//

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.util.Log;
+
 public class TimeHandler {
 	// DEFAULTS
 	private static final int DEFAULT_TIME_INTERVAL_HOURS = 6;
@@ -55,44 +57,47 @@ public class TimeHandler {
 
 	public String getTimeAgo(Date d) {
 		final Calendar today_cal = Calendar.getInstance();
-		final Calendar post_cal = Calendar.getInstance();
+		Calendar post_cal = Calendar.getInstance();
 		post_cal.setTime(d);
-		if (today_cal.YEAR > post_cal.YEAR)
-			if (today_cal.YEAR - post_cal.YEAR == 1)
+		Log.d("getTimeAgo", post_cal.toString());
+		Log.d("getTimeAgo", today_cal.YEAR +"   "+ post_cal.YEAR);
+
+		if (today_cal.get(Calendar.YEAR) > post_cal.get(Calendar.YEAR))
+			if (today_cal.get(Calendar.YEAR) - post_cal.get(Calendar.YEAR) == 1)
 				return "1 year ago";
 			else
-				return today_cal.YEAR - post_cal.YEAR + " years ago";
+				return today_cal.get(Calendar.YEAR) - post_cal.get(Calendar.YEAR) + " years ago";
 
-		else if (today_cal.MONTH > post_cal.MONTH)
+		else if (today_cal.get(Calendar.MONTH) > post_cal.get(Calendar.MONTH))
 			if (today_cal.MONTH - post_cal.MONTH == 1)
 				return "1 month ago";
 			else
-				return today_cal.MONTH - post_cal.MONTH + " months ago";
+				return today_cal.get(Calendar.MONTH) - post_cal.get(Calendar.MONTH) + " months ago";
 
-		else if (today_cal.DAY_OF_MONTH > post_cal.DAY_OF_MONTH)
-			if (today_cal.DAY_OF_MONTH - post_cal.DAY_OF_MONTH == 1)
+		else if (today_cal.get(Calendar.DAY_OF_MONTH) > post_cal.get(Calendar.DAY_OF_MONTH))
+			if (today_cal.get(Calendar.DAY_OF_MONTH) - post_cal.get(Calendar.DAY_OF_MONTH) == 1)
 				return "1 day ago";
 			else
-				return today_cal.DAY_OF_MONTH - post_cal.DAY_OF_MONTH
+				return today_cal.get(Calendar.DAY_OF_MONTH) - post_cal.get(Calendar.DAY_OF_MONTH)
 						+ " days ago";
 
-		else if (today_cal.HOUR_OF_DAY > post_cal.HOUR_OF_DAY)
-			if (today_cal.HOUR_OF_DAY - post_cal.HOUR_OF_DAY == 1)
+		else if (today_cal.get(Calendar.HOUR_OF_DAY) > post_cal.get(Calendar.HOUR_OF_DAY))
+			if (today_cal.get(Calendar.HOUR_OF_DAY) - post_cal.get(Calendar.HOUR_OF_DAY) == 1)
 				return "1 hour ago";
 			else
-				return today_cal.HOUR_OF_DAY - post_cal.HOUR_OF_DAY
+				return today_cal.get(Calendar.HOUR_OF_DAY) - post_cal.get(Calendar.HOUR_OF_DAY)
 						+ " hours ago";
 
-		else if (today_cal.MINUTE > post_cal.MINUTE)
+		else if (today_cal.get(Calendar.MINUTE) > post_cal.get(Calendar.MINUTE))
 			if (today_cal.MINUTE - post_cal.MINUTE == 1)
 				return "1 minute ago";
 			else
-				return today_cal.MINUTE - post_cal.MINUTE + " minutes ago";
+				return today_cal.get(Calendar.MINUTE) - post_cal.get(Calendar.MINUTE) + " minutes ago";
 
-		else if (today_cal.MILLISECOND > post_cal.MILLISECOND)
+		else if (today_cal.get(Calendar.MILLISECOND) >= post_cal.get(Calendar.MILLISECOND))
 			return " just now";
-
-		return "";
+		else
+			return "";
 	}
 
 }

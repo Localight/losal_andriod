@@ -12,7 +12,7 @@ import java.util.Date;
 public class Post implements Serializable {
 	private String socialNetworkName = "";
 	private String name = "";
-	private int class_year = 0;
+	private String class_year = "";
 	private Date post_time;
 	// private img user_icon;
 	private String user_icon;
@@ -25,7 +25,7 @@ public class Post implements Serializable {
 
 	}
 
-	public Post(String name, int year) {
+	public Post(String name, String year) {
 		this.name = name;
 		this.class_year = year;
 	}
@@ -62,11 +62,11 @@ public class Post implements Serializable {
 		return this.url;
 	}
 
-	public void setClassYear(int class_year) {
+	public void setClassYear(String class_year) {
 		this.class_year = class_year;
 	}
 
-	public int getClassYear() {
+	public String getClassYear() {
 		return this.class_year;
 	}
 

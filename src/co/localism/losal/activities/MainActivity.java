@@ -111,7 +111,7 @@ public class MainActivity extends ListActivity implements Observer {
 		// posts.add(new Post("Josh A", 4));
 
 		ListView lv = getListView();
-		boolean pauseOnScroll = false; // or true
+		boolean pauseOnScroll = true; // or true
 		boolean pauseOnFling = true; // or false
 		PauseOnScrollListener listener = new PauseOnScrollListener(
 				PostAdapter.mImageLoader, pauseOnScroll, pauseOnFling);
@@ -183,7 +183,7 @@ public class MainActivity extends ListActivity implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Log.d(tag, "update called");
-		toFile("posts.ser", posts);
+//		toFile("posts.ser", posts);
 		updateView();
 	}
 

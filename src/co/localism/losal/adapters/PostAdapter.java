@@ -8,6 +8,7 @@ import java.util.List;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -19,6 +20,7 @@ import co.localism.losal.activities.ActivateSocialActivity;
 import co.localism.losal.activities.FullScreenImageActivity;
 import co.localism.losal.activities.MainActivity;
 import co.localism.losal.objects.Post;
+import co.localism.losal.objects.TimeHandler;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,11 +37,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +71,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 	private ImageLoadingListener animateFirstDisplayListener;
 	private PostViewHolder holder;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+	private TimeHandler TH;
 
 	private DisplayImageOptions options;
 
@@ -81,6 +86,8 @@ public class PostAdapter extends ArrayAdapter<String> {
 		mPosts = posts;
 		mViewResourceId = viewResourceId;
 		this.ctx = ctx;
+
+		TH = new TimeHandler();
 
 		TW_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.tw, 1f);
 		FB_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.fb, 1f);
@@ -125,10 +132,11 @@ public class PostAdapter extends ArrayAdapter<String> {
 				// .showStubImage(R.drawable.ic_launcher)
 				.showImageForEmptyUri(R.drawable.ic_launcher)
 				.showImageOnFail(R.drawable.ic_launcher)
-				.resetViewBeforeLoading(false).cacheInMemory(true)
+				.resetViewBeforeLoading(true).cacheInMemory(true)
 				.cacheOnDisc(true)
 				// .displayer(new RoundedBitmapDisplayer(20))
 				.build();
+	
 	}
 
 	@Override
@@ -233,12 +241,14 @@ public class PostAdapter extends ArrayAdapter<String> {
 		holder.tv_name.setText(cur.getName());
 		// holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
 
-		holder.tv_class_year.setText(CLASS_YEAR[cur.getClassYear()]);
+		// holder.tv_class_year.setText(CLASS_YEAR[cur.getClassYear()]);
+		holder.tv_class_year.setText(cur.getClassYear());
+
 		// tv.setTypeface(some_font);
 
-		holder.tv_time_posted.setText("1 hour ago ");
-		holder.tv_time_posted.setText("cur.getPostTime()");
-
+		// holder.tv_time_posted.setText("1 hour ago ");
+		holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
+		Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
 		holder.tv_post_text.setText(cur.getText());
 
 		// User Icon
@@ -284,6 +294,10 @@ public class PostAdapter extends ArrayAdapter<String> {
 																// an image to
 																// display
 			holder.iv_post_image.setVisibility(View.VISIBLE);
+			int wpx = holder.iv_post_image.getWidth();
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+					LayoutParams.FILL_PARENT, wpx);
+			holder.iv_post_image.setLayoutParams(params);
 			mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image,
 					options, animateFirstListener);
 		} else {// this post does not have an image to display so hide the

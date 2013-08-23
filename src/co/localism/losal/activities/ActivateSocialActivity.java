@@ -119,7 +119,7 @@ public class ActivateSocialActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Log.d("activate", "start twitter login ");
-				twitterLogin();
+//				twitterLogin();
 				linkTwitterUser();
 			}
 		};
@@ -137,8 +137,8 @@ public class ActivateSocialActivity extends Activity {
 	}
 
 	private void twitterLogin() {
-		// ParseTwitterUtils.initialize(getResources().getString(R.string.tw_consumer_key),
-		// getResources().getString(R.string.tw_consumer_secret));
+		 ParseTwitterUtils.initialize(getResources().getString(R.string.tw_consumer_key),
+		 getResources().getString(R.string.tw_consumer_secret));
 
 		ParseTwitterUtils.logIn(this, new LogInCallback() {
 			@Override
@@ -149,8 +149,11 @@ public class ActivateSocialActivity extends Activity {
 				} else if (user.isNew()) {
 					Log.d("MyApp",
 							"User signed up and logged in through Twitter!");
+					linkTwitterUser();
+
 				} else {
 					Log.d("MyApp", "User logged in through Twitter!");
+					linkTwitterUser();
 				}
 			}
 		});
@@ -174,7 +177,9 @@ public class ActivateSocialActivity extends Activity {
 						SharedPreferences.Editor prefEditor = user_info.edit();
 						prefEditor.putBoolean("hasTwitter", true);
 						prefEditor.commit();
-					}
+					}else
+						Log.d("MyApp", "Error User not linked through Twitter!");
+
 				}
 			});
 		}

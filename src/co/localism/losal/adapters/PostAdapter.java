@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
@@ -136,7 +137,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 				.cacheOnDisc(true)
 				// .displayer(new RoundedBitmapDisplayer(20))
 				.build();
-	
+
 	}
 
 	@Override
@@ -176,6 +177,15 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 			holder.iv_post_image = (ImageView) convertView
 					.findViewById(R.id.iv_post_image);
+			WindowManager wm = (WindowManager) ctx
+					.getSystemService(Context.WINDOW_SERVICE);
+			int wpx = wm.getDefaultDisplay().getWidth();
+			wpx -= (2*ctx.getResources().getDimension(R.dimen.post_side_margin));
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+					LayoutParams.FILL_PARENT, wpx);
+			holder.iv_post_image.setLayoutParams(params);
+			holder.iv_post_image.setVisibility(View.INVISIBLE);
+
 			holder.iv_social_site_icon = (ImageView) convertView
 					.findViewById(R.id.iv_social_site_icon);
 			holder.iv_clock = (ImageView) convertView
@@ -290,14 +300,15 @@ public class PostAdapter extends ArrayAdapter<String> {
 		holder.iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		// Post Image
-		if (cur.getUrl() != null && cur.getUrl().length() > 3) {// this post has
-																// an image to
-																// display
+		if (cur.getUrl() != null && cur.getUrl().length() > 3) {
+			// this post has an image to display
+
 			holder.iv_post_image.setVisibility(View.VISIBLE);
-			int wpx = holder.iv_post_image.getWidth();
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-					LayoutParams.FILL_PARENT, wpx);
-			holder.iv_post_image.setLayoutParams(params);
+			//
+			// Make imageview as tall as it is wide. This will act as a place
+			// holder when there is no image loaded yet
+			
+
 			mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image,
 					options, animateFirstListener);
 		} else {// this post does not have an image to display so hide the

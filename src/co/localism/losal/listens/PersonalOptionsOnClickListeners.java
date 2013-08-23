@@ -2,6 +2,7 @@ package co.localism.losal.listens;
 
 
 import co.localism.losal.R;
+import co.localism.losal.activities.MainActivity;
 import co.localism.losal.activities.ScheduleActivity;
 import co.localism.losal.activities.WebViewActivity;
 
@@ -46,6 +47,9 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener{
 		 	case R.id.po_social_feed:
 		    	Log.d(tag, "Social Feed");
 //		    	TODO: check if social feed is already running. if it is, just close the sliding menu
+//		    	I'm not convinced you need to actually check. I think android checks for you.
+			    intent = new Intent(ctx, MainActivity.class);
+			    ctx.startActivity(intent);
 		    	break;
 		    case R.id.po_events:
 		    	Log.d(tag, "Events");	

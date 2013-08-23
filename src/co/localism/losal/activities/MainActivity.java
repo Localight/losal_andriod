@@ -194,11 +194,16 @@ public class MainActivity extends ListActivity implements Observer {
 	}
 
 	private void loginParseUser() {
+//		Log.i(tag, ParseUser.getCurrentUser().toString());
+		
 		ParseUser.logInInBackground("joe", "1234", new LogInCallback() {
 			public void done(ParseUser user, ParseException e) {
 				if (user != null) {
+					Log.i(tag, "Hooray! The user is logged in.");
 					// Hooray! The user is logged in.
 				} else {
+					Log.i(tag, "login failed. e: "+e.toString());
+
 					// Signup failed. Look at the ParseException to see what
 					// happened.
 				}

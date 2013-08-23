@@ -90,7 +90,10 @@ public class FetchFeed extends Observable {
 							.getString("firstName"));
 					p.setClassYear(postsList.get(i).getParseObject("user")
 							.getString("year"));
-
+					p.setUserIcon(postsList.get(i).getParseObject("user")
+							.getString("icon"));
+					p.setFaveColor(postsList.get(i).getParseObject("user")
+							.getString("faveColor"));
 				} catch (Exception e) {
 					Log.e(tag, e.toString());
 					p.setName("");// placeholder data

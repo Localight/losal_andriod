@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
@@ -73,7 +74,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 	private PostViewHolder holder;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private TimeHandler TH;
-
+	private Typeface icon_font;
 	private DisplayImageOptions options;
 
 	// public ImageAndTextAdapter(Context ctx, int viewResourceId,
@@ -89,6 +90,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 		this.ctx = ctx;
 
 		TH = new TimeHandler();
+		icon_font = Typeface.createFromAsset(ctx.getAssets(), "icomoon.ttf");
 
 		TW_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.tw, 1f);
 		FB_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.fb, 1f);
@@ -172,8 +174,11 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 			holder.iv_social_like_icon = (ImageView) convertView
 					.findViewById(R.id.iv_social_like_icon);
-			holder.iv_user_icon = (ImageView) convertView
-					.findViewById(R.id.iv_user_icon);
+//			holder.iv_user_icon = (ImageView) convertView
+//					.findViewById(R.id.iv_user_icon);
+			holder.tv_user_icon = (TextView) convertView
+					.findViewById(R.id.tv_user_icon);
+
 
 			holder.iv_post_image = (ImageView) convertView
 					.findViewById(R.id.iv_post_image);
@@ -254,22 +259,29 @@ public class PostAdapter extends ArrayAdapter<String> {
 		// holder.tv_class_year.setText(CLASS_YEAR[cur.getClassYear()]);
 		holder.tv_class_year.setText(cur.getClassYear());
 
-		// tv.setTypeface(some_font);
 
 		// holder.tv_time_posted.setText("1 hour ago ");
 		holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
 		Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
 		holder.tv_post_text.setText(cur.getText());
 
-		// User Icon
-		String UserIcon = cur.getUserIcon();
 		// TODO: use string UserIcon to get the correct svg from R.raw and use
 		// the color pulled down and
 		// stored (still need to do this) in the post object
-		holder.iv_user_icon.setImageDrawable(new SVGHandler().svg_to_drawable(
+		/*holder.iv_user_icon.setImageDrawable(new SVGHandler().svg_to_drawable(
 				ctx, R.raw.edmodo, R.color.white, R.color.holo_light_blue));
 		holder.iv_user_icon.setAlpha(1f);
-		holder.iv_user_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		holder.iv_user_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);*/
+		
+		
+//		Character ch =new Character('\ue000');
+		holder.tv_user_icon.setTypeface(icon_font);
+		if(cur.getFaveColor().length() > 5)
+			holder.tv_user_icon.setTextColor(Color.parseColor(cur.getFaveColor()));
+//		holder.tv_user_icon.setText(cur.getUserIcon());
+		holder.tv_user_icon.setText(cur.getUserIcon().toString());
+	
+		
 		// Social Site Like Icon
 
 		if (cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
@@ -327,6 +339,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 		TextView tv_class_year;
 		TextView tv_time_posted;
 		TextView tv_post_text;
+		TextView tv_user_icon;
 		ImageView iv_social_like_icon;
 		ImageView iv_social_site_icon;
 		ImageView iv_user_icon;

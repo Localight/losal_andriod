@@ -6,11 +6,35 @@
     <dimen name="slidingmenu_offset">50dp</dimen>
     <dimen name="personal_options_icon_size">60dp</dimen>
     <dimen name="personal_options_space_between_items">20dp</dimen>
+    <dimen name="personal_options_footer_image_size">200dp</dimen>
+
+        <dimen name="personal_options_text_top_margin">10dp</dimen>
+    
+    <dimen name="personal_options_text_size">10sp</dimen>
+    <dimen name="personal_options_break_thickness">1dp</dimen>
+    <dimen name="personal_options_break_height">10dp</dimen>
+    <dimen name="personal_options_break_left_right_margin">10dp</dimen>
+    <dimen name="personal_options_break_top_margin">20dp</dimen>
+    
+    <dimen name="personal_options_break_groupd_header_left_margin">20dp</dimen>
+    
+    <dimen name="personal_options_footer_top_margin">45dp</dimen>
+    <dimen name="personal_options_losal_hs_text_size">12sp</dimen>
+    
+    <dimen name="personal_options_go_griffins_text_size">18sp</dimen>
+    
+    
+    
+    
+    
     <dimen name="post_side_margin">20dp</dimen>
+  
     <dimen name="notice_list_item_height">60dp</dimen>
     <dimen name="notice_list_item_image_size">50dp</dimen>
     <dimen name="notice_list_item_image_margin">5dp</dimen>
     <dimen name="notice_list_item_title_size">20sp</dimen>
     <dimen name="notice_list_item_details_size">10sp</dimen>
+  
+   
 
 </resources>

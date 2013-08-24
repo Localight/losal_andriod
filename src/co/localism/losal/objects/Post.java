@@ -97,16 +97,16 @@ public class Post implements Serializable {
 		this.social_network_post_id = social_network_post_id;
 	}
 
-	public String getSocialNetworkPostId(String social_network_post_id) {
-		return this.social_network_post_id = social_network_post_id;
+	public String getSocialNetworkPostId() {
+		return this.social_network_post_id;
 	}
 
 	public void setParseObjectId(String parse_object_id) {
 		this.parse_object_id = parse_object_id;
 	}
 
-	public String getParseObjectId(String parse_object_id) {
-		return this.parse_object_id = parse_object_id;
+	public String getParseObjectId() {
+		return this.parse_object_id;
 	}
 
 	public void setFaveColor(String fave_color) {

@@ -19,6 +19,7 @@ import co.localism.losal.SVGHandler;
 import co.localism.losal.activities.ActivateSocialActivity;
 import co.localism.losal.activities.FullScreenImageActivity;
 import co.localism.losal.activities.MainActivity;
+import co.localism.losal.async.InstagramRequests;
 import co.localism.losal.async.TwitterRequests;
 import co.localism.losal.objects.Post;
 import co.localism.losal.objects.TimeHandler;
@@ -77,7 +78,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 	private TimeHandler TH;
 	private Typeface icon_font;
 	private DisplayImageOptions options;
-
+	Post cur; 
 	// public ImageAndTextAdapter(Context ctx, int viewResourceId,
 	// String[] strings, TypedArray icons, ArrayList<Integer> openclose,
 	// ArrayList<String> companies, ArrayList<String> place_ids) {
@@ -125,6 +126,13 @@ public class PostAdapter extends ArrayAdapter<String> {
 			@Override
 			public void onClick(View arg0) {
 				// like the post on instagram
+//				TODO: check if user liked the post already
+				SharedPreferences insta_info = ctx.getSharedPreferences("InstagramInfo",
+						ctx.MODE_PRIVATE);
+				insta_info.getString("access_token", "");
+				Log.d(tag, cur.getText());
+				new InstagramRequests().execute("like", cur.getSocialNetworkPostId(), insta_info.getString("access_token", ""));
+				
 			}
 		};
 
@@ -162,7 +170,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		final Post cur = mPosts.get(position);
+		cur = mPosts.get(position);
 
 		if (convertView == null) {
 			// Put things in here that only need to be set once and can be

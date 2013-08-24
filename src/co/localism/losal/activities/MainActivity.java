@@ -17,6 +17,12 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import co.localism.losal.FetchFeed;
 import co.localism.losal.R;
 import co.localism.losal.SVGHandler;
@@ -322,6 +328,32 @@ public class MainActivity extends ListActivity implements Observer {
 
 			return null;
 		}
+	}
+	
+	
+	
+	
+	
+	
+	public static void favoriteTweet(String id){
+		Log.d(tag, "favoriteTwee called");
+
+		HttpClient client = new DefaultHttpClient();
+		HttpGet verifyGet = new HttpGet(
+		        "https://api.twitter.com/1/account/verify_credentials.json");
+		https://api.twitter.com/1.1/favorites/create.json
+		ParseTwitterUtils.getTwitter().signRequest(verifyGet);
+		try {
+			HttpResponse response = client.execute(verifyGet);
+		
+		Log.d(tag, "tw resp: "+response.toString());
+		
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

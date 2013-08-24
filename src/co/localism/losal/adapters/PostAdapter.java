@@ -19,6 +19,7 @@ import co.localism.losal.SVGHandler;
 import co.localism.losal.activities.ActivateSocialActivity;
 import co.localism.losal.activities.FullScreenImageActivity;
 import co.localism.losal.activities.MainActivity;
+import co.localism.losal.async.TwitterRequests;
 import co.localism.losal.objects.Post;
 import co.localism.losal.objects.TimeHandler;
 
@@ -116,6 +117,8 @@ public class PostAdapter extends ArrayAdapter<String> {
 			@Override
 			public void onClick(View arg0) {
 				// favorite the post on twitter
+				new TwitterRequests().execute("519175652481234876_14802876","",""); 
+//				favoriteTweet("519175652481234876_14802876");
 			}
 		};
 		insta_onClick = new OnClickListener() {
@@ -227,7 +230,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 			holder = (PostViewHolder) convertView.getTag();
 		}
 
-		user_info = ctx.getSharedPreferences("UserInfo", ctx.MODE_PRIVATE);
+		user_info = ctx.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		user_info.getBoolean("registered", false);
 
 		try {

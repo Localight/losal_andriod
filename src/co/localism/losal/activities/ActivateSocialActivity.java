@@ -50,7 +50,9 @@ public class ActivateSocialActivity extends Activity {
 	protected InstaImpl mInstaImpl;
 	private Context ctx = this;
 	private BroadcastReceiver mResponseListener;
+	private SharedPreferences user_info;
 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,6 +62,7 @@ public class ActivateSocialActivity extends Activity {
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser != null) {
 			// do stuff with the user
+			
 		} else {
 			// show the signup or login screen
 		}
@@ -157,6 +160,8 @@ public class ActivateSocialActivity extends Activity {
 				}
 			}
 		});
+		
+		
 
 	}
 
@@ -172,18 +177,32 @@ public class ActivateSocialActivity extends Activity {
 					if (ParseTwitterUtils.isLinked(currentUser)) {
 						Log.d("MyApp", "Woohoo, user logged in with Twitter!");
 						// add this info to user_info
-						SharedPreferences user_info = getSharedPreferences(
-								"UserInfo", MODE_PRIVATE);
-						SharedPreferences.Editor prefEditor = user_info.edit();
-						prefEditor.putBoolean("hasTwitter", true);
-						prefEditor.commit();
+						saveToUserInfo();
 					}else
 						Log.d("MyApp", "Error User not linked through Twitter!");
 
 				}
 			});
+		}else{
+//			is linked
+			saveToUserInfo();
 		}
 	}
+	
+	
+	
+	private void saveToUserInfo(){
+	
+		SharedPreferences user_info = getSharedPreferences(
+				"UserInfo", MODE_PRIVATE);
+		SharedPreferences.Editor prefEditor = user_info.edit();
+		prefEditor.putBoolean("hasTwitter", true);
+		prefEditor.commit();
+		
+		
+	}
+	
+	
 
 	public class AuthListener implements AuthAuthenticationListener {
 		@Override

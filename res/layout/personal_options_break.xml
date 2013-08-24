@@ -3,16 +3,13 @@
     android:id="@+id/po_break_all"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/personal_options_break_top_margin"
-    
     android:layout_marginLeft="@dimen/personal_options_break_left_right_margin"
     android:layout_marginRight="@dimen/personal_options_break_left_right_margin"
-    android:orientation="vertical"
-     >
+    android:layout_marginTop="@dimen/personal_options_break_top_margin"
+    android:orientation="vertical" >
 
     <TextView
-            android:id="@+id/po_break_text"
-        
+        android:id="@+id/po_break_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/personal_options_break_groupd_header_left_margin"

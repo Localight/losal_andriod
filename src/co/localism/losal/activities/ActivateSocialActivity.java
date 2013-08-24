@@ -34,8 +34,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import co.localism.losal.InstaImpl;
-import co.localism.losal.InstaImpl.AuthAuthenticationListener;
 import co.localism.losal.R;
 import co.localism.losal.SVGHandler;
 
@@ -47,7 +45,6 @@ public class ActivateSocialActivity extends Activity {
 	private static final int icon_width = 60;
 	private static final int icon_height = 60;
 	private ParseUser currentUser;
-	protected InstaImpl mInstaImpl;
 	private Context ctx = this;
 	private BroadcastReceiver mResponseListener;
 	private SharedPreferences user_info;
@@ -111,7 +108,7 @@ public class ActivateSocialActivity extends Activity {
 		fb_onclick = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d("activate", "start login acti");
+				Log.d("activate", "start fb login acti");
 				Intent i = new Intent(getApplicationContext(),
 						FbLoginActivity.class);
 				startActivity(i);
@@ -130,10 +127,10 @@ public class ActivateSocialActivity extends Activity {
 		insta_onclick = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d("activate", "start twitter login ");
-
-				mInstaImpl = new InstaImpl(ctx);
-				mInstaImpl.setAuthAuthenticationListener(new AuthListener());
+				Log.d("activate", "start insta login ");
+				Intent i = new Intent(getApplicationContext(),
+						Instagram.class);
+				startActivity(i);
 			}
 		};
 
@@ -204,20 +201,7 @@ public class ActivateSocialActivity extends Activity {
 	
 	
 
-	public class AuthListener implements AuthAuthenticationListener {
-		@Override
-		public void onSuccess() {
-			// Toast.makeText(this, "Instagram Authorization Successful",
-			// Toast.LENGTH_SHORT).show();
-		}
-
-		@Override
-		public void onFail(String error) {
-			// Toast.makeText(this, "Authorization Failed",
-			// Toast.LENGTH_SHORT).show();
-		}
-	}
-
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -234,35 +218,6 @@ public class ActivateSocialActivity extends Activity {
 		super.onPause();
 		if(mResponseListener != null)
 			unregisterReceiver(mResponseListener);
-	}
-
-	public class ResponseListener extends BroadcastReceiver {
-
-		public static final String ACTION_RESPONSE = "com.varundroid.instademo.responselistener";
-		public static final String EXTRA_NAME = "90293d69-2eae-4ccd-b36c-a8d0c4c1bec6";
-		public static final String EXTRA_ACCESS_TOKEN = "bed6838a-65b0-44c9-ab91-ea404aa9eefc";
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			mInstaImpl.dismissDialog();
-			Bundle extras = intent.getExtras();
-			String name = extras.getString(EXTRA_NAME);
-			String accessToken = extras.getString(EXTRA_ACCESS_TOKEN);
-			final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-					context);
-			alertDialog.setTitle("Your Details");
-			alertDialog.setMessage("Name - " + name + ", Access Token - "
-					+ accessToken);
-			alertDialog.setPositiveButton("Ok",
-					new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-
-						}
-					});
-			alertDialog.show();
-		}
 	}
 
 }

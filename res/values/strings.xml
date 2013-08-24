@@ -33,13 +33,19 @@
     <!-- Instagram -->
     <string name="instagram_authorize_url">https://api.instagram.com/oauth/authorize/</string>
     <string name="instagram_access_token_url">https://api.instagram.com/oauth/access_token/</string>
-       <string name="instagram_version_url">https://api.instagram.com/v1</string>
+    <string name="instagram_version_url">https://api.instagram.com/v1</string>
     
-           <string name="instagram_client_id">64392b8719fb49f59f71213ed640fb68</string>
-           <string name="instagram_client_secret">7897fc2fa21d4572a0218fe1a012847d</string>
+	<string name="instagram_client_id">64392b8719fb49f59f71213ed640fb68</string>
+	<string name="instagram_client_secret">7897fc2fa21d4572a0218fe1a012847d</string>
            
-           <string name="instagram_callback_url"></string>
+	<string name="instagram_callback_url"></string>
            
+	
+	  <!-- These are the instagram creds for a test app that Joe created. These should not be used and should be removed from any activities that use them -->
+	<string name="XJOEXinstagram_client_id">3affd6fa93e14464a5abeae436fe0f64</string>
+	<string name="XJOEXinstagram_client_secret">2ba08e3133cf4ccbb96987a54c65c45a</string>
+	<string name="XJOEXinstagram_callback_url">http://www.joezoob.com</string>
+	
     
         <string name="tw_consumer_key">wNe7Ugi45G8YKu3jih1NA</string>
         <string name="tw_consumer_secret">xgtZlqu75hA4SVAccJa0L2pXmeaehblxbTNKgE4aNM</string>

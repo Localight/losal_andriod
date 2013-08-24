@@ -110,12 +110,6 @@ public class MainActivity extends ListActivity implements Observer {
 		// prefEditor.putBoolean("registered", true);
 		// prefEditor.putString("user_type", "student");
 		// prefEditor.commit();
-
-		// dummy data
-		// posts.add(new Post("Mary H", 1));
-		// posts.add(new Post("Joe C", 2));
-		// posts.add(new Post("Josh A", 4));
-
 		ListView lv = getListView();
 		boolean pauseOnScroll = true; // or true
 		boolean pauseOnFling = true; // or false

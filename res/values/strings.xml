@@ -45,11 +45,18 @@
 	<string name="XJOEXinstagram_client_id">3affd6fa93e14464a5abeae436fe0f64</string>
 	<string name="XJOEXinstagram_client_secret">2ba08e3133cf4ccbb96987a54c65c45a</string>
 	<string name="XJOEXinstagram_callback_url">http://www.joezoob.com</string>
-	
-    
+		  <!-- These are the instagram creds for a test app that Joe created. These should not be used and should be removed from any activities that use them -->
+	 <string name="XJOEXtw_consumer_key">AyqXmigigCQVBXJogUn8A</string>
+	<string name="XJOEXtw_consumer_secret">reBwex0DQsmZMxjCBGnXyKifiBRrdZanseoCdlLUrFE</string>
+	<string name="XJOEXtw_callback_url">http://www.joezoob.com</string>
+        
+        
+        
+    <!-- Twitter -->
         <string name="tw_consumer_key">wNe7Ugi45G8YKu3jih1NA</string>
         <string name="tw_consumer_secret">xgtZlqu75hA4SVAccJa0L2pXmeaehblxbTNKgE4aNM</string>
-    
+    	<string name="tw_callback_url">http://www.joezoob.com</string>
+        
     <string name="social_footer">The #LOSAL APP uses Localism! to protect your privacy and unite our community.  Your private information is not shared. 
     </string>
     

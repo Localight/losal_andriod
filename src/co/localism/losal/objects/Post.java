@@ -23,7 +23,10 @@ public class Post implements Serializable {
 	private String url = "";
 	private String parse_object_id = "";
 	private String fave_color = "";
-
+	private boolean user_liked = false;
+	
+	
+	
 	public Post() {
 
 	}
@@ -48,11 +51,14 @@ public class Post implements Serializable {
 	public String getText() {
 		return this.text;
 	}
-
+	
 	public void setSocialNetworkName(String socialNetworkName) {
 		this.socialNetworkName = socialNetworkName;
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public String getSocialNetworkName() {
 		return this.socialNetworkName;
 	}
@@ -115,5 +121,14 @@ public class Post implements Serializable {
 	
 	public String getFaveColor() {
 		return this.fave_color;
+	}
+	
+	
+	public void setUserLiked(boolean liked){
+		this.user_liked = liked;
+	}
+	
+	public boolean getUserLiked(){
+		return this.user_liked;
 	}
 }

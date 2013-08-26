@@ -30,6 +30,7 @@ import co.localism.losal.SetUpSlidingMenu;
 import co.localism.losal.R.layout;
 import co.localism.losal.R.menu;
 import co.localism.losal.adapters.PostAdapter;
+import co.localism.losal.async.InstagramRequests;
 
 import co.localism.losal.listens.PersonalOptionsOnClickListeners;
 import co.localism.losal.objects.Post;
@@ -72,7 +73,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends ListActivity implements Observer {
+public class MainActivity extends ListActivity implements Observer{//, OnItemClickListener {
 
 	public Context ctx = this;
 	public static ListAdapter listadapter;
@@ -90,7 +91,7 @@ public class MainActivity extends ListActivity implements Observer {
 		new PersonalOptionsOnClickListeners(
 				(LinearLayout) findViewById(R.id.po), this);
 		ActionBar a = getActionBar();
-//		a.setIcon(new SVGHandler().svg_to_drawable(ctx, R.raw.left_chevron));
+		// a.setIcon(new SVGHandler().svg_to_drawable(ctx, R.raw.left_chevron));
 		a.setDisplayHomeAsUpEnabled(true);
 
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
@@ -116,6 +117,8 @@ public class MainActivity extends ListActivity implements Observer {
 		PauseOnScrollListener listener = new PauseOnScrollListener(
 				PostAdapter.mImageLoader, pauseOnScroll, pauseOnFling);
 		lv.setOnScrollListener(listener);
+        
+        
 	}
 
 	/**
@@ -164,11 +167,12 @@ public class MainActivity extends ListActivity implements Observer {
 				new SVGHandler().svg_to_drawable(ctx, R.raw.lightning));
 		return true;
 	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		if (item.getItemId() == R.id.notices) {
-			
+
 			return true;
 		}
 		return false;
@@ -177,13 +181,15 @@ public class MainActivity extends ListActivity implements Observer {
 	public void updateView() {
 		Log.d(tag, "updateView called");
 		setListAdapter(listadapter);
+//		getListView().setOnItemClickListener(this);
+//		findViewById(R.id.iv_post_image).setClickable(false);
 
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Log.d(tag, "update called");
-//		toFile("posts.ser", posts);
+		// toFile("posts.ser", posts);
 		updateView();
 	}
 
@@ -194,15 +200,15 @@ public class MainActivity extends ListActivity implements Observer {
 	}
 
 	private void loginParseUser() {
-//		Log.i(tag, ParseUser.getCurrentUser().toString());
-		
+		// Log.i(tag, ParseUser.getCurrentUser().toString());
+
 		ParseUser.logInInBackground("joe", "1234", new LogInCallback() {
 			public void done(ParseUser user, ParseException e) {
 				if (user != null) {
 					Log.i(tag, "Hooray! The user is logged in.");
 					// Hooray! The user is logged in.
 				} else {
-					Log.i(tag, "login failed. e: "+e.toString());
+					Log.i(tag, "login failed. e: " + e.toString());
 
 					// Signup failed. Look at the ParseException to see what
 					// happened.
@@ -323,34 +329,93 @@ public class MainActivity extends ListActivity implements Observer {
 			return null;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	public static void favoriteTweet(String id){
+
+//	@Override
+//	protected void onListItemClick(ListView l, View v, int position, long id) {
+//		super.onListItemClick(l, v, position, id);
+//		Log.d(tag, ""+v.getId());
+////		 Object p =  this.getListAdapter().getItem(position);
+////			Log.d(tag, "p = "+p.toString());
+//		Log.d(tag, "text = "+posts.get(position).getText());
+//		switch (v.getId()) {
+//		case R.id.iv_post_image:
+//			Log.d(tag, "image pressed");
+//			Intent intent = new Intent(this, FullScreenImageActivity.class);
+//			intent.putExtra("imageURL", posts.get(position).getUrl());
+//			startActivity(intent);
+//			break;
+//		case R.id.ll_social_like_area:
+//			Log.d(tag, "like area");
+////			socialLikeClicked(posts.get(position));
+//			break;
+//		case R.id.iv_social_like_icon:
+//			Log.d(tag, "like icon");
+//			posts.get(position);
+////			socialLikeClicked(posts.get(position));
+//			break;
+//		case R.id.iv_social_site_icon:
+//			Log.d(tag, "site icon");
+////			socialLikeClicked(posts.get(position));
+//			break;
+//		}
+//
+//	}
+
+
+
+	public static void favoriteTweet(String id) {
 		Log.d(tag, "favoriteTwee called");
 
 		HttpClient client = new DefaultHttpClient();
 		HttpGet verifyGet = new HttpGet(
-		        "https://api.twitter.com/1/account/verify_credentials.json");
-		https://api.twitter.com/1.1/favorites/create.json
+				"https://api.twitter.com/1/account/verify_credentials.json");
+		https: // api.twitter.com/1.1/favorites/create.json
 		ParseTwitterUtils.getTwitter().signRequest(verifyGet);
 		try {
 			HttpResponse response = client.execute(verifyGet);
-		
-		Log.d(tag, "tw resp: "+response.toString());
-		
+
+			Log.d(tag, "tw resp: " + response.toString());
+
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-	}
-	
-	
-	
 
+	}
+/*
+	@Override
+	public void onItemClick(AdapterView<?> av, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		Log.d(tag, "v "+v.getId());
+		Log.d(tag, "av "+av.getId());
+		Log.d(tag, "id "+id);
+		Log.d(tag, "v tag "+v.getTag());
+
+//		 Object p =  this.getListAdapter().getItem(position);
+//			Log.d(tag, "p = "+p.toString());
+		Log.d(tag, "text = "+posts.get(position).getText());
+		switch (v.getId()) {
+		case R.id.iv_post_image:
+			Log.d(tag, "image pressed");
+			Intent intent = new Intent(this, FullScreenImageActivity.class);
+			intent.putExtra("imageURL", posts.get(position).getUrl());
+			startActivity(intent);
+			break;
+		case R.id.ll_social_like_area:
+			Log.d(tag, "like area");
+//			socialLikeClicked(posts.get(position));
+			break;
+		case R.id.iv_social_like_icon:
+			Log.d(tag, "like icon");
+			posts.get(position);
+//			socialLikeClicked(posts.get(position));
+			break;
+		case R.id.iv_social_site_icon:
+			Log.d(tag, "site icon");
+//			socialLikeClicked(posts.get(position));
+			break;
+		}
+	}
+*/
 }

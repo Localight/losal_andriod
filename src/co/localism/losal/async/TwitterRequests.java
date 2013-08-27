@@ -53,20 +53,31 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 		
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost favpost = new HttpPost("https://api.twitter.com/1.1/favorites/create.json");
-		
+		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("id", id));
+		try {
+			favpost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	
-		String sss = "https://api.twitter.com/1.1/favorites/create.json";
+		String sss = "https://api.twitter.com/1.1/favorites/create/"+id+".json";
 		
 		HttpClient client = new DefaultHttpClient();
-		HttpGet verifyGet = new HttpGet(
+//		HttpGet verifyGet = new HttpGet(
 //				sss);
-		        "https://api.twitter.com/1.1/account/verify_credentials.json");
+//		        "https://api.twitter.com/1.1/account/verify_credentials.json");
 //		https://api.twitter.com/1.1/favorites/create.json
 		
 		
-		ParseTwitterUtils.getTwitter().signRequest(verifyGet);
+//		ParseTwitterUtils.getTwitter().signRequest(verifyGet);
+		ParseTwitterUtils.getTwitter().signRequest(favpost);
+
 		try {
-			HttpResponse response = client.execute(verifyGet);
+//			HttpResponse response = client.execute(verifyGet);
+			HttpResponse response = client.execute(favpost);
+
 			HttpEntity entity = response.getEntity();
             is = entity.getContent();
 		Log.d(tag, "tw resp: "+responseToString(is));

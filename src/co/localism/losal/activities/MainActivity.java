@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,15 +25,18 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import co.localism.losal.FetchFeed;
+import co.localism.losal.FetchNotices;
 import co.localism.losal.R;
 import co.localism.losal.SVGHandler;
 import co.localism.losal.SetUpSlidingMenu;
 import co.localism.losal.R.layout;
 import co.localism.losal.R.menu;
+import co.localism.losal.adapters.NoticeAdapter;
 import co.localism.losal.adapters.PostAdapter;
 import co.localism.losal.async.InstagramRequests;
 
 import co.localism.losal.listens.PersonalOptionsOnClickListeners;
+import co.localism.losal.objects.Notice;
 import co.localism.losal.objects.Post;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
@@ -64,6 +68,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -73,15 +79,23 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends ListActivity implements Observer{//, OnItemClickListener {
+public class MainActivity extends ListActivity{// implements Observer {// ,
+																	// OnItemClickListener
+																	// {
 
 	public Context ctx = this;
-	public static ListAdapter listadapter;
+	public static PostAdapter listadapter;
 	public static ArrayList<Post> posts = new ArrayList<Post>();
+	public static ArrayList<Notice> notices = new ArrayList<Notice>();
+
 	private static final String tag = "MainActivity";
 	public static final String KEY_UPDATE = "co.localism.losal.MainActivity.updateView";
 	public BroadcastReceiver receiver = null;
-
+	public static int POST_DAYS = 7;
+	public static Date LAST_POST_DATE = null;
+	private boolean loadingMore = false;
+	private static FetchFeed ff;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,9 +104,12 @@ public class MainActivity extends ListActivity implements Observer{//, OnItemCli
 		SlidingMenu sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(
 				(LinearLayout) findViewById(R.id.po), this);
+		
 		ActionBar a = getActionBar();
 		// a.setIcon(new SVGHandler().svg_to_drawable(ctx, R.raw.left_chevron));
 		a.setDisplayHomeAsUpEnabled(true);
+		ff = new FetchFeed();
+//		ff.addObserver(this);
 
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
 				getResources().getString(R.string.parse_client_key));
@@ -101,9 +118,9 @@ public class MainActivity extends ListActivity implements Observer{//, OnItemCli
 				getResources().getString(R.string.tw_consumer_secret));
 		ParseAnalytics.trackAppOpened(getIntent());
 		loginParseUser();
-
+	
 		// ParseFacebookUtils.initialize(getResources().getString(R.string.fb_app_id));
-		getPosts();
+
 		// createTestparseUser();
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
@@ -116,47 +133,105 @@ public class MainActivity extends ListActivity implements Observer{//, OnItemCli
 		boolean pauseOnFling = true; // or false
 		PauseOnScrollListener listener = new PauseOnScrollListener(
 				PostAdapter.mImageLoader, pauseOnScroll, pauseOnFling);
-		lv.setOnScrollListener(listener);
-        
-        
+//		lv.setOnScrollListener(listener);
+//		posts.add(new Post());
+//		posts.add(new Post());
+		listadapter = new PostAdapter(ctx, R.layout.post, posts, 1);
+		setListAdapter(listadapter);
+
+		getPosts();
+		getNotices();
+		//Here is where the magic happens
+		/*lv.setOnScrollListener(new OnScrollListener(){
+			//useless here, skip!
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount) {
+				//what is the bottom iten that is visible
+				int lastInScreen = firstVisibleItem + visibleItemCount;
+				Log.d(tag, "last in screen: "+lastInScreen );
+				Log.d(tag, "total item count: "+totalItemCount );
+				Log.d(tag, "loading more: "+loadingMore );
+
+				//is the bottom item visible & not loading more already ? Load more !
+				if(totalItemCount > 0 && (lastInScreen == totalItemCount) && !(loadingMore)){
+					Log.i(tag, "onscroll: calling new thread");
+//					getPosts();
+//					Thread thread =  new Thread(null, loadMoreListItems);
+//					thread.start();
+				}
+			}
+		});*/
 	}
 
+	private void getNotices() {
+		FetchNotices fn = new FetchNotices();
+//		fn.addObserver(this);
+		notices = fn.fetch();
+		ListView myList = (ListView) findViewById(R.id.notices_list);
+		ListAdapter adapter = new NoticeAdapter(this,
+				R.layout.notice_list_item, notices, 1);
+		myList.setAdapter(adapter);
+	}
+
+	
+	private ArrayList<Post> newposts = new ArrayList<Post>();
 	/**
 	 * This checks whether we need to pull data from parse or if we can just
 	 * create our posts object from our serialized file.
 	 */
-	private void getPosts() {
+	public void getPosts() {
+
 		// check current time against the time that we serialized last.
-		SharedPreferences dm = getSharedPreferences("DataManager", MODE_PRIVATE);
+//		SharedPreferences dm = getSharedPreferences("DataManager", MODE_PRIVATE);
 		// TODO: Time isn't the best option for this. While the app is running
 		// we should check parse every 5 min
 		// The school can manually push new data whenever they want.
 		// Also on start up we should check parse but maybe load serialized data
 		// first and then replace that or
 		// add onto it when a new payload is ready
-		final Calendar c = Calendar.getInstance();
-		if (c.get(Calendar.MONTH) == dm.getInt("LastUpdateMonth", -1)) {
-			if (c.get(Calendar.DAY_OF_MONTH) == dm.getInt("LastUpdateDay", -1))
-				if ((c.get(Calendar.HOUR_OF_DAY) < 7 && dm.getInt(
-						"LastUpdateDay", -1) < 7)
-						|| (c.get(Calendar.HOUR_OF_DAY) < 19 && dm.getInt(
-								"LastUpdateDay", -1) < 19)) {
-					Log.d(tag, "chose to deserialize the data");
-					posts = (ArrayList<Post>) fromFile("posts.ser");
-				}
-		} else {
+//		final Calendar c = Calendar.getInstance();
+//		if (c.get(Calendar.MONTH) == dm.getInt("LastUpdateMonth", -1)) {
+//			if (c.get(Calendar.DAY_OF_MONTH) == dm.getInt("LastUpdateDay", -1))
+//				if ((c.get(Calendar.HOUR_OF_DAY) < 7 && dm.getInt(
+//						"LastUpdateDay", -1) < 7)
+//						|| (c.get(Calendar.HOUR_OF_DAY) < 19 && dm.getInt(
+//								"LastUpdateDay", -1) < 19)) {
+//					Log.d(tag, "chose to deserialize the data");
+//					posts = (ArrayList<Post>) fromFile("posts.ser");
+//				}
+//		} else {
 			Log.d(tag, "chose to fetch new data");
 
 			try {
-				FetchFeed ff = new FetchFeed();
-				ff.addObserver(this);
-				posts = ff.fetch();
+				ff.fetch(listadapter);
+				// posts = ff.fetch();
+//				posts = 
+//					return	ff.fetch();
+//				posts.addAll(ff.fetch());
+				
+//				newposts = ff.fetch();
+//				posts.addAll(newposts);
 			} catch (Exception e) {
 				Log.d(tag, e.toString());
 			}
+//		}
+		if(listadapter == null){
+//			posts = ff.fetch();
+//			listadapter = new PostAdapter(ctx, R.layout.post, posts, 1);
+//			listadapter.add(new Post());
+//			Post aa = (Post) listadapter.getItem(2);
+			updateView();
+		}else{
+			updateView();
+
+//			newposts = ff.fetch();
 		}
-		listadapter = new PostAdapter(ctx, R.layout.post, posts, 1);
-		updateView();
+//		return posts;
 	}
 
 	@Override
@@ -180,13 +255,15 @@ public class MainActivity extends ListActivity implements Observer{//, OnItemCli
 
 	public void updateView() {
 		Log.d(tag, "updateView called");
-		setListAdapter(listadapter);
-//		getListView().setOnItemClickListener(this);
-//		findViewById(R.id.iv_post_image).setClickable(false);
+//		posts.addAll(newposts);
+//		setListAdapter(listadapter);
+		loadingMore = false;
+		// getListView().setOnItemClickListener(this);
+		// findViewById(R.id.iv_post_image).setClickable(false);
 
 	}
 
-	@Override
+	//@Override
 	public void update(Observable arg0, Object arg1) {
 		Log.d(tag, "update called");
 		// toFile("posts.ser", posts);
@@ -330,38 +407,37 @@ public class MainActivity extends ListActivity implements Observer{//, OnItemCli
 		}
 	}
 
-//	@Override
-//	protected void onListItemClick(ListView l, View v, int position, long id) {
-//		super.onListItemClick(l, v, position, id);
-//		Log.d(tag, ""+v.getId());
-////		 Object p =  this.getListAdapter().getItem(position);
-////			Log.d(tag, "p = "+p.toString());
-//		Log.d(tag, "text = "+posts.get(position).getText());
-//		switch (v.getId()) {
-//		case R.id.iv_post_image:
-//			Log.d(tag, "image pressed");
-//			Intent intent = new Intent(this, FullScreenImageActivity.class);
-//			intent.putExtra("imageURL", posts.get(position).getUrl());
-//			startActivity(intent);
-//			break;
-//		case R.id.ll_social_like_area:
-//			Log.d(tag, "like area");
-////			socialLikeClicked(posts.get(position));
-//			break;
-//		case R.id.iv_social_like_icon:
-//			Log.d(tag, "like icon");
-//			posts.get(position);
-////			socialLikeClicked(posts.get(position));
-//			break;
-//		case R.id.iv_social_site_icon:
-//			Log.d(tag, "site icon");
-////			socialLikeClicked(posts.get(position));
-//			break;
-//		}
-//
-//	}
-
-
+	// @Override
+	// protected void onListItemClick(ListView l, View v, int position, long id)
+	// {
+	// super.onListItemClick(l, v, position, id);
+	// Log.d(tag, ""+v.getId());
+	// // Object p = this.getListAdapter().getItem(position);
+	// // Log.d(tag, "p = "+p.toString());
+	// Log.d(tag, "text = "+posts.get(position).getText());
+	// switch (v.getId()) {
+	// case R.id.iv_post_image:
+	// Log.d(tag, "image pressed");
+	// Intent intent = new Intent(this, FullScreenImageActivity.class);
+	// intent.putExtra("imageURL", posts.get(position).getUrl());
+	// startActivity(intent);
+	// break;
+	// case R.id.ll_social_like_area:
+	// Log.d(tag, "like area");
+	// // socialLikeClicked(posts.get(position));
+	// break;
+	// case R.id.iv_social_like_icon:
+	// Log.d(tag, "like icon");
+	// posts.get(position);
+	// // socialLikeClicked(posts.get(position));
+	// break;
+	// case R.id.iv_social_site_icon:
+	// Log.d(tag, "site icon");
+	// // socialLikeClicked(posts.get(position));
+	// break;
+	// }
+	//
+	// }
 
 	public static void favoriteTweet(String id) {
 		Log.d(tag, "favoriteTwee called");
@@ -383,39 +459,77 @@ public class MainActivity extends ListActivity implements Observer{//, OnItemCli
 		}
 
 	}
-/*
-	@Override
-	public void onItemClick(AdapterView<?> av, View v, int position, long id) {
-		// TODO Auto-generated method stub
-		Log.d(tag, "v "+v.getId());
-		Log.d(tag, "av "+av.getId());
-		Log.d(tag, "id "+id);
-		Log.d(tag, "v tag "+v.getTag());
 
-//		 Object p =  this.getListAdapter().getItem(position);
-//			Log.d(tag, "p = "+p.toString());
-		Log.d(tag, "text = "+posts.get(position).getText());
-		switch (v.getId()) {
-		case R.id.iv_post_image:
-			Log.d(tag, "image pressed");
-			Intent intent = new Intent(this, FullScreenImageActivity.class);
-			intent.putExtra("imageURL", posts.get(position).getUrl());
-			startActivity(intent);
-			break;
-		case R.id.ll_social_like_area:
-			Log.d(tag, "like area");
-//			socialLikeClicked(posts.get(position));
-			break;
-		case R.id.iv_social_like_icon:
-			Log.d(tag, "like icon");
-			posts.get(position);
-//			socialLikeClicked(posts.get(position));
-			break;
-		case R.id.iv_social_site_icon:
-			Log.d(tag, "site icon");
-//			socialLikeClicked(posts.get(position));
-			break;
+	/*
+	 * @Override public void onItemClick(AdapterView<?> av, View v, int
+	 * position, long id) { // TODO Auto-generated method stub Log.d(tag,
+	 * "v "+v.getId()); Log.d(tag, "av "+av.getId()); Log.d(tag, "id "+id);
+	 * Log.d(tag, "v tag "+v.getTag());
+	 * 
+	 * // Object p = this.getListAdapter().getItem(position); // Log.d(tag,
+	 * "p = "+p.toString()); Log.d(tag,
+	 * "text = "+posts.get(position).getText()); switch (v.getId()) { case
+	 * R.id.iv_post_image: Log.d(tag, "image pressed"); Intent intent = new
+	 * Intent(this, FullScreenImageActivity.class); intent.putExtra("imageURL",
+	 * posts.get(position).getUrl()); startActivity(intent); break; case
+	 * R.id.ll_social_like_area: Log.d(tag, "like area"); //
+	 * socialLikeClicked(posts.get(position)); break; case
+	 * R.id.iv_social_like_icon: Log.d(tag, "like icon"); posts.get(position);
+	 * // socialLikeClicked(posts.get(position)); break; case
+	 * R.id.iv_social_site_icon: Log.d(tag, "site icon"); //
+	 * socialLikeClicked(posts.get(position)); break; } }
+	 */
+
+	private Runnable loadMoreListItems = new Runnable() {
+		private int itemsPerPage = 15;
+
+		@Override
+		public void run() {
+			// Set flag so we cant load new items 2 at the same time
+			loadingMore = true;
+			
+			getPosts();
+			// Reset the array that holds the new items
+//			posts = new ArrayList<Post>();
+			// Simulate a delay, delete this on a production environment!
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
+			// Get 15 new listitems
+//			for (int i = 0; i < itemsPerPage ; i++) {
+				// Fill the item with some bogus information
+//				myListItems.add("Date: " + (d.get(Calendar.MONTH) + 1) + "/"
+//						+ d.get(Calendar.DATE) + "/" + d.get(Calendar.YEAR));
+//				 +1 day
+//				d.add(Calendar.DATE, 1);
+//			}
+			// Done! now continue on the UI thread
+			
+//			runOnUiThread(returnRes);
 		}
-	}
-*/
+	};
+
+	
+	//Since we cant update our UI from a thread this Runnable takes care of that!
+	private Runnable returnRes = new Runnable() {
+		@Override
+		public void run() {
+			updateView();
+		}
+			//Loop thru the new items and add them to the adapter
+//			if(posts != null && posts.size() > 0){
+//	              		for(int i=0;i < posts.size();i++)
+//	              			listadapter.add(posts.get(i));
+//	          		 }
+//			//Update the Application title
+//	       		setTitle("Neverending List with " + String.valueOf(adapter.getCount()) + " items");
+//			//Tell to the adapter that changes have been made, this will cause the list to refresh
+//	       		listadapter.notifyDataSetChanged();
+//			//Done loading more.
+//	           		loadingMore = false;
+//	       	}
+	   };
+//	   
+	
 }

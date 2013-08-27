@@ -121,7 +121,11 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		tv.setText(getResources().getString(R.string.group_heading_3));
 		
 		// ******** NOTICES ********
-
+		
+		
+		
+		
+/*
 		notices = new ArrayList<Notice>();
 		Notice n = new Notice();
 		n.setTitle("asdf  sfdfd asf");
@@ -151,10 +155,12 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		// ArrayAdapter<String>(activity,R.layout.notice_list_item,listContent);
 
 		myList.setAdapter(adapter);
-
+*/
 		// attachToActivity(this, SlidingMenu.SLIDING_CONTENT);//
 		// SlidingMenu.SLIDING_WINDOW | SlidingMenu.SLIDING_CONTENT
 
 	}
 
 }
+
+

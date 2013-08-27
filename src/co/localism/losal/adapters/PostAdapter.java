@@ -14,6 +14,7 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
+import co.localism.losal.FetchFeed;
 import co.localism.losal.R;
 import co.localism.losal.SVGHandler;
 import co.localism.losal.activities.ActivateSocialActivity;
@@ -54,7 +55,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class PostAdapter extends ArrayAdapter<String> {
+public class PostAdapter extends ArrayAdapter<Post> {
 
 	private LayoutInflater mInflater;
 
@@ -82,7 +83,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 	Post cur;
 	private Intent fullscreen_intent;
 	private Drawable INSTA_ICON, TW_ICON, INSTA_LIKE_ICON, TW_LIKE_ICON;
-	
+	private boolean loading = false;
 	
 	public PostAdapter(final Context ctx, int viewResourceId,
 			ArrayList<Post> posts, int UserType) {
@@ -185,19 +186,45 @@ public class PostAdapter extends ArrayAdapter<String> {
 	}
 
 	@Override
-	public String getItem(int position) {
-		return mPosts.get(position).getName();
+	public Post getItem(int position) {
+		return mPosts.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
 		return 0;
 	}
+	@Override
+	public void add(Post p){
+		super.add(p);
+		mPosts.add(p);
+		notifyDataSetChanged();
 
+	}
+	
+	public void addAll(ArrayList<Post> p){
+		super.addAll(p);
+		Log.d(tag, "allAll called!");
+		mPosts.addAll(p);
+		notifyDataSetChanged();
+	}
+	
+	public void setStatus(boolean isLoading){
+		this.loading = isLoading;
+	}
+		
 	@Override
 	public View getView(final int position, View convertView, final ViewGroup parent) {
 		cur = mPosts.get(position);
-
+//		if((mPosts.size() == 0 || mPosts.size()-1 == position) && !loading){
+		if(mPosts.size()-4 == position && position > 0 && !loading){
+			Log.d(tag, "FETCHING");
+//
+			loading = true;
+			FetchFeed fetcher = new FetchFeed();
+			fetcher.fetch(this);
+////			addAll(fetcher.fetch());
+		}
 		if (convertView == null) {
 			// Put things in here that only need to be set once and can be
 			// reused.
@@ -271,7 +298,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 
 		user_info = ctx.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		user_info.getBoolean("registered", false);
-
+		
 		try {
 			// if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
 			// if (user_info.getBoolean("hasTwitter", false))
@@ -296,7 +323,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 		}
 		// TODO: change what is visible based on whether the user is registered
 		// or not
-
+		try{
 		holder.tv_name.setText(cur.getName());
 		// holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
 
@@ -369,6 +396,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 			fullscreen_intent.removeExtra("imageURL");
 			fullscreen_intent.putExtra("imageURL", mPosts.get(position)
 					.getUrl());
+		
 			holder.iv_post_image.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -388,6 +416,9 @@ public class PostAdapter extends ArrayAdapter<String> {
 		} else {// this post does not have an image to display so hide the
 				// imageview
 			holder.iv_post_image.setVisibility(View.GONE);
+		}
+		}catch(Exception e){
+			Log.e(tag, e.toString());
 		}
 		Log.d("", "");
 		// holder.iv_post_image.setOnClickListener(fullscreen_onClick);
@@ -423,7 +454,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 //				mPosts.get(position).setUserLiked(!mPosts.get(position).getUserLiked());
 			}
 		});
-
+		
 		return convertView;
 	}
 
@@ -495,6 +526,7 @@ public class PostAdapter extends ArrayAdapter<String> {
 		post.setUserLiked(!post.getUserLiked());
 
 		if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))){
+			new TwitterRequests().execute(post.getSocialNetworkPostId());
 //			MainActivity.favoriteTweet(post.getSocialNetworkPostId());
 		}else if (site.equalsIgnoreCase(ctx.getResources().getString(
 				R.string.insta)))

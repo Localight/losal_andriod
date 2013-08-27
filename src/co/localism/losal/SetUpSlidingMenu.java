@@ -74,15 +74,16 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		// TODO: Add grades svg and schedule svg to raw folder. Then comment out
 		// the imageview in the linearlayouts that are found below
 		// and uncomment the following lines.
-		// LinearLayout ll_po_grades= (LinearLayout) activity
-		// .findViewById(R.id.po_grades);
-		// ll_po_grades.addView(new
-		// SVGHandler().svg_to_imageview(activity.getApplicationContext(),
-		// R.raw.grades, 1f, (int)
-		// getResources().getDimension(R.dimen.personal_options_icon_size),
-		// (int)
-		// getResources().getDimension(R.dimen.personal_options_icon_size)) ,
-		// 0);
+		LinearLayout ll_po_grades = (LinearLayout) activity
+				.findViewById(R.id.po_grades);
+		ll_po_grades.addView(new SVGHandler().svg_to_imageview(
+				activity.getApplicationContext(),
+				R.raw.a_plus,
+				1f,
+				(int) getResources().getDimension(
+						R.dimen.personal_options_icon_size),
+				(int) getResources().getDimension(
+						R.dimen.personal_options_icon_size)), 0);
 
 		LinearLayout ll_po_schedule = (LinearLayout) activity
 				.findViewById(R.id.po_schedule);
@@ -105,8 +106,8 @@ public class SetUpSlidingMenu extends SlidingMenu {
 						R.dimen.personal_options_footer_image_size),
 				(int) getResources().getDimension(
 						R.dimen.personal_options_icon_size)), 0);
-		
-//		Set group heading
+
+		// Set group heading
 		LinearLayout ll_po_break = (LinearLayout) activity
 				.findViewById(R.id.po_group_header_1);
 		TextView tv = (TextView) ll_po_break.findViewById(R.id.po_break_text);
@@ -119,48 +120,33 @@ public class SetUpSlidingMenu extends SlidingMenu {
 				.findViewById(R.id.po_group_header_3);
 		tv = (TextView) ll_po_break.findViewById(R.id.po_break_text);
 		tv.setText(getResources().getString(R.string.group_heading_3));
-		
+
 		// ******** NOTICES ********
-		
-		
-		
-		
-/*
-		notices = new ArrayList<Notice>();
-		Notice n = new Notice();
-		n.setTitle("asdf  sfdfd asf");
-		n.setDetails("");
-		notices.add(n);
-		notices.add(n);
-		notices.add(n);
-		notices.add(n);
-		notices.add(n);
-		notices.add(n);
-		notices.add(n);
-		notices.add(n);
-		notices.add(n);
-		notices.add(n);
-		notices.add(n);
 
-		
-		
-		// TODO: possibly serialize and de when this is created and destroyed
-		ListView myList = (ListView) findViewById(R.id.notices_list);
-
-		String[] listContent = { "abc", "def", "ghi", "Jkl" };
-
-		ListAdapter adapter = new NoticeAdapter(activity,
-				R.layout.notice_list_item, notices, 1);
-		// ArrayAdapter<String> adapter = new
-		// ArrayAdapter<String>(activity,R.layout.notice_list_item,listContent);
-
-		myList.setAdapter(adapter);
-*/
+		/*
+		 * notices = new ArrayList<Notice>(); Notice n = new Notice();
+		 * n.setTitle("asdf  sfdfd asf"); n.setDetails(""); notices.add(n);
+		 * notices.add(n); notices.add(n); notices.add(n); notices.add(n);
+		 * notices.add(n); notices.add(n); notices.add(n); notices.add(n);
+		 * notices.add(n); notices.add(n);
+		 * 
+		 * 
+		 * 
+		 * // TODO: possibly serialize and de when this is created and destroyed
+		 * ListView myList = (ListView) findViewById(R.id.notices_list);
+		 * 
+		 * String[] listContent = { "abc", "def", "ghi", "Jkl" };
+		 * 
+		 * ListAdapter adapter = new NoticeAdapter(activity,
+		 * R.layout.notice_list_item, notices, 1); // ArrayAdapter<String>
+		 * adapter = new //
+		 * ArrayAdapter<String>(activity,R.layout.notice_list_item,listContent);
+		 * 
+		 * myList.setAdapter(adapter);
+		 */
 		// attachToActivity(this, SlidingMenu.SLIDING_CONTENT);//
 		// SlidingMenu.SLIDING_WINDOW | SlidingMenu.SLIDING_CONTENT
 
 	}
 
 }
-
-

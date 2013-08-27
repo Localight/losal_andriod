@@ -18,7 +18,7 @@
     
     <dimen name="personal_options_break_groupd_header_left_margin">20dp</dimen>
     
-    <dimen name="personal_options_footer_top_margin">45dp</dimen>
+    <dimen name="personal_options_footer_top_margin">37dp</dimen>
     <dimen name="personal_options_losal_hs_text_size">12sp</dimen>
     
     <dimen name="personal_options_go_griffins_text_size">18sp</dimen>

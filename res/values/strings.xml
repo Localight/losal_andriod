@@ -10,7 +10,7 @@
     
     <!-- Personal Options -->
     <string name="social_feed">Social Feed</string>
-    <string name="events">Events</string>
+    <string name="events">Calendar</string>
     <string name="grades">Grades</string>
     <string name="schedule">Scheule</string>
     <string name="socrative">Socrative</string>
@@ -20,7 +20,15 @@
         <string name="group_heading_2">My Info</string>
 		<string name="group_heading_3">Classroom Tools</string>
         
-    
+    <!-- Calendar  -->
+<!-- 	<string name="calendar_subscribe_url">http://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26</string>
+ -->
+ <string name="calendar_dialog_title">Subscribe to Losal Calendar</string>
+ <string name="calendar_dialog_message">Subscribe to Losal\'s calendar and you will stay informed\!</string>
+ <string name="calendar_dialog_yes">Yes</string>
+  <string name="calendar_dialog_no">Not Now</string>
+ 
+
     <!--Social  -->
     <string name="login_fb">Login to Facebook</string>
     <string name="activate_social">Activate Your Social Networks</string>

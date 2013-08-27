@@ -74,7 +74,23 @@ public class SVGHandler {
         iv.setLayoutParams(params);
         return iv;
 	}
-	
+	/**
+	 * 
+	 * @param ctx
+	 * @param resId
+	 * @param opacity
+	 * @param width
+	 * @param height
+	 * @param original_color
+	 * @param desired_color
+	 * @return
+	 */
+	public ImageView svg_to_imageview(Context ctx, int resId, float opacity, int width, int height, int original_color, int desired_color){
+		ImageView iv = svg_to_imageview(ctx, resId, original_color, desired_color, opacity);
+		LayoutParams params = new LayoutParams(width, height); 
+        iv.setLayoutParams(params);
+        return iv;
+	}
 	/**
 	 * 
 	 * @param ctx

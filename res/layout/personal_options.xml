@@ -6,227 +6,240 @@
     android:background="@color/trans_grey"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/po_group_header_1"
-        layout="@layout/personal_options_break" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="2" >
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:id="@+id/po_social_feed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical" >
 
-            <!-- android:layout_marginRight="@dimen/personal_options_space_between_items" -->
-
-
-            <!--
-                 <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
-            -->
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/personal_options_text_top_margin"
-                android:text="@string/social_feed"
-                android:textColor="@color/white"
-                android:textSize="@dimen/personal_options_text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/po_events"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <!--
-                 <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
-            -->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/events"
-                android:textColor="@color/white"
-                                android:layout_marginTop="@dimen/personal_options_text_top_margin"
+            <include
+                android:id="@+id/po_group_header_1"
+                layout="@layout/personal_options_break" 
                 
-                android:textSize="@dimen/personal_options_text_size" />
-        </LinearLayout>
-    </LinearLayout>
+                />
 
-    <include
-        android:id="@+id/po_group_header_2"
-        layout="@layout/personal_options_break" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="2" >
+                <LinearLayout
+                    android:id="@+id/po_social_feed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/po_grades"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
+                    <!-- android:layout_marginRight="@dimen/personal_options_space_between_items" -->
 
-            <!-- android:layout_marginRight="@dimen/personal_options_space_between_items" -->
-            <!--
+
+                    <!--
                  <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher" />
-            -->
+                    -->
 
-            <TextView
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/personal_options_text_top_margin"
+                        android:text="@string/social_feed"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/personal_options_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/po_events"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <!--
+                 <ImageView
+                android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                      android:layout_marginTop="@dimen/personal_options_text_top_margin"
-                android:text="@string/grades"
-                android:textColor="@color/white"
-                android:textSize="@dimen/personal_options_text_size" />
-        </LinearLayout>
+                android:src="@drawable/ic_launcher" />
+                    -->
 
-        <LinearLayout
-            android:id="@+id/po_schedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/personal_options_text_top_margin"
+                        android:text="@string/events"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/personal_options_text_size" />
+                </LinearLayout>
+            </LinearLayout>
 
-            <!--
+            <include
+                android:id="@+id/po_group_header_2"
+                layout="@layout/personal_options_break" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:id="@+id/po_grades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <!-- android:layout_marginRight="@dimen/personal_options_space_between_items" -->
+                    <!--
+                 <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher" />
+                    -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/personal_options_text_top_margin"
+                        android:text="@string/grades"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/personal_options_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/po_schedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <!--
             <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher" />
-            -->
+                    -->
 
-            <TextView
-                android:layout_width="wrap_content"
-                     android:layout_marginTop="@dimen/personal_options_text_top_margin"
-                android:layout_height="wrap_content"
-                android:text="@string/schedule"
-                android:textColor="@color/white"
-                android:textSize="@dimen/personal_options_text_size" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <include
-        android:id="@+id/po_group_header_3"
-        layout="@layout/personal_options_break" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="2" >
-
-        <LinearLayout
-            android:id="@+id/po_socrative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <!-- android:layout_marginRight="@dimen/personal_options_space_between_items" -->
-
-
-            <!--
-                 <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
-            -->
-
-            <TextView
-                android:layout_width="wrap_content"
-                     android:layout_marginTop="@dimen/personal_options_text_top_margin"
-                android:layout_height="wrap_content"
-                android:text="@string/socrative"
-                android:textColor="@color/white"
-                android:textSize="@dimen/personal_options_text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/po_edmodo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <!--
-                 <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
-            -->
-
-            <TextView
-                android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/personal_options_text_top_margin"
+                        android:text="@string/schedule"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/personal_options_text_size" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/po_group_header_3"
+                layout="@layout/personal_options_break" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/edmodo"
-                android:textColor="@color/white"
-                android:textSize="@dimen/personal_options_text_size" />
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:id="@+id/po_socrative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <!-- android:layout_marginRight="@dimen/personal_options_space_between_items" -->
+
+
+                    <!--
+                 <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher" />
+                    -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/personal_options_text_top_margin"
+                        android:text="@string/socrative"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/personal_options_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/po_edmodo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <!--
+                 <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher" />
+                    -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/personal_options_text_top_margin"
+                        android:text="@string/edmodo"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/personal_options_text_size" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/po_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/personal_options_footer_top_margin"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/losal_hs"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/personal_options_losal_hs_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/go_griffins"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/personal_options_go_griffins_text_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/po_footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/personal_options_footer_top_margin"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/losal_hs"
-            android:textColor="@color/white"
-            android:textSize="@dimen/personal_options_losal_hs_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/go_griffins"
-            android:textColor="@color/white"
-            android:textSize="@dimen/personal_options_go_griffins_text_size"
-            android:textStyle="bold" />
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

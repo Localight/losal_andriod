@@ -2,8 +2,11 @@ package co.localism.losal.adapters;
 
 import java.util.ArrayList;
 import co.localism.losal.R;
+import co.localism.losal.activities.NoticeDetailsActivity;
 import co.localism.losal.objects.Notice;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.util.Log;
@@ -15,7 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NoticeAdapter extends ArrayAdapter<String> {
+public class NoticeAdapter extends ArrayAdapter<Notice> {
 
 	private LayoutInflater mInflater;
 
@@ -28,6 +31,8 @@ public class NoticeAdapter extends ArrayAdapter<String> {
 	private OnClickListener notice_click_listener;
 	private PostViewHolder holder;
 	private final String tag = "NoticeAdapter";
+	private OnClickListener notice_onClick;
+
 	// public ImageAndTextAdapter(Context ctx, int viewResourceId,
 	// String[] strings, TypedArray icons, ArrayList<Integer> openclose,
 	// ArrayList<String> companies, ArrayList<String> place_ids) {
@@ -43,13 +48,19 @@ public class NoticeAdapter extends ArrayAdapter<String> {
 	}
 
 	@Override
+	public void add(Notice n) {
+		mNotices.add(n);
+		notifyDataSetChanged();
+	}
+
+	@Override
 	public int getCount() {
 		return mNotices.size();
 	}
 
 	@Override
-	public String getItem(int position) {
-		return mNotices.get(position).getTitle();
+	public Notice getItem(int position) {
+		return mNotices.get(position);
 	}
 
 	@Override
@@ -58,7 +69,7 @@ public class NoticeAdapter extends ArrayAdapter<String> {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		final Notice cur = mNotices.get(position);
 
 		if (convertView == null) {
@@ -74,18 +85,20 @@ public class NoticeAdapter extends ArrayAdapter<String> {
 					.findViewById(R.id.iv_image);
 
 			// Post Image onclick only needs to be set once
-			notice_click_listener = new OnClickListener() {
-
-				@Override
-				public void onClick(View view) {
-					Log.d(tag, "item pressed");
-//					Intent intent = new Intent(ctx,
-//							NoticeDetailsActivity.class);
-//					intent.putExtra("imageURL", cur.getUrl());
+//			notice_click_listener = new OnClickListener() {
+//
+//				@Override
+//				public void onClick(View view) {
+//					Log.d(tag, "item pressed");
+//					Intent intent = new Intent(ctx, NoticeDetailsActivity.class);
+//					// intent.putExtra("imageURL", cur.getUrl());
+//					intent.putExtra("title", getItem(position).getTitle());
+//					intent.putExtra("details_text", getItem(position)
+//							.getDetails());
 //					ctx.startActivity(intent);
-				}
-
-			};
+//				}
+//
+//			};
 			convertView.setTag(holder);
 
 		} else {

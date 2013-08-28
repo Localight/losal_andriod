@@ -82,7 +82,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	private DisplayImageOptions options;
 	Post cur;
 	private Intent fullscreen_intent;
-	private Drawable INSTA_ICON, TW_ICON, INSTA_LIKE_ICON, TW_LIKE_ICON;
+	private Drawable INSTA_ICON, TW_ICON, INSTA_LIKE_ICON, TW_LIKE_ICON, INSTA_LIKE_ICON_LIKED, TW_LIKE_ICON_LIKED;
 	private boolean loading = false;
 	
 	public PostAdapter(final Context ctx, int viewResourceId,
@@ -97,10 +97,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		TH = new TimeHandler();
 		icon_font = Typeface.createFromAsset(ctx.getAssets(), "icomoon.ttf");
 
-//		TW_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.tw, 1f);
-//		FB_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.fb, 1f);
-//		INSTA_IMAGE_VIEW = new SVGHandler().svg_to_imageview(ctx, R.raw.insta,
-//				1f);
 		INSTA_ICON = new SVGHandler()
 		.svg_to_drawable(ctx, R.raw.insta);
 		TW_ICON = new SVGHandler()
@@ -109,8 +105,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		.svg_to_drawable(ctx, R.raw.heart);
 		TW_LIKE_ICON = new SVGHandler()
 					.svg_to_drawable(ctx, R.raw.tw_like);
+		TW_LIKE_ICON_LIKED = new SVGHandler()
+		.svg_to_drawable(ctx, R.raw.tw_like, R.color.white, R.color.localism_blue);		
+		INSTA_LIKE_ICON_LIKED = new SVGHandler()
+		.svg_to_drawable(ctx, R.raw.heart, R.color.white, R.color.localism_blue);	
 		
-
 		fullscreen_intent = new Intent(ctx, FullScreenImageActivity.class);
 		OnClickListener zxa = new OnClickListener() {
 			@Override
@@ -143,21 +142,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				// favoriteTweet("519175652481234876_14802876");
 			}
 		};
-		// insta_onClick = new OnClickListener() {
-		// @Override
-		// public void onClick(View arg0) {
-		// // like the post on instagram
-		// // TODO: check if user liked the post already
-		// SharedPreferences insta_info = ctx.getSharedPreferences(
-		// "InstagramInfo", ctx.MODE_PRIVATE);
-		// insta_info.getString("access_token", "");
-		// Log.d(tag, cur.getText());
-		// new InstagramRequests().execute("like",
-		// cur.getSocialNetworkPostId(),
-		// insta_info.getString("access_token", ""));
-		//
-		// }
-		// };
+		
 
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(ctx));
@@ -251,7 +236,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			wpx -= (2 * ctx.getResources().getDimension(
 					R.dimen.post_side_margin));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-					LayoutParams.FILL_PARENT, wpx);
+					LayoutParams.MATCH_PARENT, wpx);
 			holder.iv_post_image.setLayoutParams(params);
 			holder.iv_post_image.setVisibility(View.INVISIBLE);
 
@@ -265,6 +250,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 			holder.ll_social = (LinearLayout) convertView
 					.findViewById(R.id.ll_social_like_area);
+			holder.data_position= (TextView) convertView
+					.findViewById(R.id.data_position);
 
 			// Clock Icon. Only needs to be set once
 			holder.iv_clock.setImageDrawable(new SVGHandler().svg_to_drawable(
@@ -295,32 +282,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		} else {
 			holder = (PostViewHolder) convertView.getTag();
 		}
-
+		holder.data_position.setText(position+"");
 		user_info = ctx.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		user_info.getBoolean("registered", false);
 		
-		try {
-			// if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
-			// if (user_info.getBoolean("hasTwitter", false))
-			// holder.ll_social.setOnClickListener(tw_onClick);
-			// else
-			// holder.ll_social.setOnClickListener(activate_onClick);
-			// else if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
-			// if (user_info.getBoolean("hasInstagram", false))
-			// holder.ll_social.setOnClickListener(insta_onClick);
-			// else
-			// holder.ll_social.setOnClickListener(activate_onClick);
-			// else if (cur.getSocialNetworkName().equalsIgnoreCase(FACEBOOK))
-			// if (user_info.getBoolean("hasFacebook", false))
-			// holder.ll_social.setOnClickListener(fb_onClick);
-			// else
-			// holder.ll_social.setOnClickListener(activate_onClick);
-		} catch (Exception e) {
-			Log.e(tag, e.toString());
-			holder.ll_social
-					.setOnClickListener((OnClickListener) itemClickListener);
-
-		}
+		
 		// TODO: change what is visible based on whether the user is registered
 		// or not
 		try{
@@ -334,7 +300,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
 		Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
 		holder.tv_post_text.setText(cur.getText());
-
+		
 		// TODO: use string UserIcon to get the correct svg from R.raw and use
 		// the color pulled down and
 		// stored (still need to do this) in the post object
@@ -385,7 +351,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		// Post Image
 		if (cur.getUrl() != null && cur.getUrl().length() > 3) {
 			// this post has an image to display
-
+				holder.tv_post_text.setBackgroundResource(R.drawable.gradient_text);
 			holder.iv_post_image.setVisibility(View.VISIBLE);
 			//
 			// Make imageview as tall as it is wide. This will act as a place
@@ -393,28 +359,30 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 			mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image,
 					options, animateFirstListener);
+			
 			fullscreen_intent.removeExtra("imageURL");
 			fullscreen_intent.putExtra("imageURL", mPosts.get(position)
 					.getUrl());
-		
 			holder.iv_post_image.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public void onClick(View arg0) {
+				public void onClick(View v) {
 					Intent intent = new Intent(ctx,
 							FullScreenImageActivity.class);
-					intent.putExtra("imageURL", mPosts.get(position).getUrl());
-					ctx.startActivity(fullscreen_intent);
+					int pos = Integer.parseInt(holder.data_position.getText().toString());
+					intent.putExtra("imageURL", mPosts.get(pos-1).getUrl());
+					ctx.startActivity(intent);
 					// fullscreen_intent.removeExtra("imageURL");
 					// fullscreen_intent.putExtra("imageURL",
-					// mPosts.get(position).getUrl());
-
+//					 mPosts.get(position).getUrl());
 				}
 
 			});
 
 		} else {// this post does not have an image to display so hide the
 				// imageview
+			holder.tv_post_text.setBackgroundResource(0);
+
 			holder.iv_post_image.setVisibility(View.GONE);
 		}
 		}catch(Exception e){
@@ -428,11 +396,12 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				// like the post on instagram
 				Log.d(tag, "social clicked!");
 				Log.d(tag, mPosts.get(position).getText());
-				if(!mPosts.get(position).getUserLiked())
+				if(!mPosts.get(position).getUserLiked()){
 					v.findViewById(R.id.iv_social_like_icon).setAlpha(1f);
-				else
+//					v.setBackground(background)
+				}else
 					v.findViewById(R.id.iv_social_like_icon).setAlpha(0.6f);
-
+				
 				socialLikeClicked(mPosts.get(position));
 				Log.d(tag, ""+mPosts.get(position).getUserLiked());
 //				View xx = getView(position, v, parent);
@@ -557,7 +526,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		ImageView iv_post_image;
 		ImageView iv_clock;
 		LinearLayout ll_social;
-
+		TextView data_position;
 	}
 
 	/**

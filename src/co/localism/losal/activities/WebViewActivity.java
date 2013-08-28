@@ -19,9 +19,13 @@ public class WebViewActivity extends Activity{
 	public static final int SOCRATIVE = 1;
 	public static final int EDMODO = 2;
 	public static final int EVENTS = 3;
+	public static final int LOSAL = 4;
+
 	private final String GRADES_URL = "https://demo.aeries.net/ParentPortal/m/parents?demo=True&user=parent%40aeries.com&pwd=1234"; 
 	private final String EVENTS_URL = "http://losal.tandemcal.com/";
 	private final String SOCRATIVE_URL ="http://m.socrative.com/"; 	
+	private final String LOSAL_URL = "http://www.losal.org/lahs";
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,9 @@ public class WebViewActivity extends Activity{
 	        	break;
 	        case EVENTS:
 				webView.loadUrl(EVENTS_URL);
+	        	break;	
+	        case LOSAL:
+				webView.loadUrl(LOSAL_URL);
 	        	break;	
         }
 

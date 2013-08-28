@@ -10,5 +10,7 @@
         
     <color name="holo_light_blue">#33B5E5</color>
     <color name="trans_grey">#DD383838</color>
+       <color name="localism_blue">#40C7F2</color>
+    
     
 </resources>

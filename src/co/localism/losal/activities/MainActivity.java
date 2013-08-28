@@ -56,14 +56,20 @@ import com.parse.SignUpCallback;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -77,6 +83,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends ListActivity {// implements Observer {// ,
@@ -95,20 +102,50 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	public static Date LAST_POST_DATE = null;
 	private boolean loadingMore = false;
 	private static FetchFeed ff;
-
+	private SlidingMenu sm;
+	private boolean isFiltered = false;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
-		SlidingMenu sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_CONTENT);
+		SharedPreferences user_info = getSharedPreferences("UserInfo",
+				MODE_PRIVATE);
+		SharedPreferences.Editor prefEditor = user_info.edit();
+		prefEditor.putBoolean("registered", true);
+		prefEditor.putString("user_type", "student");
+		prefEditor.putString("user_name", "Joe");
+		prefEditor.putString("user_icon", "E07E");
+		prefEditor.putString("fav_color", "#FF3366");
+
+		prefEditor.commit();
+		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW);// .SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(
 				(LinearLayout) findViewById(R.id.po), this);
 
 		ActionBar a = getActionBar();
 		// a.setIcon(new SVGHandler().svg_to_drawable(ctx, R.raw.left_chevron));
 		a.setDisplayHomeAsUpEnabled(true);
-		ff = new FetchFeed();
+		a.setDisplayShowTitleEnabled(true);
+		a.setDisplayUseLogoEnabled(false);
+		a.setTitle("");
+		 a.setCustomView(R.layout.actionbar_custome_view);
+		 TextView title = (TextView) a.getCustomView().findViewById(R.id.ab_title);
+		 title.setText("#LOSAL");
+		 title.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				showHashtags();				
+			}
+			 
+		 });
+		 Drawable d = new ColorDrawable(R.color.transparent);
+		 a.setIcon(d);
+		 a.setDisplayShowCustomEnabled(true);
+//		 a.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		 ff = new FetchFeed();
 		// ff.addObserver(this);
 
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
@@ -122,12 +159,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		// ParseFacebookUtils.initialize(getResources().getString(R.string.fb_app_id));
 
 		// createTestparseUser();
-		SharedPreferences user_info = getSharedPreferences("UserInfo",
-				MODE_PRIVATE);
-		// SharedPreferences.Editor prefEditor = user_info.edit();
-		// prefEditor.putBoolean("registered", true);
-		// prefEditor.putString("user_type", "student");
-		// prefEditor.commit();
+
 		ListView lv = getListView();
 		boolean pauseOnScroll = true; // or true
 		boolean pauseOnFling = true; // or false
@@ -180,7 +212,8 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 					int position, long id) {
 				Intent intent = new Intent(ctx, NoticeDetailsActivity.class);
 				// intent.putExtra("imageURL", cur.getUrl());
-				intent.putExtra("title", noticeadapter.getItem(position).getTitle());
+				intent.putExtra("title", noticeadapter.getItem(position)
+						.getTitle());
 				intent.putExtra("details_text", noticeadapter.getItem(position)
 						.getDetails());
 				ctx.startActivity(intent);
@@ -248,20 +281,29 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		menu.findItem(R.id.notices).setIcon(
-				new SVGHandler().svg_to_drawable(ctx, R.raw.lightning));
-		return true;
+		// getMenuInflater().inflate(R.menu.main, menu);
+		// menu.findItem(R.id.notices).setIcon(
+		// new SVGHandler().svg_to_drawable(ctx, R.raw.lightning));
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+		// return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
-		if (item.getItemId() == R.id.notices) {
-
-			return true;
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				sm.showMenu();
+				break;
+			case R.id.hashtag:
+				showHashtags();
+				break;
+			case R.id.notices:
+				sm.showSecondaryMenu();
+				break;
 		}
-		return false;
+	    return super.onOptionsItemSelected(item);
 	}
 
 	public void updateView() {
@@ -545,4 +587,91 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	};
 	//
 
+	
+//	public void showsortsalert() {
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		builder.setItems(R.array.sortTypes,
+//				new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int which) {
+//						try {
+//							switch (which) {
+//							case 0:
+//								break;
+//							case 1:
+//							}
+//						}catch(Exception e){
+//							
+//						}
+//					}
+//		}
+//		);
+//	}
+	
+
+	public void showHashtags() {
+		final CharSequence[] hashtags;// = findHashtags();
+		hashtags = new CharSequence[6];//{"",""};
+		hashtags[0] = "#LOSAL";
+		hashtags[1] = "#BEDROCKDANCE";
+		hashtags[2] = "#CLASSOF2014";
+		hashtags[3] = "#BANDCAMP";
+		hashtags[4] = "#FOOTBALL";
+		hashtags[5] = "#GRIFFIN";
+//		hashtags[6] = "#LOSAL";
+//		hashtags[7] = "#Sports";
+//		hashtags[8] = "#Griffin";
+		if (hashtags != null) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setItems(hashtags,
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							Toast.makeText(ctx, hashtags[which].toString(),
+									Toast.LENGTH_SHORT).show();
+							setActionBarTitle(hashtags[which].toString());
+							isFiltered = true;
+//							filterView(hashtags[which].toString());
+							dialog.dismiss();
+						}
+					});
+			builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
+				@Override
+				public boolean onKey(DialogInterface dialog, int keyCode,
+						KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_BACK
+							&& event.getAction() == KeyEvent.ACTION_UP
+							&& !event.isCanceled()) {
+						dialog.cancel();
+						return true;
+					}
+					return false;
+				}
+			});
+			AlertDialog dialog = builder.create();
+			
+			dialog.setTitle("Sort by... ");
+			dialog.show();
+		}
+	}
+
+	@Override
+	public void onBackPressed(){
+		if(isFiltered){
+//			undo filtering
+			setActionBarTitle("#LOSAL");
+		}else
+			super.onBackPressed();
+		
+		
+	}
+	private void setActionBarTitle(String s){
+		TextView title = (TextView) getActionBar().getCustomView().findViewById(R.id.ab_title);
+		title.setText(s);
+	}
+	
+	
+	
+	
+	
+	
+	
 }

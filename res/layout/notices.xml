@@ -3,7 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+<include
+                android:id="@+id/actionbar_notices"
+                layout="@layout/actionbar_notices_menu" 
+                
+                />
     <ListView
         android:id="@+id/notices_list"
         android:layout_width="match_parent"

@@ -27,17 +27,13 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 		this.ctx = ctx;
 		Log.d(tag, "ctx: " + ctx);
 
-		l.findViewById(R.id.po_social_feed).setOnClickListener(
-				this);
+		l.findViewById(R.id.po_social_feed).setOnClickListener(this);
 		l.findViewById(R.id.po_events).setOnClickListener(this);
-		l.findViewById(R.id.po_grades).setOnClickListener(
-				this);
-		l.findViewById(R.id.po_schedule).setOnClickListener(
-				this);
-		l.findViewById(R.id.po_socrative).setOnClickListener(
-				this);
-		l.findViewById(R.id.po_edmodo).setOnClickListener(
-				this);
+		l.findViewById(R.id.po_grades).setOnClickListener(this);
+		l.findViewById(R.id.po_schedule).setOnClickListener(this);
+		l.findViewById(R.id.po_socrative).setOnClickListener(this);
+		l.findViewById(R.id.po_edmodo).setOnClickListener(this);
+		l.findViewById(R.id.po_footer).setOnClickListener(this);
 
 		// for(int i = 0; i < l.getChildCount(); i++){
 		// ll2 = (LinearLayout) l.getChildAt(i);
@@ -95,6 +91,12 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 			ctx.startActivity(intent);
 			break;
 		// Log.d("PersonalOptionsOnClickListeners", "Other");
+		case R.id.po_footer:
+			Log.d(tag, "Footer");
+			intent = new Intent(ctx, WebViewActivity.class).putExtra("which",
+					WebViewActivity.LOSAL);
+			ctx.startActivity(intent);
+			break;
 		}
 
 	}
@@ -112,7 +114,8 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						// User clicked OK button
-						openURL("http://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
+						openURL("webcal://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
+						// openURL("http://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
 					}
 				});
 		builder.setNegativeButton(R.string.calendar_dialog_no,

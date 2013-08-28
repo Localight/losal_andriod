@@ -3,6 +3,9 @@ package co.localism.losal;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -12,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import co.localism.losal.R;
+import co.localism.losal.R.color;
 import co.localism.losal.adapters.NoticeAdapter;
 import co.localism.losal.objects.Notice;
 
@@ -101,12 +105,11 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		ll_po_footer.addView(new SVGHandler().svg_to_imageview(
 				activity.getApplicationContext(),
 				R.raw.griffin_mascot,
-				1f,
+				0.7f,
 				(int) getResources().getDimension(
 						R.dimen.personal_options_footer_image_size),
 				(int) getResources().getDimension(
 						R.dimen.personal_options_icon_size)), 0);
-
 		// Set group heading
 		LinearLayout ll_po_break = (LinearLayout) activity
 				.findViewById(R.id.po_group_header_1);
@@ -120,6 +123,29 @@ public class SetUpSlidingMenu extends SlidingMenu {
 				.findViewById(R.id.po_group_header_3);
 		tv = (TextView) ll_po_break.findViewById(R.id.po_break_text);
 		tv.setText(getResources().getString(R.string.group_heading_3));
+
+		/******* ActionBar *******/
+		SharedPreferences user_info = activity.getApplicationContext().getSharedPreferences("UserInfo",
+				activity.getApplicationContext().MODE_PRIVATE);
+		
+		TextView user_icon = (TextView) findViewById(R.id.tv_ab_user_icon);
+
+		user_icon.setTypeface(Typeface.createFromAsset(activity.getApplicationContext().getAssets(), "icomoon.ttf"));
+		
+		if(!user_info.getString("user_icon", "").equalsIgnoreCase("")){
+			String s = ("\\u"+user_info.getString("user_icon", ""));
+			Character c = (char) Integer.parseInt( s.substring(2), 16 );
+			user_icon.setText(c.toString());
+			user_icon.setTextColor(Color.parseColor(user_info.getString("fav_color","#FFFFFF")));
+		}
+		TextView user_name = (TextView) findViewById(R.id.tv_ab_user_name);
+		user_name.setText(user_info.getString("user_name", ""));
+	/*	ImageView iv_settings = (ImageView) activity.findViewById(R.id.iv_ab_settings);
+		iv_settings.setImageDrawable(new SVGHandler().svg_to_drawable(
+				activity.getApplicationContext(), R.raw.gear));
+		iv_settings.setAlpha(0.6f);
+		iv_settings.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+*/
 
 		// ******** NOTICES ********
 
@@ -148,5 +174,4 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		// SlidingMenu.SLIDING_WINDOW | SlidingMenu.SLIDING_CONTENT
 
 	}
-
 }

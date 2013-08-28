@@ -104,11 +104,12 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	private static FetchFeed ff;
 	private SlidingMenu sm;
 	private boolean isFiltered = false;
-	
+	private boolean isInitialized = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		setContentView(R.layout.activity_main);
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
@@ -170,7 +171,8 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		// posts.add(new Post());
 		listadapter = new PostAdapter(ctx, R.layout.post, posts, 1);
 		setListAdapter(listadapter);
-
+		Bundle extras = getIntent().getExtras();
+		POST_DAYS = extras.getInt("POST_DAYS", POST_DAYS);
 		getPosts();
 		getNotices();
 		// Here is where the magic happens
@@ -196,7 +198,6 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		 * // thread.start(); } } });
 		 */
 	}
-
 	private void getNotices() {
 		FetchNotices fn = new FetchNotices();
 		// fn.addObserver(this);
@@ -216,7 +217,9 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 						.getTitle());
 				intent.putExtra("details_text", noticeadapter.getItem(position)
 						.getDetails());
+
 				ctx.startActivity(intent);
+				overridePendingTransition ( R.anim.slide_in_from_right , R.anim.slide_out_to_left );
 			}
 		});
 	}

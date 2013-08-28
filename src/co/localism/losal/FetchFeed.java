@@ -68,7 +68,7 @@ public class FetchFeed {//extends Observable {
 		if(MainActivity.LAST_POST_DATE == null){
 			Log.d(tag, "initial fetch");
 
-			getAppSettings();
+//			getAppSettings();
 //			then start with less than now
 			query.whereLessThan("postTime", cal.getTime());
 			cal.add(Calendar.DATE, -7);

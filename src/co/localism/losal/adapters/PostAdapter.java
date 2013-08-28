@@ -81,10 +81,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	private Typeface icon_font;
 	private DisplayImageOptions options;
 	Post cur;
-	private Intent fullscreen_intent;
-	private Drawable INSTA_ICON, TW_ICON, INSTA_LIKE_ICON, TW_LIKE_ICON, INSTA_LIKE_ICON_LIKED, TW_LIKE_ICON_LIKED;
+	private Drawable INSTA_ICON, TW_ICON, INSTA_LIKE_ICON, TW_LIKE_ICON,
+			INSTA_LIKE_ICON_LIKED, TW_LIKE_ICON_LIKED;
 	private boolean loading = false;
-	
+
 	public PostAdapter(final Context ctx, int viewResourceId,
 			ArrayList<Post> posts, int UserType) {
 		super(ctx, viewResourceId);
@@ -97,26 +97,14 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		TH = new TimeHandler();
 		icon_font = Typeface.createFromAsset(ctx.getAssets(), "icomoon.ttf");
 
-		INSTA_ICON = new SVGHandler()
-		.svg_to_drawable(ctx, R.raw.insta);
-		TW_ICON = new SVGHandler()
-		.svg_to_drawable(ctx, R.raw.tw);
-		INSTA_LIKE_ICON = new SVGHandler()
-		.svg_to_drawable(ctx, R.raw.heart);
-		TW_LIKE_ICON = new SVGHandler()
-					.svg_to_drawable(ctx, R.raw.tw_like);
-		TW_LIKE_ICON_LIKED = new SVGHandler()
-		.svg_to_drawable(ctx, R.raw.tw_like, R.color.white, R.color.localism_blue);		
-		INSTA_LIKE_ICON_LIKED = new SVGHandler()
-		.svg_to_drawable(ctx, R.raw.heart, R.color.white, R.color.localism_blue);	
-		
-		fullscreen_intent = new Intent(ctx, FullScreenImageActivity.class);
-		OnClickListener zxa = new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-			}
-		};
+		INSTA_ICON = new SVGHandler().svg_to_drawable(ctx, R.raw.insta);
+		TW_ICON = new SVGHandler().svg_to_drawable(ctx, R.raw.tw);
+		INSTA_LIKE_ICON = new SVGHandler().svg_to_drawable(ctx, R.raw.heart);
+		TW_LIKE_ICON = new SVGHandler().svg_to_drawable(ctx, R.raw.tw_like);
+		TW_LIKE_ICON_LIKED = new SVGHandler().svg_to_drawable(ctx,
+				R.raw.tw_like, R.color.white, R.color.localism_blue);
+		INSTA_LIKE_ICON_LIKED = new SVGHandler().svg_to_drawable(ctx,
+				R.raw.heart, R.color.white, R.color.localism_blue);
 
 		activate_onClick = new OnClickListener() {
 			@Override
@@ -142,7 +130,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				// favoriteTweet("519175652481234876_14802876");
 			}
 		};
-		
 
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(ctx));
@@ -179,36 +166,38 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	public long getItemId(int position) {
 		return 0;
 	}
+
 	@Override
-	public void add(Post p){
+	public void add(Post p) {
 		super.add(p);
 		mPosts.add(p);
 		notifyDataSetChanged();
 
 	}
-	
-	public void addAll(ArrayList<Post> p){
+
+	public void addAll(ArrayList<Post> p) {
 		super.addAll(p);
 		Log.d(tag, "allAll called!");
 		mPosts.addAll(p);
 		notifyDataSetChanged();
 	}
-	
-	public void setStatus(boolean isLoading){
+
+	public void setStatus(boolean isLoading) {
 		this.loading = isLoading;
 	}
-		
+
 	@Override
-	public View getView(final int position, View convertView, final ViewGroup parent) {
+	public View getView(final int position, View convertView,
+			final ViewGroup parent) {
 		cur = mPosts.get(position);
-//		if((mPosts.size() == 0 || mPosts.size()-1 == position) && !loading){
-		if(mPosts.size()-4 == position && position > 0 && !loading){
+		// if((mPosts.size() == 0 || mPosts.size()-1 == position) && !loading){
+		if (mPosts.size() - 4 == position && position > 0 && !loading) {
 			Log.d(tag, "FETCHING");
-//
+			//
 			loading = true;
 			FetchFeed fetcher = new FetchFeed();
 			fetcher.fetch(this);
-////			addAll(fetcher.fetch());
+			// // addAll(fetcher.fetch());
 		}
 		if (convertView == null) {
 			// Put things in here that only need to be set once and can be
@@ -250,8 +239,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 			holder.ll_social = (LinearLayout) convertView
 					.findViewById(R.id.ll_social_like_area);
-			holder.data_position= (TextView) convertView
-					.findViewById(R.id.data_position);
 
 			// Clock Icon. Only needs to be set once
 			holder.iv_clock.setImageDrawable(new SVGHandler().svg_to_drawable(
@@ -259,171 +246,154 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder.iv_clock.setAlpha(0.6f);
 			holder.iv_clock.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-			// Post Image onclick only needs to be set once
-			fullscreen_onClick = new OnClickListener() {
-
-				@Override
-				public void onClick(View view) {
-					Log.d(tag, "image pressed");
-					// Intent intent = new Intent(ctx,
-					// FullScreenImageActivity.class);
-					// intent.putExtra("imageURL",
-					// mPosts.get(position).getUrl());
-					ctx.startActivity(fullscreen_intent);
-					// fullscreen_intent.removeExtra("imageURL");
-					// fullscreen_intent.putExtra("imageURL",
-					// mPosts.get(position).getUrl());
-
-				}
-
-			};
 			convertView.setTag(holder);
 
 		} else {
 			holder = (PostViewHolder) convertView.getTag();
 		}
-		holder.data_position.setText(position+"");
 		user_info = ctx.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		user_info.getBoolean("registered", false);
-		
-		
+
 		// TODO: change what is visible based on whether the user is registered
 		// or not
-		try{
-		holder.tv_name.setText(cur.getName());
-		// holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
+		try {
+			holder.tv_name.setText(cur.getName());
+			// holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
 
-		// holder.tv_class_year.setText(CLASS_YEAR[cur.getClassYear()]);
-		holder.tv_class_year.setText(cur.getClassYear());
+			// holder.tv_class_year.setText(CLASS_YEAR[cur.getClassYear()]);
+			holder.tv_class_year.setText(cur.getClassYear());
 
-		// holder.tv_time_posted.setText("1 hour ago ");
-		holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
-		Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
-		holder.tv_post_text.setText(cur.getText());
-		
-		// TODO: use string UserIcon to get the correct svg from R.raw and use
-		// the color pulled down and
-		// stored (still need to do this) in the post object
-		/*
-		 * holder.iv_user_icon.setImageDrawable(new
-		 * SVGHandler().svg_to_drawable( ctx, R.raw.edmodo, R.color.white,
-		 * R.color.holo_light_blue)); holder.iv_user_icon.setAlpha(1f);
-		 * holder.iv_user_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		 */
+			// holder.tv_time_posted.setText("1 hour ago ");
+			holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
+			Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
+			holder.tv_post_text.setText(cur.getText());
 
-		// Character ch =new Character('\ue000');
-		holder.tv_user_icon.setTypeface(icon_font);
-		if (cur.getFaveColor().length() > 5)
-			holder.tv_user_icon.setTextColor(Color.parseColor(cur
-					.getFaveColor()));
-		// holder.tv_user_icon.setText(cur.getUserIcon());
-		holder.tv_user_icon.setText(cur.getUserIcon().toString());
+			// Character ch =new Character('\ue000');
+			holder.tv_user_icon.setTypeface(icon_font);
+			if (cur.getFaveColor().length() > 5)
+				holder.tv_user_icon.setTextColor(Color.parseColor(cur
+						.getFaveColor()));
+			// holder.tv_user_icon.setText(cur.getUserIcon());
+			holder.tv_user_icon.setText(cur.getUserIcon().toString());
 
-		// Social Site LIKE Icon
-		if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
-			holder.iv_social_like_icon.setImageDrawable(INSTA_LIKE_ICON);
-				
-		else if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
-			holder.iv_social_like_icon.setImageDrawable(TW_LIKE_ICON);
-		if(cur.getUserLiked())
-			holder.iv_social_like_icon.setAlpha(1f);
-		else			
-			holder.iv_social_like_icon.setAlpha(0.6f);
-
+			/**** Social Site LIKE Icon ****/
+//			setSocialIcons(null, position);
 			
-		holder.iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+			if (cur.getUserLiked()) {
+				// holder.iv_social_like_icon.setAlpha(1f);
+				if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+					holder.iv_social_like_icon.setImageDrawable(INSTA_LIKE_ICON_LIKED);
+				else if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
+					holder.iv_social_like_icon.setImageDrawable(TW_LIKE_ICON_LIKED);
+			} else {
+				if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+					holder.iv_social_like_icon.setImageDrawable(INSTA_LIKE_ICON);
+				else if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
+					holder.iv_social_like_icon.setImageDrawable(TW_LIKE_ICON);
 
-		// Social Site Icon
-		if (cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
-			holder.iv_social_site_icon.setImageDrawable(INSTA_ICON);
-		else if (cur.getSocialNetworkName().equalsIgnoreCase("twitter"))
-			holder.iv_social_site_icon.setImageDrawable(TW_ICON);
+				// holder.iv_social_like_icon.setAlpha(0.6f);
+			}
+			// holder.iv_social_like_icon.setAlpha(1f);
 
-//			holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
-//					.svg_to_drawable(ctx, R.raw.tw));
-//		else if (cur.getSocialNetworkName().equalsIgnoreCase("facebook"))
-//			holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
-//					.svg_to_drawable(ctx, R.raw.fb));
-
-//		holder.iv_social_site_icon.setAlpha(0.6f);
-		holder.iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-		// Post Image
-		if (cur.getUrl() != null && cur.getUrl().length() > 3) {
-			// this post has an image to display
-				holder.tv_post_text.setBackgroundResource(R.drawable.gradient_text);
-			holder.iv_post_image.setVisibility(View.VISIBLE);
-			//
-			// Make imageview as tall as it is wide. This will act as a place
-			// holder when there is no image loaded yet
-
-			mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image,
-					options, animateFirstListener);
+			holder.iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 			
-			fullscreen_intent.removeExtra("imageURL");
-			fullscreen_intent.putExtra("imageURL", mPosts.get(position)
-					.getUrl());
-			holder.iv_post_image.setOnClickListener(new OnClickListener() {
+			
+			/****** Social Site Icon ******/
+			if (cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
+				holder.iv_social_site_icon.setImageDrawable(INSTA_ICON);
+			else if (cur.getSocialNetworkName().equalsIgnoreCase("twitter"))
+				holder.iv_social_site_icon.setImageDrawable(TW_ICON);
 
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(ctx,
-							FullScreenImageActivity.class);
-					int pos = Integer.parseInt(holder.data_position.getText().toString());
-					intent.putExtra("imageURL", mPosts.get(pos-1).getUrl());
-					ctx.startActivity(intent);
-					// fullscreen_intent.removeExtra("imageURL");
-					// fullscreen_intent.putExtra("imageURL",
-//					 mPosts.get(position).getUrl());
-				}
+			// holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
+			// .svg_to_drawable(ctx, R.raw.tw));
+			// else if (cur.getSocialNetworkName().equalsIgnoreCase("facebook"))
+			// holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
+			// .svg_to_drawable(ctx, R.raw.fb));
 
-			});
+			// holder.iv_social_site_icon.setAlpha(0.6f);
+			holder.iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE,
+					null);
 
-		} else {// this post does not have an image to display so hide the
-				// imageview
-			holder.tv_post_text.setBackgroundResource(0);
+			/****** Post Image ******/
+			if (cur.getUrl() != null && cur.getUrl().length() > 3) {
+				// this post has an image to display
+				holder.tv_post_text
+						.setBackgroundResource(R.drawable.gradient_text);
+				holder.iv_post_image.setVisibility(View.VISIBLE);
+				//
+				// Make imageview as tall as it is wide. This will act as a
+				// place
+				// holder when there is no image loaded yet
 
-			holder.iv_post_image.setVisibility(View.GONE);
-		}
-		}catch(Exception e){
+				mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image,
+						options, animateFirstListener);
+
+				holder.iv_post_image.setTag(cur.getUrl());
+				holder.iv_post_image.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(ctx,
+								FullScreenImageActivity.class);
+						String url = (String) v.getTag();// xx.getUrl();
+						intent.putExtra("imageURL", url);// mPosts.get(pos-1).getUrl());
+						ctx.startActivity(intent);
+					}
+
+				});
+
+			} else {// this post does not have an image to display so hide the
+					// imageview
+				holder.tv_post_text.setBackgroundResource(0);
+
+				holder.iv_post_image.setVisibility(View.GONE);
+			}
+		} catch (Exception e) {
 			Log.e(tag, e.toString());
 		}
 		Log.d("", "");
 		// holder.iv_post_image.setOnClickListener(fullscreen_onClick);
+		holder.ll_social.setTag(position);
 		holder.ll_social.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// like the post on instagram
+				Toast.makeText(ctx, "pos: " + v.getTag(), Toast.LENGTH_SHORT)
+						.show();
 				Log.d(tag, "social clicked!");
-				Log.d(tag, mPosts.get(position).getText());
-				if(!mPosts.get(position).getUserLiked()){
-					v.findViewById(R.id.iv_social_like_icon).setAlpha(1f);
-//					v.setBackground(background)
-				}else
-					v.findViewById(R.id.iv_social_like_icon).setAlpha(0.6f);
-				
-				socialLikeClicked(mPosts.get(position));
-				Log.d(tag, ""+mPosts.get(position).getUserLiked());
-//				View xx = getView(position, v, parent);
-//				if (mPosts.get(position).getSocialNetworkName()
-//						.equalsIgnoreCase(INSTAGRAM)) {
-//					Log.d(tag, INSTAGRAM);
-//					
-//					// TODO: check if user liked the post already
-//					SharedPreferences insta_info = ctx.getSharedPreferences(
-//							"InstagramInfo", ctx.MODE_PRIVATE);
-//					insta_info.getString("access_token", "");
-//					new InstagramRequests().execute("like",
-//							cur.getSocialNetworkPostId(),
-//							insta_info.getString("access_token", ""));
-//				} else if (mPosts.get(position).getSocialNetworkName()
-//						.equalsIgnoreCase(TWITTER)) {
-//					Log.d(tag, TWITTER);
-//				}
-//				mPosts.get(position).setUserLiked(!mPosts.get(position).getUserLiked());
+				Log.d(tag, mPosts.get((Integer) v.getTag()).getText());
+				int pos = (Integer) v.getTag();
+				// TODO: HANDLE TURNING BLUE
+				// if (!mPosts.get(pos).getUserLiked()) {
+				// v.findViewById(R.id.iv_social_like_icon).setAlpha(1f);
+				// v.setBackground(background)
+				// } else
+				// v.findViewById(R.id.iv_social_like_icon).setAlpha(0.6f);
+
+				socialLikeClicked(mPosts.get(pos));
+				setSocialIcons(v, pos);
+				Log.d(tag, "" + mPosts.get(pos).getUserLiked());
+				// View xx = getView(position, v, parent);
+				// if (mPosts.get(position).getSocialNetworkName()
+				// .equalsIgnoreCase(INSTAGRAM)) {
+				// Log.d(tag, INSTAGRAM);
+				//
+				// // TODO: check if user liked the post already
+				// SharedPreferences insta_info = ctx.getSharedPreferences(
+				// "InstagramInfo", ctx.MODE_PRIVATE);
+				// insta_info.getString("access_token", "");
+				// new InstagramRequests().execute("like",
+				// cur.getSocialNetworkPostId(),
+				// insta_info.getString("access_token", ""));
+				// } else if (mPosts.get(position).getSocialNetworkName()
+				// .equalsIgnoreCase(TWITTER)) {
+				// Log.d(tag, TWITTER);
+				// }
+				// mPosts.get(position).setUserLiked(!mPosts.get(position).getUserLiked());
+
 			}
 		});
-		
+
 		return convertView;
 	}
 
@@ -488,16 +458,51 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 	}
 
+	/**
+	 * This handles changing the appearance of the social icons, inclcuding
+	 * social like icon and social site icon. Three States. 1. Inactive social:
+	 * alpha 0.6f white. 2. Active social. Post not liked. alpha 1f. white. 3.
+	 * Active social. Post liked. alpha 1f blue
+	 * 
+	 * @param p
+	 */
+	private void setSocialIcons(View v, int pos) {
+		Post p = mPosts.get(pos);
+		ImageView iv_like;
+		if(v == null)
+			iv_like = (ImageView) holder.iv_social_site_icon;
+		else
+			iv_like = (ImageView) v
+				.findViewById(R.id.iv_social_like_icon);
+		if (p.getUserLiked()) {
+			// holder.iv_social_like_icon.setAlpha(1f);
+			if (p.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+				iv_like.setImageDrawable(INSTA_LIKE_ICON_LIKED);
+			else if (p.getSocialNetworkName().equalsIgnoreCase(TWITTER))
+				iv_like.setImageDrawable(TW_LIKE_ICON_LIKED);
+		} else {
+			if (p.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+				iv_like.setImageDrawable(INSTA_LIKE_ICON);
+			else if (p.getSocialNetworkName().equalsIgnoreCase(TWITTER))
+				iv_like.setImageDrawable(TW_LIKE_ICON);
+
+			// holder.iv_social_like_icon.setAlpha(0.6f);
+		}
+		// holder.iv_social_like_icon.setAlpha(1f);
+
+		holder.iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+	}
+
 	private void socialLikeClicked(Post post) {
 		Log.d(tag, post.getText());
-//		TODO: CHECK IF LOGGED IN
+		// TODO: CHECK IF LOGGED IN
 		String site = post.getSocialNetworkName();
 		post.setUserLiked(!post.getUserLiked());
-
-		if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))){
+		if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))) {
 			new TwitterRequests().execute(post.getSocialNetworkPostId());
-//			MainActivity.favoriteTweet(post.getSocialNetworkPostId());
-		}else if (site.equalsIgnoreCase(ctx.getResources().getString(
+			// MainActivity.favoriteTweet(post.getSocialNetworkPostId());
+		} else if (site.equalsIgnoreCase(ctx.getResources().getString(
 				R.string.insta)))
 			likeInsta(post.getSocialNetworkPostId());
 
@@ -526,7 +531,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		ImageView iv_post_image;
 		ImageView iv_clock;
 		LinearLayout ll_social;
-		TextView data_position;
 	}
 
 	/**

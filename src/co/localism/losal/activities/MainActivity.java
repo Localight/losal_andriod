@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -53,6 +54,7 @@ import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -105,11 +107,12 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	private SlidingMenu sm;
 	private boolean isFiltered = false;
 	private boolean isInitialized = false;
+	private HashMap<String, ArrayList<String>> hashtags;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_main);
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
@@ -131,22 +134,23 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		a.setDisplayShowTitleEnabled(true);
 		a.setDisplayUseLogoEnabled(false);
 		a.setTitle("");
-		 a.setCustomView(R.layout.actionbar_custome_view);
-		 TextView title = (TextView) a.getCustomView().findViewById(R.id.ab_title);
-		 title.setText("#LOSAL");
-		 title.setOnClickListener(new OnClickListener(){
+		a.setCustomView(R.layout.actionbar_custome_view);
+		TextView title = (TextView) a.getCustomView().findViewById(
+				R.id.ab_title);
+		title.setText("#LOSAL");
+		title.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				showHashtags();				
+				showHashtags();
 			}
-			 
-		 });
-		 Drawable d = new ColorDrawable(R.color.transparent);
-		 a.setIcon(d);
-		 a.setDisplayShowCustomEnabled(true);
-//		 a.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		 ff = new FetchFeed();
+
+		});
+		Drawable d = new ColorDrawable(R.color.transparent);
+		a.setIcon(d);
+		a.setDisplayShowCustomEnabled(true);
+		// a.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		ff = new FetchFeed();
 		// ff.addObserver(this);
 
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
@@ -197,7 +201,10 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		 * getPosts(); // Thread thread = new Thread(null, loadMoreListItems);
 		 * // thread.start(); } } });
 		 */
+
+		new FetchHashtags().execute();
 	}
+
 	private void getNotices() {
 		FetchNotices fn = new FetchNotices();
 		// fn.addObserver(this);
@@ -219,7 +226,8 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 						.getDetails());
 
 				ctx.startActivity(intent);
-				overridePendingTransition ( R.anim.slide_in_from_right , R.anim.slide_out_to_left );
+				overridePendingTransition(R.anim.slide_in_from_right,
+						R.anim.slide_out_to_left);
 			}
 		});
 	}
@@ -296,17 +304,17 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				sm.showMenu();
-				break;
-			case R.id.hashtag:
-				showHashtags();
-				break;
-			case R.id.notices:
-				sm.showSecondaryMenu();
-				break;
+		case android.R.id.home:
+			sm.showMenu();
+			break;
+		case R.id.hashtag:
+			showHashtags();
+			break;
+		case R.id.notices:
+			sm.showSecondaryMenu();
+			break;
 		}
-	    return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void updateView() {
@@ -588,54 +596,55 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		// loadingMore = false;
 		// }
 	};
+
 	//
 
-	
-//	public void showsortsalert() {
-//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		builder.setItems(R.array.sortTypes,
-//				new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int which) {
-//						try {
-//							switch (which) {
-//							case 0:
-//								break;
-//							case 1:
-//							}
-//						}catch(Exception e){
-//							
-//						}
-//					}
-//		}
-//		);
-//	}
-	
+	// public void showsortsalert() {
+	// AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	// builder.setItems(R.array.sortTypes,
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog, int which) {
+	// try {
+	// switch (which) {
+	// case 0:
+	// break;
+	// case 1:
+	// }
+	// }catch(Exception e){
+	//
+	// }
+	// }
+	// }
+	// );
+	// }
 
 	public void showHashtags() {
-		final CharSequence[] hashtags;// = findHashtags();
-		hashtags = new CharSequence[6];//{"",""};
-		hashtags[0] = "#LOSAL";
-		hashtags[1] = "#BEDROCKDANCE";
-		hashtags[2] = "#CLASSOF2014";
-		hashtags[3] = "#BANDCAMP";
-		hashtags[4] = "#FOOTBALL";
-		hashtags[5] = "#GRIFFIN";
-//		hashtags[6] = "#LOSAL";
-//		hashtags[7] = "#Sports";
-//		hashtags[8] = "#Griffin";
-		if (hashtags != null) {
+		final CharSequence[] mHashtags = getHashtagCharSequence();// = findHashtags();
+//		hashtags = new CharSequence[6];// {"",""};
+//		hashtags[0] = "#LOSAL";
+//		hashtags[1] = "#BEDROCKDANCE";
+//		hashtags[2] = "#CLASSOF2014";
+//		hashtags[3] = "#BANDCAMP";
+//		hashtags[4] = "#FOOTBALL";
+//		hashtags[5] = "#GRIFFIN";
+		// hashtags[6] = "#LOSAL";
+		// hashtags[7] = "#Sports";
+		// hashtags[8] = "#Griffin";
+		
+		if (mHashtags != null) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setItems(hashtags,
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							Toast.makeText(ctx, hashtags[which].toString(),
-									Toast.LENGTH_SHORT).show();
-							setActionBarTitle(hashtags[which].toString());
-							isFiltered = true;
-//							filterView(hashtags[which].toString());
-							dialog.dismiss();
-						}
-					});
+			builder.setItems(mHashtags, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					Toast.makeText(ctx, mHashtags[which].toString(),
+							Toast.LENGTH_SHORT).show();
+					setActionBarTitle(mHashtags[which].toString());
+					listadapter.removeFilter();
+					listadapter.Filter(mHashtags[which].toString(), hashtags);
+					isFiltered = true;
+					// filterView(hashtags[which].toString());
+					dialog.dismiss();
+				}
+			});
 			builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
 				@Override
 				public boolean onKey(DialogInterface dialog, int keyCode,
@@ -650,31 +659,135 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 				}
 			});
 			AlertDialog dialog = builder.create();
-			
+
 			dialog.setTitle("Sort by... ");
 			dialog.show();
 		}
 	}
 
-	@Override
-	public void onBackPressed(){
-		if(isFiltered){
-//			undo filtering
-			setActionBarTitle("#LOSAL");
-		}else
-			super.onBackPressed();
-		
-		
+	
+	private CharSequence[] getHashtagCharSequence(){
+		int count = 0;
+		CharSequence[] tags = null;
+		if (!hashtags.isEmpty()) {
+			Object[] keyset = hashtags.keySet().toArray();
+			
+			tags = new CharSequence[keyset.length];
+			for (int i = 0; i < tags.length; i++) {
+				tags[i] = keyset[i].toString();
+		}
+			// finds unique types
+//			while (count < tags.length - 1) {
+//				if (tags[count] != null && tags[count + 1] != null) {
+//					if (tags[count].toString().compareToIgnoreCase(
+//							tags[count + 1].toString()) > 0) {
+//						CharSequence temp = tags[count];
+//						tags[count] = tags[count + 1];
+//						tags[count + 1] = temp;
+//						count = 0;
+//					} else
+//						count++;
+//				} else
+//					break;
+//			}
+			// removes wifi from list.
+//			CharSequence[] typesShortened = new CharSequence[count];
+//			for (int i = 0; i < count; i++) {
+//				if (!types[i].toString().equalsIgnoreCase("wifi"))
+//					typesShortened[i] = types[i];
+//				else
+//					i--;
+			}
+			return tags;
+			
 	}
-	private void setActionBarTitle(String s){
-		TextView title = (TextView) getActionBar().getCustomView().findViewById(R.id.ab_title);
+	
+	
+	
+	
+	@Override
+	public void onBackPressed() {
+		if (isFiltered) {
+			// undo filtering
+			isFiltered = false;
+			listadapter.removeFilter();
+			setActionBarTitle("#LOSAL");
+		} else
+			super.onBackPressed();
+
+	}
+
+	private void setActionBarTitle(String s) {
+		TextView title = (TextView) getActionBar().getCustomView()
+				.findViewById(R.id.ab_title);
 		title.setText(s);
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	private class FetchHashtags extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			final HashMap<String, ArrayList<String>> hm = new HashMap<String, ArrayList<String>>();
+
+			Log.d(tag, "FetchHashtags called ");
+
+			ParseQuery<ParseObject> query = ParseQuery.getQuery("HashTagsIndex");
+
+			query.findInBackground(new FindCallback<ParseObject>() {
+				public void done(List<ParseObject> List, ParseException e) {
+					Log.d(tag, "Retrieved " + List.size()
+							+ " hashtags");
+					for (int i = 0; i < List.size(); i++) {
+						if (e == null) {
+
+							try {
+								String hashtag = List.get(i).getString(
+										"hashTags");
+								Log.d(tag, "hashtag " + hashtag);
+
+								String postID = List.get(i)
+										.getString("postId");
+								Log.d(tag, "postID " + postID);
+
+								// addToHashtagsMap(hashtag, postID);
+
+								if (hm.containsKey(hashtag)) {
+									hm.get(hashtag).add(postID);
+								} else {
+									ArrayList<String> value = new ArrayList<String>();
+									value.add(postID);
+									hm.put(hashtag, value);
+								}
+							} catch (Exception ex) {
+								Log.e(tag, ex.toString());
+
+							}
+						} else {
+							Log.d(tag, "Error: " + e.getMessage());
+						}
+					}
+				}
+			});
+			hashtags = hm;
+			Log.d(tag, "keyset: " + hashtags.keySet().toArray().toString());
+
+			return null;
+		}
+
+	}
+
+	// private void addToHashtagsMap(String hashtag, String postID) {
+	// // HashMap<String, ArrayList<String>> hm = new HashMap<String,
+	// ArrayList<String>>();
+	// String key = "griffins";
+	// String objID = "304sfkJdwm";
+	// if (hm.containsKey(key)) {
+	// hm.get(key).add(postID);
+	// } else {
+	// ArrayList<String> value = new ArrayList<String>();
+	// value.add(postID);
+	// hm.put(key, value);
+	// }
+	// }
+
 }

@@ -206,8 +206,9 @@ public class FetchFeed {//extends Observable {
 				p.setSocialNetworkPostId(postsList.get(i).getString(
 						"socialNetworkPostID"));
 				// (postsList.get(i).getString("createdAt"));
-				p.setParseObjectId(postsList.get(i).getString("objectId"));
-
+				p.setParseObjectId(postsList.get(i).getObjectId());
+//						postsList.get(i).getString("objectId"));
+				Log.i(tag, "objectID: "+postsList.get(i).getObjectId());
 				// if(postsList.get(i).getParseObject("user") != null);
 				try {
 					// postsList.get(i).get("user").toString();

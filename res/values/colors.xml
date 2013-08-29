@@ -12,5 +12,6 @@
     <color name="trans_grey">#DD383838</color>
        <color name="localism_blue">#40C7F2</color>
     
-    
+        <color name="onboard_text">#DDDDDD</color>
+       
 </resources>

@@ -2,6 +2,7 @@ package co.localism.losal.adapters;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,8 +60,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 	private LayoutInflater mInflater;
 
-	private String[] mStrings;
 	private ArrayList<Post> mPosts;
+	private ArrayList<Post> copyOfPosts;
+	private boolean isFiltered = false;
+
 	private TypedArray mIcons;
 	private int mViewResourceId;
 	private Context ctx;
@@ -181,6 +184,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		mPosts.addAll(p);
 		notifyDataSetChanged();
 	}
+	
 
 	public void setStatus(boolean isLoading) {
 		this.loading = isLoading;
@@ -277,17 +281,20 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder.tv_user_icon.setText(cur.getUserIcon().toString());
 
 			/**** Social Site LIKE Icon ****/
-//			setSocialIcons(null, position);
-			
+			// setSocialIcons(null, position);
+
 			if (cur.getUserLiked()) {
 				// holder.iv_social_like_icon.setAlpha(1f);
 				if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
-					holder.iv_social_like_icon.setImageDrawable(INSTA_LIKE_ICON_LIKED);
+					holder.iv_social_like_icon
+							.setImageDrawable(INSTA_LIKE_ICON_LIKED);
 				else if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
-					holder.iv_social_like_icon.setImageDrawable(TW_LIKE_ICON_LIKED);
+					holder.iv_social_like_icon
+							.setImageDrawable(TW_LIKE_ICON_LIKED);
 			} else {
 				if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
-					holder.iv_social_like_icon.setImageDrawable(INSTA_LIKE_ICON);
+					holder.iv_social_like_icon
+							.setImageDrawable(INSTA_LIKE_ICON);
 				else if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
 					holder.iv_social_like_icon.setImageDrawable(TW_LIKE_ICON);
 
@@ -295,9 +302,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			}
 			// holder.iv_social_like_icon.setAlpha(1f);
 
-			holder.iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-			
-			
+			holder.iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE,
+					null);
+
 			/****** Social Site Icon ******/
 			if (cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
 				holder.iv_social_site_icon.setImageDrawable(INSTA_ICON);
@@ -469,11 +476,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	private void setSocialIcons(View v, int pos) {
 		Post p = mPosts.get(pos);
 		ImageView iv_like;
-		if(v == null)
+		if (v == null)
 			iv_like = (ImageView) holder.iv_social_site_icon;
 		else
-			iv_like = (ImageView) v
-				.findViewById(R.id.iv_social_like_icon);
+			iv_like = (ImageView) v.findViewById(R.id.iv_social_like_icon);
 		if (p.getUserLiked()) {
 			// holder.iv_social_like_icon.setAlpha(1f);
 			if (p.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
@@ -558,29 +564,36 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		}
 	}
 
-	// @Override
-	// public void onClick(View v) {
-	// // TODO Auto-generated method stub
-	// switch (v.getId()) {
-	// case R.id.iv_post_image:
-	// Log.d(tag, "image pressed");
-	// Intent intent = new Intent(ctx, FullScreenImageActivity.class);
-	// intent.putExtra("imageURL", mPosts.get(position).getUrl());
-	// ctx.startActivity(intent);
-	// break;
-	// case R.id.ll_social_like_area:
-	// Log.d(tag, "like area");
-	// socialLikeClicked(mPosts.get(position));
-	// break;
-	// case R.id.iv_social_like_icon:
-	// Log.d(tag, "like icon");
-	// mPosts.get(position);
-	// socialLikeClicked(mPosts.get(position));
-	// break;
-	// case R.id.iv_social_site_icon:
-	// Log.d(tag, "site icon");
-	// socialLikeClicked(mPosts.get(position));
-	// break;
-	// }
-	// }
+	public void Filter(String filter, HashMap<String, ArrayList<String>> hm) {
+		if (isFiltered) {
+			removeFilter();
+		}
+		isFiltered = true;
+		copyOfPosts = new ArrayList<Post>();
+		copyOfPosts.addAll(mPosts);
+		ArrayList<String> al = hm.get(filter);
+		Log.i(tag, "filter list: "+al.toString());
+		for (int index = 0; index < mPosts.size(); index++) {
+//			Log.i(tag, "filter. id: "+mPosts.get(index).getText());
+			String id = mPosts.get(index).getParseObjectId();
+			Log.i(tag, "filter. id: "+id);
+
+			if (!al.toString().matches(".*"+id+".*")){//(id)) {
+				Log.i(tag, "filter removing post");
+				mPosts.remove(index);
+				index--;
+			}
+		}
+		notifyDataSetChanged();
+
+	}
+
+	public void removeFilter(){
+		if(copyOfPosts != null){
+			mPosts.removeAll(mPosts);
+			this.addAll(copyOfPosts);
+			copyOfPosts = null;
+		}
+		isFiltered = false;
+	}
 }

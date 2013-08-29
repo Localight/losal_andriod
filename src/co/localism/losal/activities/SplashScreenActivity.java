@@ -29,6 +29,7 @@ public class SplashScreenActivity extends Activity {
 		setContentView(R.layout.splash_screen);
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
 				getResources().getString(R.string.parse_client_key));
+//		startActivity(new Intent(this, OnBoardSequenceActivity.class));
 		new PrefetchData().execute();
 	}
 

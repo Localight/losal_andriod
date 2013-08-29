@@ -19,7 +19,31 @@
         <string name="group_heading_1">Social</string>
         <string name="group_heading_2">My Info</string>
 		<string name="group_heading_3">Classroom Tools</string>
-        
+
+		    <!-- OnBoardingSequence  -->
+		<string name="ob_1_title_1">The \#LOSAL App</string>
+		<string name="ob_1_subtitle_1">connects the classroom</string>
+		<string name="ob_1_subtitle_2">campus and community</string>
+		<string name="ob_2_title_1">Submit public posts</string>
+		<string name="ob_2_subtitle_1">when you use \#losal</string>
+		<string name="ob_2_subtitle_2">on Twitter and Instagram</string>
+					
+	
+	
+		
+	<string name="verify_start">The #LOSAL App has special features for verified members of the Los Alamitos High School community.</string>
+		
+				
+	<string name="verify_error">Oops\! Did you miss the app registration\? Your number wasn\'t recognized. Email us for access or retry below.</string>
+	<string name="verify_success">Thanks\! You will receive a text message from (562) 320-8034. Click the text link to complete the process.</string>
+	<string name="verify_full_experience">Get the full experience\!</string>
+	
+	<string name="enter_phone">Enter your mobile number.</string>
+	<string name="verify_no_text">No text message? Email us and we\'ll see what the deal is, or click \"retry\" below.</string>
+	<string name="verify_button">Verify</string>
+	<string name="verify_button_retry">Retry</string>
+						
+		
     <!-- Calendar  -->
 <!-- 	<string name="calendar_subscribe_url">http://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26</string>
  -->

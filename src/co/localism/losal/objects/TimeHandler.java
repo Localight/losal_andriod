@@ -59,8 +59,7 @@ public class TimeHandler {
 		final Calendar today_cal = Calendar.getInstance();
 		Calendar post_cal = Calendar.getInstance();
 		post_cal.setTime(d);
-		Log.d("getTimeAgo", post_cal.toString());
-		Log.d("getTimeAgo", today_cal.YEAR +"   "+ post_cal.YEAR);
+//		Log.d("getTimeAgo", post_cal.toString());
 
 		if (today_cal.get(Calendar.YEAR) > post_cal.get(Calendar.YEAR))
 			if (today_cal.get(Calendar.YEAR) - post_cal.get(Calendar.YEAR) == 1)

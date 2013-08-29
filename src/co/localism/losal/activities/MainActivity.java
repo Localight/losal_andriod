@@ -56,6 +56,7 @@ import com.parse.SignUpCallback;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -66,6 +67,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -114,20 +118,6 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
-		SharedPreferences user_info = getSharedPreferences("UserInfo",
-				MODE_PRIVATE);
-		SharedPreferences.Editor prefEditor = user_info.edit();
-		prefEditor.putBoolean("registered", true);
-		prefEditor.putString("user_type", "student");
-		prefEditor.putString("user_name", "Joe");
-		prefEditor.putString("user_icon", "E07E");
-		prefEditor.putString("fav_color", "#FF3366");
-
-		prefEditor.commit();
-		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW);// .SLIDING_CONTENT);
-		new PersonalOptionsOnClickListeners(
-				(LinearLayout) findViewById(R.id.po), this);
-
 		ActionBar a = getActionBar();
 		// a.setIcon(new SVGHandler().svg_to_drawable(ctx, R.raw.left_chevron));
 		a.setDisplayHomeAsUpEnabled(true);
@@ -138,6 +128,35 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		TextView title = (TextView) a.getCustomView().findViewById(
 				R.id.ab_title);
 		title.setText("#LOSAL");
+
+		SharedPreferences user_info = getSharedPreferences("UserInfo",
+				MODE_PRIVATE);
+		SharedPreferences.Editor prefEditor = user_info.edit();
+		prefEditor.putBoolean("registered", true);
+		prefEditor.putString("user_type", "student");
+		prefEditor.putString("user_name", "Joe");
+		prefEditor.putString("user_icon", "E07E");
+		prefEditor.putString("fav_color", "#FF3366");
+
+		prefEditor.commit();
+		try {
+			LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
+			Bitmap bmImg = (BitmapFactory.decodeFile(Environment
+					.getExternalStorageDirectory() + "/losal_bg.jpg"));
+			Drawable d = new BitmapDrawable(getResources(), bmImg);
+			Log.d(tag, "used image as background sucessfully!");
+			ll_main.setBackgroundDrawable(d);//.setBackground(d);
+		} catch (Exception e) {
+			Log.e(tag, "failed to use image as background. e: " + e.toString());
+		}
+		// // Bitmap bmImg = BitmapFactory.decodeStream(is);
+		// BitmapDrawable background = new BitmapDrawable(bmImg);
+		// ll_main.setBackground(background);
+
+		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW);// .SLIDING_CONTENT);
+		new PersonalOptionsOnClickListeners(
+				(LinearLayout) findViewById(R.id.po), this);
+
 		title.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -619,18 +638,19 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	// }
 
 	public void showHashtags() {
-		final CharSequence[] mHashtags = getHashtagCharSequence();// = findHashtags();
-//		hashtags = new CharSequence[6];// {"",""};
-//		hashtags[0] = "#LOSAL";
-//		hashtags[1] = "#BEDROCKDANCE";
-//		hashtags[2] = "#CLASSOF2014";
-//		hashtags[3] = "#BANDCAMP";
-//		hashtags[4] = "#FOOTBALL";
-//		hashtags[5] = "#GRIFFIN";
+		final CharSequence[] mHashtags = getHashtagCharSequence();// =
+																	// findHashtags();
+		// hashtags = new CharSequence[6];// {"",""};
+		// hashtags[0] = "#LOSAL";
+		// hashtags[1] = "#BEDROCKDANCE";
+		// hashtags[2] = "#CLASSOF2014";
+		// hashtags[3] = "#BANDCAMP";
+		// hashtags[4] = "#FOOTBALL";
+		// hashtags[5] = "#GRIFFIN";
 		// hashtags[6] = "#LOSAL";
 		// hashtags[7] = "#Sports";
 		// hashtags[8] = "#Griffin";
-		
+
 		if (mHashtags != null) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setItems(mHashtags, new DialogInterface.OnClickListener() {
@@ -665,46 +685,42 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		}
 	}
 
-	
-	private CharSequence[] getHashtagCharSequence(){
+	private CharSequence[] getHashtagCharSequence() {
 		int count = 0;
 		CharSequence[] tags = null;
 		if (!hashtags.isEmpty()) {
 			Object[] keyset = hashtags.keySet().toArray();
-			
+
 			tags = new CharSequence[keyset.length];
 			for (int i = 0; i < tags.length; i++) {
 				tags[i] = keyset[i].toString();
-		}
-			// finds unique types
-//			while (count < tags.length - 1) {
-//				if (tags[count] != null && tags[count + 1] != null) {
-//					if (tags[count].toString().compareToIgnoreCase(
-//							tags[count + 1].toString()) > 0) {
-//						CharSequence temp = tags[count];
-//						tags[count] = tags[count + 1];
-//						tags[count + 1] = temp;
-//						count = 0;
-//					} else
-//						count++;
-//				} else
-//					break;
-//			}
-			// removes wifi from list.
-//			CharSequence[] typesShortened = new CharSequence[count];
-//			for (int i = 0; i < count; i++) {
-//				if (!types[i].toString().equalsIgnoreCase("wifi"))
-//					typesShortened[i] = types[i];
-//				else
-//					i--;
 			}
-			return tags;
-			
+			// finds unique types
+			// while (count < tags.length - 1) {
+			// if (tags[count] != null && tags[count + 1] != null) {
+			// if (tags[count].toString().compareToIgnoreCase(
+			// tags[count + 1].toString()) > 0) {
+			// CharSequence temp = tags[count];
+			// tags[count] = tags[count + 1];
+			// tags[count + 1] = temp;
+			// count = 0;
+			// } else
+			// count++;
+			// } else
+			// break;
+			// }
+			// removes wifi from list.
+			// CharSequence[] typesShortened = new CharSequence[count];
+			// for (int i = 0; i < count; i++) {
+			// if (!types[i].toString().equalsIgnoreCase("wifi"))
+			// typesShortened[i] = types[i];
+			// else
+			// i--;
+		}
+		return tags;
+
 	}
-	
-	
-	
-	
+
 	@Override
 	public void onBackPressed() {
 		if (isFiltered) {
@@ -731,12 +747,12 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 			Log.d(tag, "FetchHashtags called ");
 
-			ParseQuery<ParseObject> query = ParseQuery.getQuery("HashTagsIndex");
+			ParseQuery<ParseObject> query = ParseQuery
+					.getQuery("HashTagsIndex");
 
 			query.findInBackground(new FindCallback<ParseObject>() {
 				public void done(List<ParseObject> List, ParseException e) {
-					Log.d(tag, "Retrieved " + List.size()
-							+ " hashtags");
+					Log.d(tag, "Retrieved " + List.size() + " hashtags");
 					for (int i = 0; i < List.size(); i++) {
 						if (e == null) {
 
@@ -745,8 +761,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 										"hashTags");
 								Log.d(tag, "hashtag " + hashtag);
 
-								String postID = List.get(i)
-										.getString("postId");
+								String postID = List.get(i).getString("postId");
 								Log.d(tag, "postID " + postID);
 
 								// addToHashtagsMap(hashtag, postID);

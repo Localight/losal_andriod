@@ -1,6 +1,7 @@
 package co.localism.losal;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Observable;
 
@@ -41,14 +42,17 @@ public class FetchNotices extends Observable  {
 	 * @return ArrayList<Post>
 	 */
 	public ArrayList<Notice> fetch(NoticeAdapter na) {
+		final Calendar cal = Calendar.getInstance();
+
+
+		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Notifications");
 		final ArrayList<Notice> notices;
 		notices = new ArrayList<Notice>();
 		this.na = na;
 		
-//		query.whereEqualTo("status", "1");
-//		query.addDescendingOrder("postTime");
-//		query.include("user");
+		query.whereGreaterThan("endDate", cal.getTime());
+		query.addDescendingOrder("startDate");
 
 		query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> noticeList, ParseException e) {

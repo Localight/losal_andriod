@@ -137,7 +137,7 @@ public class NoticeAdapter extends ArrayAdapter<Notice> {
 		}
 
 		holder.tv_title.setText(cur.getTitle());
-		holder.tv_details.setText(cur.getDetails());
+		holder.tv_details.setText(cur.getTeaser());
 		// holder.iv_image.setText(cur.getTitle());
 		mImageLoader.displayImage(cur.getImageUrl(), holder.iv_image, options,
 				animateFirstListener);

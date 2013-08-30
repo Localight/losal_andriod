@@ -245,6 +245,8 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	private void getNotices() {
 		FetchNotices fn = new FetchNotices();
 		// fn.addObserver(this);
+		if(notices.size() > 0)
+			notices.removeAll(notices);
 		ListView noticeList = (ListView) findViewById(R.id.notices_list);
 		final NoticeAdapter noticeadapter = new NoticeAdapter(this,
 				R.layout.notice_list_item, notices, 1);
@@ -264,7 +266,10 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 				intent.putExtra("image_url", noticeadapter.getItem(position)
 						.getImageUrl());
 				intent.putExtra("link_url", noticeadapter.getItem(position)
-						.getLinkUrl());
+						.getButtonLink());
+				intent.putExtra("button_text", noticeadapter.getItem(position)
+						.getButtonText());
+				
 				ctx.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_from_right,
 						R.anim.slide_out_to_left);

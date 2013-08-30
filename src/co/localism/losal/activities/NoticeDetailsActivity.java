@@ -67,7 +67,7 @@ public class NoticeDetailsActivity extends Activity {
 			tv_title.setText(extras.getString("title", ""));
 			tv_details.setText(extras.getString("details_text", ""));
 
-			btn.setText(extras.getString("btn_text", "Learn More!"));
+			btn.setText(extras.getString("button_text", "Learn More!"));
 			btn.setOnClickListener(new OnClickListener() {
 
 				@Override

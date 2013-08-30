@@ -42,6 +42,11 @@
     <dimen name="notice_list_item_title_size">20sp</dimen>
     <dimen name="notice_list_item_details_size">10sp</dimen>
   
+    
+        		<dimen name="ob_small_text">20sp</dimen>
+    
+    		<dimen name="ob_large_text">25sp</dimen>
+   <!--  verify_small -->
    
 
 </resources>

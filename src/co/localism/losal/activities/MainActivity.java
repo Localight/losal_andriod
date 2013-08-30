@@ -54,6 +54,7 @@ import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -118,6 +119,12 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
+		Uri data = getIntent().getData();
+		if(data != null){
+			Log.e(tag, "data:"+ data.toString());
+			pairUserToApp(data.toString());
+			
+		}
 		ActionBar a = getActionBar();
 		// a.setIcon(new SVGHandler().svg_to_drawable(ctx, R.raw.left_chevron));
 		a.setDisplayHomeAsUpEnabled(true);
@@ -178,7 +185,6 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 				getResources().getString(R.string.tw_consumer_key),
 				getResources().getString(R.string.tw_consumer_secret));
 		ParseAnalytics.trackAppOpened(getIntent());
-		loginParseUser();
 
 		// ParseFacebookUtils.initialize(getResources().getString(R.string.fb_app_id));
 
@@ -195,7 +201,9 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		listadapter = new PostAdapter(ctx, R.layout.post, posts, 1);
 		setListAdapter(listadapter);
 		Bundle extras = getIntent().getExtras();
-		POST_DAYS = extras.getInt("POST_DAYS", POST_DAYS);
+		if(extras != null){
+			POST_DAYS = extras.getInt("POST_DAYS", POST_DAYS);
+		}
 		getPosts();
 		getNotices();
 		// Here is where the magic happens
@@ -222,6 +230,12 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		 */
 
 		new FetchHashtags().execute();
+	}
+
+	private void pairUserToApp(String data) {
+		loginParseUser("","");
+
+		String user_password = data.substring(data.indexOf('/')+1);
 	}
 
 	private void getNotices() {
@@ -359,10 +373,10 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		updateView();
 	}
 
-	private void loginParseUser() {
+	private void loginParseUser(String username, String pass) {
 		// Log.i(tag, ParseUser.getCurrentUser().toString());
 
-		ParseUser.logInInBackground("joe", "1234", new LogInCallback() {
+		ParseUser.logInInBackground(username, pass, new LogInCallback() {
 			public void done(ParseUser user, ParseException e) {
 				if (user != null) {
 					Log.i(tag, "Hooray! The user is logged in.");
@@ -791,6 +805,22 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 	}
 
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+	   setIntent(intent);
+//		Log.e(tag, "onNewIntent called : ");
+//
+//		Uri data = intent.getData();
+//	    Log.e(tag, "data: "+data.toString());
+//	  if (data != null) {
+//	    String password = data.getLastPathSegment();//.getQueryParameter("access_token");
+//	    Log.i(tag, "PASS: "+password);
+//	  }
+	}
+	
+	
+	
 	// private void addToHashtagsMap(String hashtag, String postID) {
 	// // HashMap<String, ArrayList<String>> hm = new HashMap<String,
 	// ArrayList<String>>();

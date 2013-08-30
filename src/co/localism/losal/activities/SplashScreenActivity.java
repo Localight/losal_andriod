@@ -19,7 +19,9 @@ import com.parse.ParseQuery;
 
 import co.localism.losal.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -32,7 +34,9 @@ public class SplashScreenActivity extends Activity {
 
 	private String tag = "SplashScreenActivity";
 	private int post_days = -1;
-
+	private Context ctx = this;
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,8 +44,19 @@ public class SplashScreenActivity extends Activity {
 		setContentView(R.layout.splash_screen);
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
 				getResources().getString(R.string.parse_client_key));
-		// startActivity(new Intent(this, OnBoardSequenceActivity.class));
-		new PrefetchData().execute();
+		SharedPreferences user_info = getSharedPreferences("UserInfo",
+				MODE_PRIVATE);
+
+//		TODO:REMOVE. DUMMY DATA
+		SharedPreferences.Editor prefEditor = user_info.edit();
+		prefEditor.putBoolean("isFirstVisit", true);
+		prefEditor.commit();
+		
+			new PrefetchData().execute();
+		
+	
+		
+		
 	}
 
 	private class PrefetchData extends AsyncTask<Void, Void, Void> {
@@ -91,7 +106,6 @@ public class SplashScreenActivity extends Activity {
 					try {
 						saveToPhone(f.getData());
 					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				} else {
@@ -100,46 +114,18 @@ public class SplashScreenActivity extends Activity {
 				Intent i = new Intent(SplashScreenActivity.this,
 						MainActivity.class);
 				i.putExtra("POST_DAYS", post_days);
-				i.putExtra("earned", 3);
-				startActivity(i);
+				SharedPreferences user_info = getSharedPreferences("UserInfo",
+						MODE_PRIVATE);
+				if(user_info.getBoolean("isFirstVisit", true))
+					startActivity(new Intent(ctx, OnBoardSequenceActivity.class));
+				else
+					startActivity(i);
 			}
 		});
 		return true;
 	}
 
-	private void saveImageToPhone(File file) throws Throwable{
-//		 Bitmap bm2 = createBitmap();
-//		    OutputStream stream = new FileOutputStream("/sdcard/test.png");
-		    /* Write bitmap to file using JPEG and 80% quality hint for JPEG. */
-//		    bm2.compress(CompressFormat.JPEG, 80, stream);
-
-		 InputStream in = new FileInputStream(file);
-		 try {
-		     Bitmap bitmap = BitmapFactory.decodeStream(in);
-		     File tmpFile = file;//...;
-		     try {
-		         OutputStream out = new FileOutputStream(tmpFile);
-		         try {
-		             if (bitmap.compress(CompressFormat.JPEG, 30, out)) {
-		                 { File tmp = file; file = tmpFile; tmpFile = tmp; }
-		                 tmpFile.delete();
-//		                 Log.d(tag, "Saved Image!");
-		             } else {
-		                 throw new Exception("Failed to save the image as a JPEG");
-		             }
-		         } finally {
-		             out.close();
-		         }
-		     } catch (Throwable t) {
-		         tmpFile.delete();
-		         throw t;
-		     }
-		 } finally {
-		     in.close();
-		 }
-		 
-		 
-	 }
+	
 	
 	
 	 protected String saveToPhone(byte[]... jpeg) {

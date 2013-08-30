@@ -6,10 +6,15 @@ import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpParams;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -31,6 +36,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -130,13 +136,10 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		iv_circle3 = (ImageView) findViewById(R.id.iv_circle3);
 		bgShape3 = (GradientDrawable) iv_circle3.getBackground();
 
-		bgShape1.setColor(getResources().getColor(
-				R.color.activated_circle));
-		bgShape2.setColor(getResources().getColor(
-				R.color.inactive_circle));
-		bgShape3.setColor(getResources().getColor(
-				R.color.inactive_circle));
-		
+		bgShape1.setColor(getResources().getColor(R.color.activated_circle));
+		bgShape2.setColor(getResources().getColor(R.color.inactive_circle));
+		bgShape3.setColor(getResources().getColor(R.color.inactive_circle));
+
 		// OnPageListener pageListener = new OnPageChangedListener();
 		pager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -464,17 +467,33 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	}
 
 	private void pingTwilio(String phone) {
-		String url = "http://losal.parseapp.com/registration.html?phone=";
-		url += phone;
-		HttpGet httpGet = new HttpGet(url);
-		HttpClient client = new DefaultHttpClient();
+//		String url = "http://losal.parseapp.com/registration.html?phone=";
+//		url += phone;
+		String url = "https://api.parse.com/1/functions/register";
+		Log.i(tag, "twilio URL: " + url);
+		
 		try {
-			HttpResponse response = client.execute(httpGet);
+			HttpPost httppost = new HttpPost(url);
+			HttpClient client = new DefaultHttpClient();
+			httppost.setHeader("X-Parse-Application-Id", "zFi294oXTVT6vj6Tfed5heeF6XPmutl0y1Rf7syg");
+			httppost.setHeader("X-Parse-REST-API-Key", "gyMlPJBhaRG0SV083c3n7ApzsjLnvvbLvXKW0jJm");
+			httppost.setHeader("Content-Type","application/x-www-form-urlencoded");
+			
+			ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		    nameValuePairs.add(new BasicNameValuePair("phone",phone));
+		    
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+	    	
+	        HttpResponse response = client.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			// is = entity.getContent();
 		} catch (ClientProtocolException e) {
+			Log.i(tag, "twilio error" + e.toString());
+
 			e.printStackTrace();
 		} catch (IOException e) {
+			Log.i(tag, "twilio error" + e.toString());
+
 			e.printStackTrace();
 		}
 

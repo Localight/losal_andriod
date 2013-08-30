@@ -471,7 +471,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 //		url += phone;
 		String url = "https://api.parse.com/1/functions/register";
 		Log.i(tag, "twilio URL: " + url);
-		
+		savePhoneNumberToPhone(phone);
 		try {
 			HttpPost httppost = new HttpPost(url);
 			HttpClient client = new DefaultHttpClient();
@@ -497,6 +497,18 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 			e.printStackTrace();
 		}
 
+	}
+	
+	
+	
+	private void savePhoneNumberToPhone(String phone){
+		 SharedPreferences user_info =
+		 getBaseContext().getSharedPreferences("UserInfo",
+		 MODE_PRIVATE);
+		 SharedPreferences.Editor prefEditor = user_info.edit();
+		 prefEditor.putString("phone_number", phone);
+		 prefEditor.commit();
+		
 	}
 
 }

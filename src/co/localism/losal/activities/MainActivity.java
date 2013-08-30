@@ -119,14 +119,6 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_main);
-		Uri data = getIntent().getData();
-		if(data != null){
-			Log.e(tag, "data:"+ data.toString());
-			pairUserToApp(data.toString());
-			
-		}
 		ActionBar a = getActionBar();
 		// a.setIcon(new SVGHandler().svg_to_drawable(ctx, R.raw.left_chevron));
 		a.setDisplayHomeAsUpEnabled(true);
@@ -137,26 +129,45 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		TextView title = (TextView) a.getCustomView().findViewById(
 				R.id.ab_title);
 		title.setText("#LOSAL");
+		setContentView(R.layout.activity_main);
+		
+		
+		
+		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
+				getResources().getString(R.string.parse_client_key));
+		ParseTwitterUtils.initialize(
+				getResources().getString(R.string.tw_consumer_key),
+				getResources().getString(R.string.tw_consumer_secret));
+		ParseAnalytics.trackAppOpened(getIntent());
+		Uri data = getIntent().getData();
+		
+		if (data != null) {
+			Log.e(tag, "data:" + data.toString());
+			pairUserToApp(data.toString());
 
-		SharedPreferences user_info = getSharedPreferences("UserInfo",
-				MODE_PRIVATE);
-		SharedPreferences.Editor prefEditor = user_info.edit();
-		prefEditor.putBoolean("registered", true);
-		prefEditor.putString("user_type", "student");
-		prefEditor.putString("user_name", "Joe");
-		prefEditor.putString("user_icon", "E07E");
-		prefEditor.putString("fav_color", "#FF3366");
+		}
+		
 
-		prefEditor.commit();
+		/******** dummy data **********/
+//		SharedPreferences user_info = getSharedPreferences("UserInfo",
+//				MODE_PRIVATE);
+//		SharedPreferences.Editor prefEditor = user_info.edit();
+//		prefEditor.putBoolean("registered", true);
+//		prefEditor.putString("user_type", "student");
+//		prefEditor.putString("user_name", "Joe");
+//		prefEditor.putString("user_icon", "E07E");
+//		prefEditor.putString("fav_color", "#FF3366");
+
+//		prefEditor.commit();
 		try {
-//			LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
+			// LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
 			FrameLayout ll_main = (FrameLayout) findViewById(R.id.main);
 
 			Bitmap bmImg = (BitmapFactory.decodeFile(Environment
 					.getExternalStorageDirectory() + "/losal_bg.jpg"));
 			Drawable d = new BitmapDrawable(getResources(), bmImg);
 			Log.d(tag, "used image as background sucessfully!");
-			ll_main.setBackgroundDrawable(d);//.setBackground(d);
+			ll_main.setBackgroundDrawable(d);// .setBackground(d);
 		} catch (Exception e) {
 			Log.e(tag, "failed to use image as background. e: " + e.toString());
 		}
@@ -183,12 +194,12 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		ff = new FetchFeed();
 		// ff.addObserver(this);
 
-		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
-				getResources().getString(R.string.parse_client_key));
-		ParseTwitterUtils.initialize(
-				getResources().getString(R.string.tw_consumer_key),
-				getResources().getString(R.string.tw_consumer_secret));
-		ParseAnalytics.trackAppOpened(getIntent());
+//		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
+//				getResources().getString(R.string.parse_client_key));
+//		ParseTwitterUtils.initialize(
+//				getResources().getString(R.string.tw_consumer_key),
+//				getResources().getString(R.string.tw_consumer_secret));
+//		ParseAnalytics.trackAppOpened(getIntent());
 
 		// ParseFacebookUtils.initialize(getResources().getString(R.string.fb_app_id));
 
@@ -205,7 +216,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		listadapter = new PostAdapter(ctx, R.layout.post, posts, 1);
 		setListAdapter(listadapter);
 		Bundle extras = getIntent().getExtras();
-		if(extras != null){
+		if (extras != null) {
 			POST_DAYS = extras.getInt("POST_DAYS", POST_DAYS);
 		}
 		getPosts();
@@ -237,15 +248,69 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	}
 
 	private void pairUserToApp(String data) {
-		loginParseUser("","");
+		SharedPreferences user_info = getBaseContext().getSharedPreferences(
+				"UserInfo", MODE_PRIVATE);
+		String phone = user_info.getString("phone_number", "");
+		String user_password = data.substring(data.indexOf('/') + 2);
+		loginParseUser(phone, user_password);
+		Log.e(tag, "user data= " + phone + " :  " + user_password);
+		loginParseUser(phone, user_password);
 
-		String user_password = data.substring(data.indexOf('/')+1);
+	}
+
+	private void loginParseUser(String username, String pass) {
+		// Log.i(tag, ParseUser.getCurrentUser().toString());
+		try {
+			ParseUser.logInInBackground(username, pass, new LogInCallback() {
+				public void done(ParseUser user, ParseException e) {
+					if (user != null) {
+						Log.i(tag, "Hooray! The user is logged in.");
+						// Hooray! The user is logged in.
+						Log.d(tag, "");
+						String fname = user.getString("firstName");
+						String lname = user.getString("lastName");
+						String userType = user.getString("userType");
+						String year = user.getString("year");
+						String faveColor = user.getString("faveColor");
+						String icon = user.getString("icon");
+						saveUserDataToPhone(userType, fname, lname, icon,
+								faveColor);
+					} else {
+						Log.i(tag, "login failed. e: " + e.toString());
+
+						// Signup failed. Look at the ParseException to see what
+						// happened.
+					}
+				}
+			});
+		} catch (Exception e) {
+			Log.e(tag, e.toString());
+
+		}
+	}
+
+	private void saveUserDataToPhone(String userType, String fName,
+			String lName, String icon, String favColor) {
+		SharedPreferences user_info = getSharedPreferences("UserInfo",
+				MODE_PRIVATE);
+		SharedPreferences.Editor prefEditor = user_info.edit();
+		prefEditor.putBoolean("registered", true);
+		prefEditor.putString("user_type", userType);
+		prefEditor.putString("first_name", fName);
+		prefEditor.putString("last_name", lName);
+		prefEditor.putString("user_icon", icon);
+		prefEditor.putString("fav_color", favColor);
+
+		String user_name = fName + " " + lName.substring(0, 1) + ".";
+		prefEditor.putString("user_name", user_name);
+
+		prefEditor.commit();
 	}
 
 	private void getNotices() {
 		FetchNotices fn = new FetchNotices();
 		// fn.addObserver(this);
-		if(notices.size() > 0)
+		if (notices.size() > 0)
 			notices.removeAll(notices);
 		ListView noticeList = (ListView) findViewById(R.id.notices_list);
 		final NoticeAdapter noticeadapter = new NoticeAdapter(this,
@@ -269,7 +334,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 						.getButtonLink());
 				intent.putExtra("button_text", noticeadapter.getItem(position)
 						.getButtonText());
-				
+
 				ctx.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_from_right,
 						R.anim.slide_out_to_left);
@@ -383,24 +448,6 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	public void onResume() {
 		super.onResume();
 		updateView();
-	}
-
-	private void loginParseUser(String username, String pass) {
-		// Log.i(tag, ParseUser.getCurrentUser().toString());
-
-		ParseUser.logInInBackground(username, pass, new LogInCallback() {
-			public void done(ParseUser user, ParseException e) {
-				if (user != null) {
-					Log.i(tag, "Hooray! The user is logged in.");
-					// Hooray! The user is logged in.
-				} else {
-					Log.i(tag, "login failed. e: " + e.toString());
-
-					// Signup failed. Look at the ParseException to see what
-					// happened.
-				}
-			}
-		});
 	}
 
 	private void createTestparseUser() {
@@ -817,22 +864,20 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 	}
 
-	
 	@Override
 	protected void onNewIntent(Intent intent) {
-	   setIntent(intent);
-//		Log.e(tag, "onNewIntent called : ");
-//
-//		Uri data = intent.getData();
-//	    Log.e(tag, "data: "+data.toString());
-//	  if (data != null) {
-//	    String password = data.getLastPathSegment();//.getQueryParameter("access_token");
-//	    Log.i(tag, "PASS: "+password);
-//	  }
+		setIntent(intent);
+		// Log.e(tag, "onNewIntent called : ");
+		//
+		// Uri data = intent.getData();
+		// Log.e(tag, "data: "+data.toString());
+		// if (data != null) {
+		// String password =
+		// data.getLastPathSegment();//.getQueryParameter("access_token");
+		// Log.i(tag, "PASS: "+password);
+		// }
 	}
-	
-	
-	
+
 	// private void addToHashtagsMap(String hashtag, String postID) {
 	// // HashMap<String, ArrayList<String>> hm = new HashMap<String,
 	// ArrayList<String>>();

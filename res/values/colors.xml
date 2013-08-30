@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="actionbar">#AA000000</color>
+    
     <color name="trans_black">#33222222</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    
     <color name="trans_white">#22FFFFFF</color>
     <color name="android_green">#FF9FBF3B</color>
     <color name="darken_bg">#AA000000</color>
@@ -15,5 +17,6 @@
     <color name="onboard_bg">#231F20</color>
     <color name="inactive_circle">#33222222</color>
     <color name="activated_circle">#60C9F4</color>
-
+    <color name="details_bg">#444444</color>
+    
 </resources>

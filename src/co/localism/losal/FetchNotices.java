@@ -84,6 +84,9 @@ public class FetchNotices extends Observable  {
 						+ noticesList.get(i).getString("title"));
 				n.setTitle(noticesList.get(i).getString("title"));
 				n.setDetails(noticesList.get(i).getString("description"));
+				n.setImageUrl(noticesList.get(i).getString("image"));
+//				n.setLinkUrl(noticesList.get(i).getString("link"));
+
 				}catch(Exception e){
 					Log.e(tag, e.toString());
 				}

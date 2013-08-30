@@ -4,7 +4,10 @@ public class Notice {
 //	private String headline;
 	private String title = "";
 	private String details = "";
-//	image
+	private String image_url="";
+	private String link_url="";
+
+	
 	public Notice(){
 	}
 	
@@ -30,6 +33,25 @@ public class Notice {
 
 	public void setDetails(String details) {
 		this.details = details;
+		
+	}
+	
+
+	public void setImageUrl(String imageUrl) {
+		this.image_url = imageUrl;
+		
+	}
+	
+	public String getImageUrl() {
+		return this.image_url;
+		
+	}
+	
+	public void setLinkUrl(String linkUrl){
+		this.link_url = linkUrl;
+	}
+	public String getLinkUrl() {
+		return this.link_url;
 		
 	}
 	

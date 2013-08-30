@@ -257,7 +257,10 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 						.getTitle());
 				intent.putExtra("details_text", noticeadapter.getItem(position)
 						.getDetails());
-
+				intent.putExtra("image_url", noticeadapter.getItem(position)
+						.getImageUrl());
+				intent.putExtra("link_url", noticeadapter.getItem(position)
+						.getLinkUrl());
 				ctx.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_from_right,
 						R.anim.slide_out_to_left);

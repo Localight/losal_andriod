@@ -2,7 +2,9 @@ package co.localism.losal.listens;
 
 import co.localism.losal.R;
 import co.localism.losal.activities.MainActivity;
+import co.localism.losal.activities.MoreOptionsActivity;
 import co.localism.losal.activities.ScheduleActivity;
+import co.localism.losal.activities.SchoolLinksActivity;
 import co.localism.losal.activities.WebViewActivity;
 
 import android.app.AlertDialog;
@@ -19,7 +21,8 @@ import android.widget.LinearLayout;
 public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 	public static Context ctx;
 	private static final String tag = "PersonalOptionsOnClickListeners";
-
+private String LOSAL_URL = "http://www.losal.org/lahs";
+	
 	public PersonalOptionsOnClickListeners() {
 	}
 
@@ -34,6 +37,7 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 		l.findViewById(R.id.po_socrative).setOnClickListener(this);
 		l.findViewById(R.id.po_edmodo).setOnClickListener(this);
 		l.findViewById(R.id.po_footer).setOnClickListener(this);
+		l.findViewById(R.id.po_more_options).setOnClickListener(this);
 
 		// for(int i = 0; i < l.getChildCount(); i++){
 		// ll2 = (LinearLayout) l.getChildAt(i);
@@ -61,11 +65,12 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 		case R.id.po_events:
 			Log.d(tag, "Events");
 			// Shared
-			showCalendarDialog();
-			// intent = new Intent(ctx,
-			// CalendarActivity.class).putExtra("which",
-			// WebViewActivity.EVENTS);
-			// ctx.startActivity(intent);
+//			showCalendarDialog();
+			 intent = new Intent(ctx,
+			 SchoolLinksActivity.class);
+//			 .putExtra("which",
+//			 WebViewActivity.EVENTS);
+			 ctx.startActivity(intent);
 			break;
 		case R.id.po_grades:
 			Log.d(tag, "Grades");
@@ -93,8 +98,14 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 		// Log.d("PersonalOptionsOnClickListeners", "Other");
 		case R.id.po_footer:
 			Log.d(tag, "Footer");
-			intent = new Intent(ctx, WebViewActivity.class).putExtra("which",
-					WebViewActivity.LOSAL);
+				openURL(LOSAL_URL);
+//			intent = new Intent(ctx, WebViewActivity.class).putExtra("which",
+//					WebViewActivity.LOSAL);
+//			ctx.startActivity(intent);
+			break;
+		case R.id.po_more_options:
+			Log.d(tag, "More Options");
+			intent = new Intent(ctx, MoreOptionsActivity.class);
 			ctx.startActivity(intent);
 			break;
 		}
@@ -131,8 +142,14 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 	}
 
 	public void openURL(String URL) {
-		Intent openURL = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-		ctx.startActivity(openURL);
+		if (URL.length() > 0) {
+			try {
+				Intent openURL = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+				ctx.startActivity(openURL);
+			} catch (Exception e) {
+
+			}
+		}
 	}
 
 }

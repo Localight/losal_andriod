@@ -87,9 +87,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -147,7 +149,9 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 		prefEditor.commit();
 		try {
-			LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
+//			LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
+			FrameLayout ll_main = (FrameLayout) findViewById(R.id.main);
+
 			Bitmap bmImg = (BitmapFactory.decodeFile(Environment
 					.getExternalStorageDirectory() + "/losal_bg.jpg"));
 			Drawable d = new BitmapDrawable(getResources(), bmImg);

@@ -3,12 +3,13 @@
     android:id="@+id/po"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/trans_grey"
+    android:background="#484848"
     android:orientation="vertical" >
-
-            <include
-                android:id="@+id/actionbar_po"
-                layout="@layout/actionbar_personal_options" />
+    <!-- android:background="@color/trans_grey"
+     -->
+    <include
+        android:id="@+id/actionbar_po"
+        layout="@layout/actionbar_personal_options" />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -22,9 +23,7 @@
 
             <include
                 android:id="@+id/po_group_header_1"
-                layout="@layout/personal_options_break" 
-                
-                />
+                layout="@layout/personal_options_break" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -230,21 +229,38 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:alpha="0.7"
                     android:text="@string/losal_hs"
                     android:textColor="@color/white"
-                    android:alpha="0.7"
                     android:textSize="@dimen/personal_options_losal_hs_text_size"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:alpha="0.7"
                     android:text="@string/go_griffins"
-                                        android:alpha="0.7"
-                    
                     android:textColor="@color/white"
                     android:textSize="@dimen/personal_options_go_griffins_text_size"
                     android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/po_more_options"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:alpha="0.7"
+                        android:text="@string/po_more_options"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

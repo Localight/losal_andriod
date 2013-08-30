@@ -57,7 +57,7 @@ public class SetUpSlidingMenu extends SlidingMenu {
 				.findViewById(R.id.po_events);
 		ll_po_events.addView(new SVGHandler().svg_to_imageview(
 				activity.getApplicationContext(),
-				R.raw.calendar,
+				R.raw.school_links,
 				1f,
 				(int) getResources().getDimension(
 						R.dimen.personal_options_icon_size),

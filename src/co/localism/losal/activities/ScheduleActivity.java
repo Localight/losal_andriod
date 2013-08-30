@@ -21,7 +21,7 @@ public class ScheduleActivity extends Activity{
     @Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         
         ImageView imageView = new ImageView(this);
         // Set the background color to white

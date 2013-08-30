@@ -18,13 +18,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Friday, 12:00pm"
-            android:textColor="@color/white" />
+            android:textColor="@color/time_break" />
 
         <TextView
             android:id="@+id/time_break_line"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/white" />
+            android:background="@color/time_break" />
     </LinearLayout>
 
     <!-- Post Header -->
@@ -151,15 +151,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/data_position"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone"          
-            android:text=""
-            android:textColor="@color/transparent" />
-
+       
         <ImageView
             android:id="@+id/iv_post_image"
             android:layout_width="fill_parent"

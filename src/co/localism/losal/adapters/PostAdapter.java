@@ -213,7 +213,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					.findViewById(R.id.tv_class_year);
 			holder.tv_time_posted = (TextView) convertView
 					.findViewById(R.id.tv_time_posted);
-
+			holder.time_break_time = (TextView) convertView.findViewById(R.id.time_break_time);
 			holder.iv_social_like_icon = (ImageView) convertView
 					.findViewById(R.id.iv_social_like_icon);
 			// holder.iv_user_icon = (ImageView) convertView
@@ -243,7 +243,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 			holder.ll_social = (LinearLayout) convertView
 					.findViewById(R.id.ll_social_like_area);
-
+			holder.time_break = (LinearLayout) convertView
+					.findViewById(R.id.time_break);
+			
 			// Clock Icon. Only needs to be set once
 			holder.iv_clock.setImageDrawable(new SVGHandler().svg_to_drawable(
 					ctx, R.raw.clock));
@@ -261,18 +263,21 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		// TODO: change what is visible based on whether the user is registered
 		// or not
 		try {
+			if(TH.showTimeBreak()){
+				holder.time_break.setVisibility(View.VISIBLE);
+				holder.time_break_time.setText(TH.getTimeBreak(cur.getPostTime()));
+			}else
+				holder.time_break.setVisibility(View.GONE);
+
 			holder.tv_name.setText(cur.getName());
 			// holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
 
-			// holder.tv_class_year.setText(CLASS_YEAR[cur.getClassYear()]);
 			holder.tv_class_year.setText(cur.getClassYear());
 
-			// holder.tv_time_posted.setText("1 hour ago ");
 			holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
 			Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
 			holder.tv_post_text.setText(cur.getText());
 
-			// Character ch =new Character('\ue000');
 			holder.tv_user_icon.setTypeface(icon_font);
 			if (cur.getFaveColor().length() > 5)
 				holder.tv_user_icon.setTextColor(Color.parseColor(cur
@@ -537,6 +542,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		ImageView iv_post_image;
 		ImageView iv_clock;
 		LinearLayout ll_social;
+		LinearLayout time_break;
+		TextView time_break_time;
 	}
 
 	/**

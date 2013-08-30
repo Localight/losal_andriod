@@ -18,5 +18,5 @@
     <color name="inactive_circle">#33222222</color>
     <color name="activated_circle">#60C9F4</color>
     <color name="details_bg">#444444</color>
-    
+    <color name="time_break">#AAFFFFFF</color>
 </resources>

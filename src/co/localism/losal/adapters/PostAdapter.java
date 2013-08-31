@@ -184,7 +184,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		mPosts.addAll(p);
 		notifyDataSetChanged();
 	}
-	
 
 	public void setStatus(boolean isLoading) {
 		this.loading = isLoading;
@@ -213,14 +212,16 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					.findViewById(R.id.tv_class_year);
 			holder.tv_time_posted = (TextView) convertView
 					.findViewById(R.id.tv_time_posted);
-			holder.time_break_time = (TextView) convertView.findViewById(R.id.time_break_time);
+			holder.time_break_time = (TextView) convertView
+					.findViewById(R.id.time_break_time);
 			holder.iv_social_like_icon = (ImageView) convertView
 					.findViewById(R.id.iv_social_like_icon);
 			// holder.iv_user_icon = (ImageView) convertView
 			// .findViewById(R.id.iv_user_icon);
 			holder.tv_user_icon = (TextView) convertView
 					.findViewById(R.id.tv_user_icon);
-
+			holder.post_header = (LinearLayout) convertView
+					.findViewById(R.id.post_header);
 			holder.iv_post_image = (ImageView) convertView
 					.findViewById(R.id.iv_post_image);
 			WindowManager wm = (WindowManager) ctx
@@ -232,7 +233,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					LayoutParams.MATCH_PARENT, wpx);
 			holder.iv_post_image.setLayoutParams(params);
 			holder.iv_post_image.setVisibility(View.INVISIBLE);
-
+			holder.ll_social_like_area = (LinearLayout) convertView
+					.findViewById(R.id.ll_social_like_area);
 			holder.iv_social_site_icon = (ImageView) convertView
 					.findViewById(R.id.iv_social_site_icon);
 			holder.iv_clock = (ImageView) convertView
@@ -245,7 +247,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					.findViewById(R.id.ll_social_like_area);
 			holder.time_break = (LinearLayout) convertView
 					.findViewById(R.id.time_break);
-			
+
 			// Clock Icon. Only needs to be set once
 			holder.iv_clock.setImageDrawable(new SVGHandler().svg_to_drawable(
 					ctx, R.raw.clock));
@@ -258,15 +260,39 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder = (PostViewHolder) convertView.getTag();
 		}
 		user_info = ctx.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-		user_info.getBoolean("registered", false);
+
+		if (user_info.getBoolean("registered", false)) {
+			int userType = 0;
+
+			if (user_info.getString("user_type", "")
+					.equalsIgnoreCase("student")) {
+				holder.ll_social_like_area.setVisibility(View.VISIBLE);
+				holder.tv_post_text.setVisibility(View.VISIBLE);
+
+			} else {
+				// parents and adminstrative staff
+				// hide social links
+				holder.ll_social_like_area.setVisibility(View.INVISIBLE);
+
+			}
+			// switch(userType){
+			// case 0:
+			// break;
+			// }
+
+		} else {
+			holder.post_header.setVisibility(View.INVISIBLE);
+			holder.tv_post_text.setVisibility(View.GONE);
+		}
 
 		// TODO: change what is visible based on whether the user is registered
 		// or not
 		try {
-			if(TH.showTimeBreak()){
+			if (TH.showTimeBreak()) {
 				holder.time_break.setVisibility(View.VISIBLE);
-				holder.time_break_time.setText(TH.getTimeBreak(cur.getPostTime()));
-			}else
+				holder.time_break_time.setText(TH.getTimeBreak(cur
+						.getPostTime()));
+			} else
 				holder.time_break.setVisibility(View.GONE);
 
 			holder.tv_name.setText(cur.getName());
@@ -282,7 +308,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			if (cur.getFaveColor().length() > 5)
 				holder.tv_user_icon.setTextColor(Color.parseColor(cur
 						.getFaveColor()));
+			else
+				holder.tv_user_icon.setTextColor(Color.WHITE);
 			// holder.tv_user_icon.setText(cur.getUserIcon());
+
 			holder.tv_user_icon.setText(cur.getUserIcon().toString());
 
 			/**** Social Site LIKE Icon ****/
@@ -311,10 +340,29 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					null);
 
 			/****** Social Site Icon ******/
-			if (cur.getSocialNetworkName().equalsIgnoreCase("instagram"))
+			if (cur.getSocialNetworkName().equalsIgnoreCase("instagram")) {
 				holder.iv_social_site_icon.setImageDrawable(INSTA_ICON);
-			else if (cur.getSocialNetworkName().equalsIgnoreCase("twitter"))
+				if (user_info.getBoolean("hasInstagram", false)) {
+					holder.iv_social_site_icon.setAlpha(1f);
+					holder.iv_social_like_icon.setAlpha(1f);
+
+				} else {
+					holder.iv_social_site_icon.setAlpha(.6f);
+					holder.iv_social_like_icon.setAlpha(.6f);
+
+				}
+			} else if (cur.getSocialNetworkName().equalsIgnoreCase("twitter")) {
 				holder.iv_social_site_icon.setImageDrawable(TW_ICON);
+				if (user_info.getBoolean("hasTwitter", false)) {
+					holder.iv_social_site_icon.setAlpha(1f);
+					holder.iv_social_like_icon.setAlpha(1f);
+
+				} else {
+					holder.iv_social_site_icon.setAlpha(.6f);
+					holder.iv_social_like_icon.setAlpha(.6f);
+
+				}
+			}
 
 			// holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
 			// .svg_to_drawable(ctx, R.raw.tw));
@@ -385,24 +433,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				socialLikeClicked(mPosts.get(pos));
 				setSocialIcons(v, pos);
 				Log.d(tag, "" + mPosts.get(pos).getUserLiked());
-				// View xx = getView(position, v, parent);
-				// if (mPosts.get(position).getSocialNetworkName()
-				// .equalsIgnoreCase(INSTAGRAM)) {
-				// Log.d(tag, INSTAGRAM);
-				//
-				// // TODO: check if user liked the post already
-				// SharedPreferences insta_info = ctx.getSharedPreferences(
-				// "InstagramInfo", ctx.MODE_PRIVATE);
-				// insta_info.getString("access_token", "");
-				// new InstagramRequests().execute("like",
-				// cur.getSocialNetworkPostId(),
-				// insta_info.getString("access_token", ""));
-				// } else if (mPosts.get(position).getSocialNetworkName()
-				// .equalsIgnoreCase(TWITTER)) {
-				// Log.d(tag, TWITTER);
-				// }
-				// mPosts.get(position).setUserLiked(!mPosts.get(position).getUserLiked());
-
 			}
 		});
 
@@ -487,16 +517,30 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			iv_like = (ImageView) v.findViewById(R.id.iv_social_like_icon);
 		if (p.getUserLiked()) {
 			// holder.iv_social_like_icon.setAlpha(1f);
-			if (p.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+			if (p.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM)) {
 				iv_like.setImageDrawable(INSTA_LIKE_ICON_LIKED);
-			else if (p.getSocialNetworkName().equalsIgnoreCase(TWITTER))
+				holder.iv_social_like_icon.setAlpha(1f);
+				holder.iv_social_site_icon.setAlpha(1f);
+			} else if (p.getSocialNetworkName().equalsIgnoreCase(TWITTER)) {
 				iv_like.setImageDrawable(TW_LIKE_ICON_LIKED);
+				holder.iv_social_like_icon.setAlpha(1f);
+				holder.iv_social_site_icon.setAlpha(1f);
+			}
 		} else {
-			if (p.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+			if (p.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM)) {
 				iv_like.setImageDrawable(INSTA_LIKE_ICON);
-			else if (p.getSocialNetworkName().equalsIgnoreCase(TWITTER))
+				if (!user_info.getBoolean("hasInstagram", false)) {
+					holder.iv_social_like_icon.setAlpha(0.6f);
+					holder.iv_social_site_icon.setAlpha(0.6f);
+				}
+			} else if (p.getSocialNetworkName().equalsIgnoreCase(TWITTER)) {
 				iv_like.setImageDrawable(TW_LIKE_ICON);
+				if (!user_info.getBoolean("hasTwitter", false)) {
+					holder.iv_social_like_icon.setAlpha(0.6f);
+					holder.iv_social_site_icon.setAlpha(0.6f);
+				}
 
+			}
 			// holder.iv_social_like_icon.setAlpha(0.6f);
 		}
 		// holder.iv_social_like_icon.setAlpha(1f);
@@ -509,13 +553,24 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		Log.d(tag, post.getText());
 		// TODO: CHECK IF LOGGED IN
 		String site = post.getSocialNetworkName();
-		post.setUserLiked(!post.getUserLiked());
+
 		if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))) {
-			new TwitterRequests().execute(post.getSocialNetworkPostId());
+			if (user_info.getBoolean("hasTwitter", false)) {
+				new TwitterRequests().execute(post.getSocialNetworkPostId());
+				post.setUserLiked(!post.getUserLiked());
+			} else
+				ctx.startActivity(new Intent(ctx, ActivateSocialActivity.class)
+						.putExtra("twitter", true));
 			// MainActivity.favoriteTweet(post.getSocialNetworkPostId());
 		} else if (site.equalsIgnoreCase(ctx.getResources().getString(
 				R.string.insta)))
-			likeInsta(post.getSocialNetworkPostId());
+			if (user_info.getBoolean("hasInstagram", false)) {
+				likeInsta(post.getSocialNetworkPostId());
+				post.setUserLiked(!post.getUserLiked());
+
+			} else
+				ctx.startActivity(new Intent(ctx, ActivateSocialActivity.class)
+						.putExtra("instagram", true));
 
 	}
 
@@ -544,6 +599,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		LinearLayout ll_social;
 		LinearLayout time_break;
 		TextView time_break_time;
+		LinearLayout post_header;
+		LinearLayout ll_social_like_area;
 	}
 
 	/**
@@ -579,13 +636,13 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		copyOfPosts = new ArrayList<Post>();
 		copyOfPosts.addAll(mPosts);
 		ArrayList<String> al = hm.get(filter);
-		Log.i(tag, "filter list: "+al.toString());
+		Log.i(tag, "filter list: " + al.toString());
 		for (int index = 0; index < mPosts.size(); index++) {
-//			Log.i(tag, "filter. id: "+mPosts.get(index).getText());
+			// Log.i(tag, "filter. id: "+mPosts.get(index).getText());
 			String id = mPosts.get(index).getParseObjectId();
-			Log.i(tag, "filter. id: "+id);
+			Log.i(tag, "filter. id: " + id);
 
-			if (!al.toString().matches(".*"+id+".*")){//(id)) {
+			if (!al.toString().matches(".*" + id + ".*")) {// (id)) {
 				Log.i(tag, "filter removing post");
 				mPosts.remove(index);
 				index--;
@@ -595,8 +652,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 	}
 
-	public void removeFilter(){
-		if(copyOfPosts != null){
+	public void removeFilter() {
+		if (copyOfPosts != null) {
 			mPosts.removeAll(mPosts);
 			this.addAll(copyOfPosts);
 			copyOfPosts = null;

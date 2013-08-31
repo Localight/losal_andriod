@@ -59,6 +59,9 @@
     <string name="fb">Facebook</string>
     <string name="tw">Twitter</string>
     <string name="insta">Instagram</string>
+   	<string name="activate_twitter">Activate Twitter</string>
+	<string name="activate_instagram">Activate Instagram</string>
+        
     
     <string name="fb_app_id">253614024715719</string>
 

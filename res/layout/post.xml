@@ -30,6 +30,7 @@
     <!-- Post Header -->
 
     <LinearLayout
+        android:id="@+id/post_header"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
         android:gravity="left"
@@ -48,6 +49,7 @@
             android:id="@+id/tv_user_icon"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:text=""
             android:textSize="@dimen/post_user_icon_size" />
@@ -151,7 +153,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-       
         <ImageView
             android:id="@+id/iv_post_image"
             android:layout_width="fill_parent"
@@ -168,8 +169,8 @@
             android:layout_alignParentBottom="true"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:textAlignment="gravity"
             android:text="radsf sd sdf asdf asdnfjk sadf asdfhasdf asdjfsadfkl sdfasdfasdf fdf sdf fd df "
+            android:textAlignment="gravity"
             android:textColor="@color/white" />
     </RelativeLayout>
 

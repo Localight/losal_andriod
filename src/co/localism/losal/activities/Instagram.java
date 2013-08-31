@@ -48,8 +48,14 @@ public class Instagram extends Activity {
 	private static final int SUCCESSFULLY_LOGGED_IN = 1;
 	private static final int ALREADY_LOGGED_IN = 2;
 	private static final int ERROR_LOGGING_IN = 3;
-	private String ERROR_MESSAGE= "";
+	private String ERROR_MESSAGE = "";
 
+	private String accessTokenString = "";
+	private String id = "";
+	private String username = "";
+	private String full_name = "";
+	
+	
 	private int STATUS = NOT_STARTED;
 
 	@Override
@@ -127,6 +133,7 @@ public class Instagram extends Activity {
 		protected void onCancelled(String result) {
 			// TODO Auto-generated method stub
 			super.onCancelled(result);
+			STATUS = Instagram.ERROR_LOGGING_IN;
 			Toast.makeText(ctx, "Login cancelled.", Toast.LENGTH_SHORT).show();
 
 		}
@@ -135,14 +142,21 @@ public class Instagram extends Activity {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			switch(STATUS){
+			while (STATUS == Instagram.NOT_STARTED) {}
+
+			switch (STATUS) {
 			case SUCCESSFULLY_LOGGED_IN:
-				Toast.makeText(ctx, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(ctx, "Successfully logged in!",
+						Toast.LENGTH_SHORT).show();
 				break;
 			case ERROR_LOGGING_IN:
-				Toast.makeText(ctx, "Error logging in.", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(ctx, "Error logging in.", Toast.LENGTH_SHORT)
+//						.show();
+				Log.e(tag, "Error logging instagram in");
 				break;
+
 			}
+			saveToPhone(id, username, accessTokenString, full_name);
 			finish();
 
 		}
@@ -162,11 +176,14 @@ public class Instagram extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			Log.d(tag, "doInBackground called");
+			STATUS = Instagram.NOT_STARTED;
+//			if (		)
+					getAccessToken();
+//				STATUS = SUCCESSFULLY_LOGGED_IN;
+//			else
+//				STATUS = ERROR_LOGGING_IN;
 
-			if(getAccessToken())
-				STATUS = SUCCESSFULLY_LOGGED_IN;
-			else
-				STATUS = ERROR_LOGGING_IN;
+				
 			return null;
 		}
 
@@ -255,7 +272,7 @@ public class Instagram extends Activity {
 			JSONObject jsonObject = (JSONObject) new JSONTokener(response)
 					.nextValue();
 			Log.d(tag, "json:  " + jsonObject.toString());
-			String accessTokenString = "";
+			accessTokenString = "";
 			accessTokenString = jsonObject.getString("access_token"); // Here is
 																		// your
 																		// ACCESS
@@ -269,9 +286,9 @@ public class Instagram extends Activity {
 			// This is how you can get the user info. You can eplore the JSON
 			// sent by Instagram as well to know what info you go tin a
 			// response.
-			String id = "";
-			String username = "";
-			String full_name = "";
+
+			STATUS = SUCCESSFULLY_LOGGED_IN;
+
 			id = jsonObject.getJSONObject("user").getString("id");
 			username = jsonObject.getJSONObject("user").getString("username");
 			full_name = jsonObject.getJSONObject("user").getString("full_name");
@@ -279,6 +296,7 @@ public class Instagram extends Activity {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			STATUS = Instagram.ERROR_LOGGING_IN;
 			return false;
 		}
 	}
@@ -310,7 +328,7 @@ public class Instagram extends Activity {
 
 	private void saveToPhone(String id, String uname, String access_token,
 			String full_name) {
-		/*****  InstagramInfo  *****/
+		/***** InstagramInfo *****/
 		SharedPreferences insta_info = getSharedPreferences("InstagramInfo",
 				MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = insta_info.edit();
@@ -321,14 +339,16 @@ public class Instagram extends Activity {
 		prefEditor.putString("request_token", request_token);
 		prefEditor.putString("full_name", full_name);
 		prefEditor.commit();
-	
-		/*****  InstagramInfo  *****/
+
+		/***** InstagramInfo *****/
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
 		prefEditor = user_info.edit();
-		prefEditor.putBoolean("hasInstagram", true);
+		if(id.length() > 1)
+			prefEditor.putBoolean("hasInstagram", true);
 		prefEditor.commit();
-	
+		Toast.makeText(ctx, "Instagram connected!!", Toast.LENGTH_SHORT).show();
+
 	}
 
 }

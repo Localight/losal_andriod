@@ -48,18 +48,25 @@ public class ActivateSocialActivity extends Activity {
 	private Context ctx = this;
 	private BroadcastReceiver mResponseListener;
 	private SharedPreferences user_info;
+	LinearLayout.LayoutParams params;
 
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_activate_social);
+		Boolean show_twitter = false;
+		Boolean show_instagram = false;
 
+		Bundle extras = getIntent().getExtras();
+		if (extras != null && !extras.isEmpty()) {
+			show_twitter = extras.getBoolean("twitter", false);
+			show_instagram = extras.getBoolean("instagram", false);
+		}
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser != null) {
 			// do stuff with the user
-			
+
 		} else {
 			// show the signup or login screen
 		}
@@ -71,37 +78,66 @@ public class ActivateSocialActivity extends Activity {
 				// onBackPressed();
 			}
 		});
+
 		setup_onclick_listeners();
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				icon_width, icon_height);
+		params = new LinearLayout.LayoutParams(icon_width, icon_height);
 
 		LinearLayout ll_footer = (LinearLayout) findViewById(R.id.ll_social_footer);
 		ll_footer.addView(
 				new SVGHandler().svg_to_imageview(this, R.raw.localism),
 				ll_footer.getChildCount());
 
-		// add twitter icon and set onclick
-		LinearLayout ll_tw = (LinearLayout) findViewById(R.id.ll_activate_tw);
-		ll_tw.addView(new SVGHandler().svg_to_imageview(this, R.raw.tw, 0.6f),
-				0, params);
-		ll_tw.setOnClickListener(tw_onclick);
-		TextView tv_tw = (TextView) findViewById(R.id.tv_activate_tw_text);
-		tv_tw.setAlpha(0.6f);
+		showTwitter(show_twitter);
+		showInstagram(show_instagram);
+
 		// add fb icon and set onclick
-		LinearLayout ll_fb = (LinearLayout) findViewById(R.id.ll_activate_fb);
-		ll_fb.addView(new SVGHandler().svg_to_imageview(this, R.raw.fb2,
-				R.color.android_green, R.color.white, 1f), 0, params);
-		ll_fb.setOnClickListener(fb_onclick);
-
+		/*
+		 * LinearLayout ll_fb = (LinearLayout)
+		 * findViewById(R.id.ll_activate_fb); ll_fb.addView(new
+		 * SVGHandler().svg_to_imageview(this, R.raw.fb2, R.color.android_green,
+		 * R.color.white, 1f), 0, params); ll_fb.setOnClickListener(fb_onclick);
+		 */
 		// add instagram icon and set onclick
-		LinearLayout ll_insta = (LinearLayout) findViewById(R.id.ll_activate_insta);
-		ll_insta.addView(
-				new SVGHandler().svg_to_imageview(this, R.raw.insta, 0.6f), 0,
-				params);
-		TextView tv_insta = (TextView) findViewById(R.id.tv_activate_insta_text);
-		tv_insta.setAlpha(0.6f);
-		ll_insta.setOnClickListener(insta_onclick);
 
+	}
+
+	private void showTwitter(Boolean show) {
+		setHeaderTitle(R.string.activate_twitter);
+
+		if (show) {
+			LinearLayout ll_insta = (LinearLayout) findViewById(R.id.ll_activate_insta);
+			ll_insta.setVisibility(View.GONE);
+
+			LinearLayout ll_tw = (LinearLayout) findViewById(R.id.ll_activate_tw);
+			ll_tw.setVisibility(View.VISIBLE);
+			ll_tw.addView(
+					new SVGHandler().svg_to_imageview(this, R.raw.tw, 0.6f), 0,
+					params);
+			ll_tw.setOnClickListener(tw_onclick);
+			TextView tv_tw = (TextView) findViewById(R.id.tv_activate_tw_text);
+			tv_tw.setAlpha(0.6f);
+		}
+	}
+
+	private void showInstagram(Boolean show) {
+		setHeaderTitle(R.string.activate_instagram);
+		if (show) {
+			LinearLayout ll_tw = (LinearLayout) findViewById(R.id.ll_activate_tw);
+			ll_tw.setVisibility(View.GONE);
+			LinearLayout ll_insta = (LinearLayout) findViewById(R.id.ll_activate_insta);
+			ll_insta.setVisibility(View.VISIBLE);
+			ll_insta.addView(
+					new SVGHandler().svg_to_imageview(this, R.raw.insta, 0.6f),
+					0, params);
+			TextView tv_insta = (TextView) findViewById(R.id.tv_activate_insta_text);
+			tv_insta.setAlpha(0.6f);
+			ll_insta.setOnClickListener(insta_onclick);
+		}
+	}
+	
+	private void setHeaderTitle(int s){
+		TextView title = (TextView) findViewById(R.id.tv_activate_title);
+		title.setText(s);
 	}
 
 	private void setup_onclick_listeners() {
@@ -119,7 +155,7 @@ public class ActivateSocialActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Log.d("activate", "start twitter login ");
-//				twitterLogin();
+				// twitterLogin();
 				linkTwitterUser();
 			}
 		};
@@ -128,8 +164,7 @@ public class ActivateSocialActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Log.d("activate", "start insta login ");
-				Intent i = new Intent(getApplicationContext(),
-						Instagram.class);
+				Intent i = new Intent(getApplicationContext(), Instagram.class);
 				startActivity(i);
 			}
 		};
@@ -137,8 +172,9 @@ public class ActivateSocialActivity extends Activity {
 	}
 
 	private void twitterLogin() {
-		 ParseTwitterUtils.initialize(getResources().getString(R.string.tw_consumer_key),
-		 getResources().getString(R.string.tw_consumer_secret));
+		ParseTwitterUtils.initialize(
+				getResources().getString(R.string.tw_consumer_key),
+				getResources().getString(R.string.tw_consumer_secret));
 
 		ParseTwitterUtils.logIn(this, new LogInCallback() {
 			@Override
@@ -157,8 +193,6 @@ public class ActivateSocialActivity extends Activity {
 				}
 			}
 		});
-		
-		
 
 	}
 
@@ -173,50 +207,48 @@ public class ActivateSocialActivity extends Activity {
 				public void done(ParseException ex) {
 					if (ParseTwitterUtils.isLinked(currentUser)) {
 						Log.d("MyApp", "Woohoo, user logged in with Twitter!");
+						Toast.makeText(ctx, "Twitter connected!!", Toast.LENGTH_SHORT).show();
+
 						// add this info to user_info
 						saveToUserInfo();
-					}else
+					} else
 						Log.d("MyApp", "Error User not linked through Twitter!");
 
 				}
 			});
-		}else{
-//			is linked
+		} else {
+			// is linked
+			Toast.makeText(ctx, "Already Logged In!", Toast.LENGTH_SHORT).show();
 			saveToUserInfo();
 		}
+		finish();
 	}
-	
-	
-	
-	private void saveToUserInfo(){
-	
-		SharedPreferences user_info = getSharedPreferences(
-				"UserInfo", MODE_PRIVATE);
+
+	private void saveToUserInfo() {
+
+		SharedPreferences user_info = getSharedPreferences("UserInfo",
+				MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = user_info.edit();
 		prefEditor.putBoolean("hasTwitter", true);
 		prefEditor.commit();
-		
-		
-	}
-	
-	
 
-	
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("co.localism.losal.responselistener");
 		filter.addCategory("co.localism.losal.instademo");
-		if(mResponseListener != null)
+		if (mResponseListener != null)
 			registerReceiver(mResponseListener, filter);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if(mResponseListener != null)
+		if (mResponseListener != null)
 			unregisterReceiver(mResponseListener);
 	}
 

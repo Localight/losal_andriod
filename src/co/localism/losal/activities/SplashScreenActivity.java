@@ -50,6 +50,10 @@ public class SplashScreenActivity extends Activity {
 //		TODO:REMOVE. DUMMY DATA
 		SharedPreferences.Editor prefEditor = user_info.edit();
 		prefEditor.putBoolean("isFirstVisit", true);
+
+		prefEditor.putBoolean("hasInstagram", false);
+		prefEditor.putBoolean("hasTwitter", false);
+
 		prefEditor.commit();
 		
 			new PrefetchData().execute();

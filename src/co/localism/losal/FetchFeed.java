@@ -215,9 +215,15 @@ public class FetchFeed {//extends Observable {
 //					Log.d(tag, ""+ postsList.get(i).getParseObject("user").toString());
 					// Log.d(tag, ""+
 					// postsList.get(i).getParseObject("user").toString());
-
+					Log.e(tag,"before name");
 					p.setName(postsList.get(i).getParseObject("user")
 							.getString("firstName"));
+					
+					Log.e(tag,"name"+postsList.get(i).getParseObject("user")
+							.getString("firstName"));
+					String lname = postsList.get(i).getParseObject("user")
+							.getString("lastName");
+							p.setName(p.getName()+" "+lname.substring(0, 1)+".");
 					p.setClassYear(postsList.get(i).getParseObject("user")
 							.getString("year"));
 					p.setUserIcon(postsList.get(i).getParseObject("user")
@@ -226,7 +232,9 @@ public class FetchFeed {//extends Observable {
 							.getString("faveColor"));
 				} catch (Exception e) {
 					Log.e(tag, e.toString());
-					p.setName("");// placeholder data
+					p.setName("Unknown");// placeholder data
+					p.setUserIcon("e00c");
+					p.setFaveColor("#FFFFFF");
 				}
 				// Log.d(tag, ""+
 				// postsList.get(i).getParseObject("user").get("firstName"));

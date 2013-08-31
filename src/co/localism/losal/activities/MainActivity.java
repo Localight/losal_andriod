@@ -274,7 +274,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 						String faveColor = user.getString("faveColor");
 						String icon = user.getString("icon");
 						saveUserDataToPhone(userType, fname, lname, icon,
-								faveColor);
+								faveColor, year);
 					} else {
 						Log.i(tag, "login failed. e: " + e.toString());
 
@@ -290,7 +290,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	}
 
 	private void saveUserDataToPhone(String userType, String fName,
-			String lName, String icon, String favColor) {
+			String lName, String icon, String favColor, String year) {
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = user_info.edit();
@@ -300,11 +300,13 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		prefEditor.putString("last_name", lName);
 		prefEditor.putString("user_icon", icon);
 		prefEditor.putString("fav_color", favColor);
+		prefEditor.putString("year", year);
 
 		String user_name = fName + " " + lName.substring(0, 1) + ".";
 		prefEditor.putString("user_name", user_name);
-
 		prefEditor.commit();
+		/***** Update Personal Options pane ******/
+		((SetUpSlidingMenu) sm).configActionBar();
 	}
 
 	private void getNotices() {

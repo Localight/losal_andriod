@@ -23,11 +23,11 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class SetUpSlidingMenu extends SlidingMenu {
 
-	private ArrayList<Notice> notices;
+	private Activity activity;
 
 	public SetUpSlidingMenu(Activity activity, int slideStyle) {
 		super(activity, slideStyle);
-
+		this.activity = activity;
 		setMode(SlidingMenu.LEFT_RIGHT);
 		setMenu(R.layout.personal_options);
 		setSecondaryMenu(R.layout.notices);
@@ -125,27 +125,15 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		tv.setText(getResources().getString(R.string.group_heading_3));
 
 		/******* ActionBar *******/
-		SharedPreferences user_info = activity.getApplicationContext().getSharedPreferences("UserInfo",
-				activity.getApplicationContext().MODE_PRIVATE);
-		
-		TextView user_icon = (TextView) findViewById(R.id.tv_ab_user_icon);
-
-		user_icon.setTypeface(Typeface.createFromAsset(activity.getApplicationContext().getAssets(), "icomoon.ttf"));
-		
-		if(!user_info.getString("user_icon", "").equalsIgnoreCase("")){
-			String s = ("\\u"+user_info.getString("user_icon", ""));
-			Character c = (char) Integer.parseInt( s.substring(2), 16 );
-			user_icon.setText(c.toString());
-			user_icon.setTextColor(Color.parseColor(user_info.getString("fav_color","#FFFFFF")));
-		}
-		TextView user_name = (TextView) findViewById(R.id.tv_ab_user_name);
-		user_name.setText(user_info.getString("user_name", ""));
-	/*	ImageView iv_settings = (ImageView) activity.findViewById(R.id.iv_ab_settings);
-		iv_settings.setImageDrawable(new SVGHandler().svg_to_drawable(
-				activity.getApplicationContext(), R.raw.gear));
-		iv_settings.setAlpha(0.6f);
-		iv_settings.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-*/
+		configActionBar();
+		/*
+		 * ImageView iv_settings = (ImageView)
+		 * activity.findViewById(R.id.iv_ab_settings);
+		 * iv_settings.setImageDrawable(new SVGHandler().svg_to_drawable(
+		 * activity.getApplicationContext(), R.raw.gear));
+		 * iv_settings.setAlpha(0.6f);
+		 * iv_settings.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		 */
 
 		// ******** NOTICES ********
 
@@ -174,4 +162,29 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		// SlidingMenu.SLIDING_WINDOW | SlidingMenu.SLIDING_CONTENT
 
 	}
+
+	public void configActionBar() {
+		SharedPreferences user_info = activity.getApplicationContext()
+				.getSharedPreferences("UserInfo",
+						activity.getApplicationContext().MODE_PRIVATE);
+
+		TextView user_icon = (TextView) findViewById(R.id.tv_ab_user_icon);
+
+		user_icon.setTypeface(Typeface.createFromAsset(activity
+				.getApplicationContext().getAssets(), "icomoon.ttf"));
+
+		// if(!user_info.getString("user_icon", "").equalsIgnoreCase("")){
+		String s = ("\\u" + user_info.getString("user_icon", "e00c"));
+		Character c = (char) Integer.parseInt(s.substring(2), 16);
+		// }else{
+
+		// }
+		user_icon.setText(c.toString());
+		user_icon.setTextColor(Color.parseColor(user_info.getString(
+				"fav_color", "#FFFFFF")));
+		TextView user_name = (TextView) findViewById(R.id.tv_ab_user_name);
+		user_name
+				.setText(user_info.getString("user_name", "Unregistered"));
+	}
+
 }

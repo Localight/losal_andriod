@@ -23,6 +23,7 @@ public class InstagramRequests extends AsyncTask<String, String, String> {
 
 	private final String tag = "InstagramRequests";
 	private String access_token = "";
+	
 	@Override
 	protected String doInBackground(String... params) {
 
@@ -31,7 +32,7 @@ public class InstagramRequests extends AsyncTask<String, String, String> {
 		if (params[0].equalsIgnoreCase("like")) {
 			String request = params[0];
 			String img_id = params[1];
-			String user_id="2"; //= params[2];
+			String user_id= params[3];
 			access_token = params[2];
 
 			return (executeRequest(request, img_id, user_id));
@@ -75,6 +76,7 @@ public class InstagramRequests extends AsyncTask<String, String, String> {
             }catch(Exception e){
             	
             }
+            new PushData().execute("like",img_id, user_id);//log the like in our database
 			return "success";
 		} catch (Exception e) {
 			Log.d(tag, e.toString());

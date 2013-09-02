@@ -1,6 +1,7 @@
 package co.localism.losal.adapters;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -73,7 +74,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	public static Filter filter;
 	private static String[] CLASS_YEAR = new String[] { "", "Freshman",
 			"Sophomore", "Junior", "Senior" };
-	private SharedPreferences user_info;
+	private SharedPreferences user_info, user_likes;
 	private OnClickListener activate_onClick, fb_onClick, insta_onClick,
 			fullscreen_onClick, tw_onClick;
 	public static ImageLoader mImageLoader;
@@ -96,6 +97,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		mPosts = posts;
 		mViewResourceId = viewResourceId;
 		this.ctx = ctx;
+		
 
 		TH = new TimeHandler();
 		icon_font = Typeface.createFromAsset(ctx.getAssets(), "icomoon.ttf");
@@ -124,16 +126,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				// like the post on fb
 			}
 		};
-		tw_onClick = new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// favorite the post on twitter
-				new TwitterRequests().execute("519175652481234876_14802876",
-						"", "");
-				// favoriteTweet("519175652481234876_14802876");
-			}
-		};
 
+		
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(ctx));
 
@@ -260,7 +254,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder = (PostViewHolder) convertView.getTag();
 		}
 		user_info = ctx.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-
+		user_likes= ctx.getSharedPreferences("UserLikes", Context.MODE_PRIVATE);
+		
 		if (user_info.getBoolean("registered", false)) {
 			int userType = 0;
 
@@ -301,7 +296,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder.tv_class_year.setText(cur.getClassYear());
 
 			holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
-			Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
+//			Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
 			holder.tv_post_text.setText(cur.getText());
 
 			holder.tv_user_icon.setTypeface(icon_font);
@@ -315,8 +310,15 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder.tv_user_icon.setText(cur.getUserIcon().toString());
 
 			/**** Social Site LIKE Icon ****/
-			// setSocialIcons(null, position);
+			
+			Log.d(tag, cur.getUserLiked()+"");
+			Log.d(tag, "UL: "+user_likes.getString(cur.getSocialNetworkPostId(), "-1"));
+			Log.d(tag, "POID: "+cur.getParseObjectId());
 
+			if(!cur.getUserLiked())
+				if(!user_likes.getString(cur.getSocialNetworkPostId(), "").equalsIgnoreCase(""))
+					cur.setUserLiked(true);
+			
 			if (cur.getUserLiked()) {
 				// holder.iv_social_like_icon.setAlpha(1f);
 				if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
@@ -556,7 +558,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 		if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))) {
 			if (user_info.getBoolean("hasTwitter", false)) {
-				new TwitterRequests().execute(post.getSocialNetworkPostId());
+				favTwitter(post.getSocialNetworkPostId());
+//				new TwitterRequests().execute(post.getSocialNetworkPostId());
 				post.setUserLiked(!post.getUserLiked());
 			} else
 				ctx.startActivity(new Intent(ctx, ActivateSocialActivity.class)
@@ -573,6 +576,20 @@ public class PostAdapter extends ArrayAdapter<Post> {
 						.putExtra("instagram", true));
 
 	}
+	
+	public void favTwitter(String id){
+		// like the post on instagram
+				// TODO: check if user liked the post already
+		new TwitterRequests().execute(id, user_info.getString("user_id", ""));
+		
+//		user_likes.edit().putString(id, Calendar.getInstance().getTime().toString()).commit();
+		
+		SharedPreferences.Editor likesEditor = user_likes.edit();
+		likesEditor.putString(id, Calendar.getInstance().getTime().toString());
+		likesEditor.commit();
+		
+		Log.d(tag, "cal "+Calendar.getInstance().getTime().toString());
+	}
 
 	public void likeInsta(String id) {
 		// like the post on instagram
@@ -580,8 +597,14 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		SharedPreferences insta_info = ctx.getSharedPreferences(
 				"InstagramInfo", ctx.MODE_PRIVATE);
 		insta_info.getString("access_token", "");
+
 		new InstagramRequests().execute("like", id,
-				insta_info.getString("access_token", ""));
+				insta_info.getString("access_token", ""), user_info.getString("user_id",""));
+//		user_likes.edit().putString(id, Calendar.getInstance().getTime().toString()).commit();
+		SharedPreferences.Editor likesEditor = user_likes.edit();
+		likesEditor.putString(id, Calendar.getInstance().getTime().toString());
+		likesEditor.commit();
+		Log.d(tag, "cal "+Calendar.getInstance().getTime().toString());
 	}
 
 	public static class PostViewHolder {

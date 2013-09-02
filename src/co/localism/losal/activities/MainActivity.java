@@ -273,7 +273,8 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 						String year = user.getString("year");
 						String faveColor = user.getString("faveColor");
 						String icon = user.getString("icon");
-						saveUserDataToPhone(userType, fname, lname, icon,
+						String userID = user.getString("objectId");
+						saveUserDataToPhone(userID, userType, fname, lname, icon,
 								faveColor, year);
 					} else {
 						Log.i(tag, "login failed. e: " + e.toString());
@@ -289,11 +290,12 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		}
 	}
 
-	private void saveUserDataToPhone(String userType, String fName,
+	private void saveUserDataToPhone(String userID, String userType, String fName,
 			String lName, String icon, String favColor, String year) {
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = user_info.edit();
+		prefEditor.putString("user_id", userID);
 		prefEditor.putBoolean("registered", true);
 		prefEditor.putString("user_type", userType);
 		prefEditor.putString("first_name", fName);

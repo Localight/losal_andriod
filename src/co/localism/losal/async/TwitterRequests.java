@@ -36,7 +36,7 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 
 	@Override
 	protected String doInBackground(String... params) {
-		favoriteTweet(params[0]);
+		favoriteTweet(params[0], params[1]);
 		return null;
 	}
 
@@ -44,7 +44,7 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 	
 	
 	
-	private String favoriteTweet(String id) {
+	private String favoriteTweet(String id, String user_id) {
 		Log.d(tag, "favoriteTweet called");
 
 		InputStream is = null;
@@ -81,7 +81,9 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 			HttpEntity entity = response.getEntity();
             is = entity.getContent();
 		Log.d(tag, "tw resp: "+responseToString(is));
-		
+
+        new PushData().execute("like",id, user_id);//log the like in our database
+
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

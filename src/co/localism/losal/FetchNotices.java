@@ -52,6 +52,8 @@ public class FetchNotices extends Observable  {
 		this.na = na;
 		
 		query.whereGreaterThan("endDate", cal.getTime());
+		query.whereLessThan("startDate", cal.getTime());
+
 		query.addDescendingOrder("startDate");
 
 		query.findInBackground(new FindCallback<ParseObject>() {

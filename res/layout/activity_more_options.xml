@@ -1,8 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_mo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#484848"
+    android:gravity="center"
     android:orientation="vertical" >
-    
 
+  <!--   <ViewSwitcher
+        android:id="@+id/viewSwitcher1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/ll_mo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#484848"
+            android:gravity="center"
+            android:orientation="vertical" > -->
+
+            <TextView
+                android:id="@+id/tv_mo_suggest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/mo_suggest_feature"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tv_mo_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/mo_help"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tv_mo_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/mo_about"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tv_mo_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/mo_reset"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+      <!--   </LinearLayout>
+    </ViewSwitcher>
+ -->
 </LinearLayout>

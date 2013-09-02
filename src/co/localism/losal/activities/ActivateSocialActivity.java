@@ -196,10 +196,10 @@ public class ActivateSocialActivity extends Activity {
 
 	}
 	
-	public static void unlinkTwitterUser() {
-		ParseTwitterUtils.initialize("wNe7Ugi45G8YKu3jih1NA","xgtZlqu75hA4SVAccJa0L2pXmeaehblxbTNKgE4aNM");
-//				getResources().getString(R.string.tw_consumer_key),
-//				getResources().getString(R.string.tw_consumer_secret));
+	public void unlinkTwitterUser() {
+		ParseTwitterUtils.initialize(
+				getResources().getString(R.string.tw_consumer_key),
+				getResources().getString(R.string.tw_consumer_secret));
 		ParseUser currentUser = ParseUser.getCurrentUser();
 
 		try {

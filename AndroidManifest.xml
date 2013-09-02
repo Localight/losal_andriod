@@ -115,7 +115,8 @@
             android:name="co.localism.losal.activities.MoreOptionsActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
 

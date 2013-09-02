@@ -49,7 +49,6 @@ public class ScheduleActivity extends Activity{
 //        imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         ActionBar a = getActionBar();
-//        a.setTitle("");
         a.setDisplayHomeAsUpEnabled(true);
 		a.setDisplayShowTitleEnabled(true);
 		a.setDisplayUseLogoEnabled(false);

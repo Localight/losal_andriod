@@ -46,10 +46,10 @@ public class SplashScreenActivity extends Activity {
 				getResources().getString(R.string.parse_client_key));
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
-
+		ActivateSocialActivity.unlinkTwitterUser();
 //		TODO:REMOVE. DUMMY DATA
 		SharedPreferences.Editor prefEditor = user_info.edit();
-		prefEditor.putBoolean("isFirstVisit", true);
+		prefEditor.putBoolean("isFirstVisit", false);
 
 		prefEditor.putBoolean("hasInstagram", false);
 		prefEditor.putBoolean("hasTwitter", false);

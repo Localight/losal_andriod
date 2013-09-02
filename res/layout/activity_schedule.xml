@@ -1,16 +1,2071 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"  encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_schedule"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#484848"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Schedule Activity" 
-        android:textSize="40sp"
-        android:textColor="@color/white"
-        />
+    <!-- REGULAR DAY -->
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <!-- *********************  REGULAR DAY   ********************* -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/schedule_bottom_margin"
+                android:layout_marginLeft="@dimen/schedule_margin_left_right"
+                android:layout_marginRight="@dimen/schedule_margin_left_right"
+                android:background="@drawable/schedule_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_s_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/schedule_title_margin_left"
+                    android:layout_marginTop="@dimen/schedule_title_margin_top"
+                    android:text="Regular Day"
+                    android:textColor="@color/sched_text"
+                    android:textSize="@dimen/schedule_title_size" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_0"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_1"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_2"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_nutrition"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_3"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_4"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_lunch"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_5"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_6"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="6:50"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="7:48"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="8:56"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:50"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:03"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="11:04"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="11:58"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="12:35"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="1:36"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="7:42"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="8:49"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:50"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:56"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="10:57"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="11:58"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="12:28"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="1:29"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="2:30"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- *************************    LATE START DAY     *********************** -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/schedule_bottom_margin"
+                android:layout_marginLeft="@dimen/schedule_margin_left_right"
+                android:layout_marginRight="@dimen/schedule_margin_left_right"
+                android:background="@drawable/schedule_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_s_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/schedule_title_margin_left"
+                    android:layout_marginTop="@dimen/schedule_title_margin_top"
+                    android:text="@string/sched_title_late"
+                    android:textColor="@color/sched_text"
+                    android:textSize="25sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_0"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_1"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_2"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_nutrition"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_3"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_4"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_lunch"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_5"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_6"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="6:40"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="8:37"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:31"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:18"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:31"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="11:25"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="12:12"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="12:49"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="1:43"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="7:25"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:24"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="10:18"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="10:24"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="11:18"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="12:12"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="12:42"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="1:36"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="2:30"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ***************************   MINIMUM DAY   *************************** -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/schedule_bottom_margin"
+                android:layout_marginLeft="@dimen/schedule_margin_left_right"
+                android:layout_marginRight="@dimen/schedule_margin_left_right"
+                android:background="@drawable/schedule_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_s_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/schedule_title_margin_left"
+                    android:layout_marginTop="@dimen/schedule_title_margin_top"
+                    android:text="@string/sched_title_min"
+                    android:textColor="@color/sched_text"
+                    android:textSize="25sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_0"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_1"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_2"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_3"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_nutrition"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_4"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_no_lunch"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_5"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_6"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="7:10"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="7:48"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="8:36"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:17"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:51"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:04"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text=" "
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:45"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="11:26"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" "
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="7:42"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="8:29"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:10"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:51"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:57"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="10:38"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text=" "
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="11:19"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="12:00"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- *************************    ASSEMBLY     *********************** -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/schedule_bottom_margin"
+                android:layout_marginLeft="@dimen/schedule_margin_left_right"
+                android:layout_marginRight="@dimen/schedule_margin_left_right"
+                android:background="@drawable/schedule_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_s_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/schedule_title_margin_left"
+                    android:layout_marginTop="@dimen/schedule_title_margin_top"
+                    android:text="@string/sched_title_assem"
+                    android:textColor="@color/sched_text"
+                    android:textSize="25sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_0"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_1"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_2"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_nutrition"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_3a"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_in_class"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_assembly"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_in_class"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_3b"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_in_class"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_assembly"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_4"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_lunch"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_5"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_6"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="6:50"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="7:48"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="8:42"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:28"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text=" "
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:41"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:51"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:36"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text=" "
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:41"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:41"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="11:28"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="12:14"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="12:51"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="1:44"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" "
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" "
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="7:42"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="8:35"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:28"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:34"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text=" "
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:46"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="10:31"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="11:21"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text=" "
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="10:36"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="11:21"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="12:14"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="12:44"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="1:37"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="2:30"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- *********************  BLOCK   ********************* -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/schedule_bottom_margin"
+                android:layout_marginLeft="@dimen/schedule_margin_left_right"
+                android:layout_marginRight="@dimen/schedule_margin_left_right"
+                android:background="@drawable/schedule_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_s_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/schedule_title_margin_left"
+                    android:layout_marginTop="@dimen/schedule_title_margin_top"
+                    android:text="@string/sched_title_block"
+                    android:textColor="@color/sched_text"
+                    android:textSize="@dimen/schedule_title_size" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_0"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_1_or_2"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_nutrition"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_passing"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_3_or_4"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_lunch"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_passing"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_5_or_6"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="6:50"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="7:50"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:48"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:54"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:01"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="11:57"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="12:27"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="12:34"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="7:44"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:48"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:54"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="10:01"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="11:57"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="12:27"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="12:34"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="2:30"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- *********************  FINALS   ********************* -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/schedule_bottom_margin"
+                android:layout_marginLeft="@dimen/schedule_margin_left_right"
+                android:layout_marginRight="@dimen/schedule_margin_left_right"
+                android:background="@drawable/schedule_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_s_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/schedule_title_margin_left"
+                    android:layout_marginTop="@dimen/schedule_title_margin_top"
+                    android:text="@string/sched_title_finals"
+                    android:textColor="@color/sched_text"
+                    android:textSize="@dimen/schedule_title_size" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_1_or_2"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_3_or_4"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_nutrition"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@string/sched_period_5_or_6"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="7:48"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="9:17"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:32"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:text="10:45"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dash"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="9:10"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="10:32"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="10:38"
+                            android:textColor="@color/sched_text_light"
+                            android:textSize="@dimen/schedule_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="3"
+                            android:gravity="right"
+                            android:text="12:00"
+                            android:textColor="@color/sched_text"
+                            android:textSize="@dimen/schedule_text_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

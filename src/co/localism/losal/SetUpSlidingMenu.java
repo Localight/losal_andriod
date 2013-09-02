@@ -26,11 +26,21 @@ public class SetUpSlidingMenu extends SlidingMenu {
 	private Activity activity;
 
 	public SetUpSlidingMenu(Activity activity, int slideStyle) {
+		this(activity, slideStyle, false);
+	}
+
+	public SetUpSlidingMenu(Activity activity, int slideStyle,
+			boolean disableRight) {
 		super(activity, slideStyle);
 		this.activity = activity;
-		setMode(SlidingMenu.LEFT_RIGHT);
 		setMenu(R.layout.personal_options);
-		setSecondaryMenu(R.layout.notices);
+		if (disableRight) {
+			setMode(SlidingMenu.LEFT);
+
+		} else {
+			setMode(SlidingMenu.LEFT_RIGHT);
+			setSecondaryMenu(R.layout.notices);
+		}
 		setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		LinearLayout ll_po_socrative = (LinearLayout) activity
 				.findViewById(R.id.po_socrative);
@@ -183,8 +193,7 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		user_icon.setTextColor(Color.parseColor(user_info.getString(
 				"fav_color", "#FFFFFF")));
 		TextView user_name = (TextView) findViewById(R.id.tv_ab_user_name);
-		user_name
-				.setText(user_info.getString("user_name", "Unregistered"));
+		user_name.setText(user_info.getString("user_name", "Unregistered"));
 	}
 
 }

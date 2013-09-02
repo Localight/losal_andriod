@@ -91,7 +91,9 @@
         <string name="tw_consumer_key">wNe7Ugi45G8YKu3jih1NA</string>
         <string name="tw_consumer_secret">xgtZlqu75hA4SVAccJa0L2pXmeaehblxbTNKgE4aNM</string>
     	<string name="tw_callback_url">http://www.joezoob.com</string>
-        
+    	
+    	
+    	
     <string name="social_footer">The #LOSAL APP uses Localism! to protect your privacy and unite our community.  Your private information is not shared. 
     </string>
     
@@ -102,7 +104,38 @@
     
     <string name="parse_app_id">zFi294oXTVT6vj6Tfed5heeF6XPmutl0y1Rf7syg</string>
     <string name="parse_client_key">jyL9eoOizsJqQK5KtADNX5ILpjgSdP6jW9Lz1nAU</string>
+<!-- Schedule -->
+    <string name="sched_period_0">Period 0</string>
+    <string name="sched_period_1">Period 1</string>
+    <string name="sched_period_2">Period 2</string>
+    <string name="sched_period_3">Period 3</string>
+	<string name="sched_period_4">Period 4</string>
+    <string name="sched_period_5">Period 5</string>
+	<string name="sched_period_6">Period 6</string>     
 
-
-
+    <string name="sched_period_1_or_2">Period 1 or 2</string>
+    <string name="sched_period_3_or_4">Period 3 or 4</string>
+    <string name="sched_period_5_or_6">Period 5 or 6</string>
+    		
+	
+	<string name="sched_nutrition">Nutrition</string>
+	<string name="sched_lunch">Lunch</string>
+	<string name="sched_no_lunch">No Lunch</string>
+	<string name="sched_period_3a">Period 3A</string>
+	<string name="sched_period_3b">Period 3B</string>
+	<string name="sched_in_class">In Class</string>
+	<string name="sched_assembly">Assembly</string>
+	<string name="sched_passing">Passing</string>
+		
+	
+	<!-- Sched Titles -->
+		<string name="sched_title_reg">Regular Day</string>
+		<string name="sched_title_late">Late Start Day</string>
+		<string name="sched_title_min">Minimum Day</string>
+		<string name="sched_title_assem">Assembly</string>
+		<string name="sched_title_block">Block</string>
+		<string name="sched_title_finals">Finals</string>
+		
+		<string name="dash">-</string>
+	
 </resources>

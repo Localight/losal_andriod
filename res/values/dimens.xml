@@ -48,6 +48,15 @@
         		<dimen name="ob_small_text">20sp</dimen>
     
     		<dimen name="ob_large_text">25sp</dimen>
+    		
+	<dimen name="schedule_bottom_margin">30dp</dimen>
+	<dimen name="schedule_text_size">18sp</dimen>
+	<dimen name="schedule_title_size">26sp</dimen>
+	 <dimen name="schedule_title_margin_left">5dp</dimen>
+	<dimen name="schedule_title_margin_top">10dp</dimen>   				
+	<dimen name="schedule_margin_left_right">30dp</dimen>   				
+	
+    		
    <!--  verify_small -->
    
 

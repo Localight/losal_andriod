@@ -195,6 +195,22 @@ public class ActivateSocialActivity extends Activity {
 		});
 
 	}
+	
+	public static void unlinkTwitterUser() {
+		ParseTwitterUtils.initialize("wNe7Ugi45G8YKu3jih1NA","xgtZlqu75hA4SVAccJa0L2pXmeaehblxbTNKgE4aNM");
+//				getResources().getString(R.string.tw_consumer_key),
+//				getResources().getString(R.string.tw_consumer_secret));
+		ParseUser currentUser = ParseUser.getCurrentUser();
+
+		try {
+			ParseTwitterUtils.unlink(currentUser);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	
+	}
 
 	private void linkTwitterUser() {
 		ParseTwitterUtils.initialize(
@@ -207,21 +223,23 @@ public class ActivateSocialActivity extends Activity {
 				public void done(ParseException ex) {
 					if (ParseTwitterUtils.isLinked(currentUser)) {
 						Log.d("MyApp", "Woohoo, user logged in with Twitter!");
-						Toast.makeText(ctx, "Twitter connected!!", Toast.LENGTH_SHORT).show();
+//						Toast.makeText(ctx, "Twitter connected!!", Toast.LENGTH_SHORT).show();
 
 						// add this info to user_info
 						saveToUserInfo();
-					} else
+					} 
+					else
 						Log.d("MyApp", "Error User not linked through Twitter!");
 
 				}
 			});
+			
 		} else {
 			// is linked
 			Toast.makeText(ctx, "Already Logged In!", Toast.LENGTH_SHORT).show();
 			saveToUserInfo();
 		}
-		finish();
+//		finish();
 	}
 
 	private void saveToUserInfo() {

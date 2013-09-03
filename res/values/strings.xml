@@ -141,7 +141,7 @@
 	<!-- More Options -->
 	
 	<string name="mo_suggest_feature">Suggest a Feature</string>
-	<string name="mo_help">Help</string>
+	<string name="mo_help">Need Help\?</string>
 	<string name="mo_about">About</string>
 	<string name="mo_reset">Reset App</string>
 			

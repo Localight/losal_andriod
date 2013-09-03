@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 import co.localism.losal.R;
+import co.localism.losal.SVGHandler;
 import co.localism.losal.SetUpSlidingMenu;
 import co.localism.losal.listens.PersonalOptionsOnClickListeners;
 
@@ -37,9 +38,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 	private static final String SUGGEST_FEATURE_EMAIL = "losalsuggestion@localism.zendesk.com";
 	private static final String HELP_EMAIL = "losalhelp@localism.zendesk.com";
 	private String tag = "MoreOptionsActivity";
-	private ViewSwitcher viewSwitcher;
-	private LinearLayout myFirstView;
-	private LinearLayout mySecondView;
+
 	
 	
 	
@@ -85,6 +84,14 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 			Log.e(tag, "failed to use image as background. e: " + e.toString());
 		}
 
+		
+		
+		
+		
+		Drawable local_logo = new SVGHandler().svg_to_drawable(this,
+				R.raw.localism, R.color.white, R.color.black);
+		
+		
 		
 //		viewSwitcher = (ViewSwitcher) findViewById(R.id.vs);
 //		myFirstView = (LinearLayout) findViewById(R.id.view_app);

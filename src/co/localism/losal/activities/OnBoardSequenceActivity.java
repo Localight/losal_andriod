@@ -3,6 +3,7 @@ package co.localism.losal.activities;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -45,7 +46,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +72,7 @@ import android.widget.ViewSwitcher;
 public class OnBoardSequenceActivity extends FragmentActivity {
 
 	private MyPageAdapter pageAdapter;
-	private Context ctx = this;
+	private static Context ctx;
 	private String tag = "OnBoardSequence";
 	private String db_phone = "-1";
 	private static OnClickListener verify_onclick, close_page_onclick, email_onclick;
@@ -95,6 +103,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.onboardsequence);
+		ctx = this;
 		List<Fragment> fragments = getFragments();
 		pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
 		ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
@@ -110,6 +119,11 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		// prefEditor.putBoolean("isFirstVisit", false);
 		// prefEditor.commit();
 		//
+		
+     
+		
+		
+		
 		verify_onclick = new OnClickListener() {
 
 			@Override
@@ -319,7 +333,10 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 						.findViewById(R.id.tv_ob_verify_full_experience);
 				iv_ob_verify_close.setOnClickListener(close_page_onclick);
 
-				et_phone.addTextChangedListener(new TextWatcher() {
+//				   SpannableString ss = new SpannableString("helloworldandroid:.");
+
+		            	
+		            et_phone.addTextChangedListener(new TextWatcher() {
 
 					@Override
 					public void afterTextChanged(Editable s) {
@@ -374,8 +391,49 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		llll.addView(view);
 		address = EMAIL_NOT_FOUND;
 		subject = "";
-		TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
-		tv_email.setOnClickListener(email_onclick);
+		
+		tv_message = (TextView) findViewById(R.id.tv_ob_verify_message);
+        String ms =tv_message.getText().toString().toLowerCase(Locale.US);
+        int x = tv_message.getText().toString().toLowerCase(Locale.US).indexOf("email us");
+        Log.d(tag, "ms: "+ms);
+
+        Log.d(tag, "x: "+x);
+        if(x != -1){
+        	SpannableString ss = new SpannableString(tv_message.getText().toString());
+		       ss.setSpan(new ForegroundColorSpan(Color.RED), x, x+8,
+                       Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        	SpannableStringBuilder strBuilder = new SpannableStringBuilder(ss);
+
+        
+        	
+        	 ClickableSpan myActivityLauncher = new ClickableSpan() {
+        	     public void onClick(View view) {
+        	    	 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+     						"mailto", address, null));
+     				emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+     				startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        	     }
+        	   };
+
+//        ss.setSpan(new URLSpan("tel:8052334924"), 2, 5,
+//                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        	   strBuilder.
+        	   ss.setSpan(myActivityLauncher, x, x+8, 0);
+        	
+		        tv_message.setText(ss);
+
+		        tv_message.setClickable(true);
+		        tv_message.setMovementMethod(LinkMovementMethod.getInstance());
+        	
+        }
+		
+		
+		
+		
+		
+		
+//		TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
+//		tv_email.setOnClickListener(email_onclick);
 		//		try {
 //			tv_message.setText(R.string.verify_error);
 //			tv_lower_message.setVisibility(View.INVISIBLE);
@@ -397,11 +455,50 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 			    (LayoutInflater)this.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 		View view = inflater.inflate( R.layout.onboard_verify_success, null );
 		llll.addView(view);
-		TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
-		tv_email.setOnClickListener(email_onclick);
+//		TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
+//		tv_email.setOnClickListener(email_onclick);
 		
 		address = EMAIL_NO_TEXT;
 		subject = "";
+		
+		
+
+		tv_message = (TextView) findViewById(R.id.tv_ob_verify_lower_message);
+        String ms =tv_message.getText().toString().toLowerCase(Locale.US);
+        int x = tv_message.getText().toString().toLowerCase(Locale.US).indexOf("email us");
+        Log.d(tag, "ms: "+ms);
+
+        Log.d(tag, "x: "+x);
+        if(x != -1){
+        	SpannableString ss = new SpannableString(tv_message.getText().toString());
+		       ss.setSpan(new ForegroundColorSpan(Color.RED), x, x+8,
+                       Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        	SpannableStringBuilder strBuilder = new SpannableStringBuilder(ss);
+
+        
+        	
+        	 ClickableSpan myActivityLauncher = new ClickableSpan() {
+        	     public void onClick(View view) {
+        	    	 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+     						"mailto", address, null));
+     				emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+     				startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        	     }
+        	   };
+
+//        ss.setSpan(new URLSpan("tel:8052334924"), 2, 5,
+//                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        	   strBuilder.
+        	   ss.setSpan(myActivityLauncher, x, x+8, 0);
+        	
+		        tv_message.setText(ss);
+
+		        tv_message.setClickable(true);
+		        tv_message.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+		
+		
+		
 		
 		
 //		tv_message.setText(R.string.verify_success);

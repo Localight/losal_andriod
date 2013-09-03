@@ -56,6 +56,10 @@
 	<dimen name="schedule_title_margin_top">10dp</dimen>   				
 	<dimen name="schedule_margin_left_right">30dp</dimen>   				
 	
+	
+	<dimen name="mo_header_size">20sp</dimen>
+		<dimen name="mo_text_size">14sp</dimen>
+	
     		
    <!--  verify_small -->
    

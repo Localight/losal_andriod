@@ -21,6 +21,6 @@
     <color name="time_break">#AAFFFFFF</color>
     <color name="sched_text">#FFFFFF</color>	
 	<color name="sched_text_light">#DDBBBBBB</color>
-        
+        <color name="po_break_color">#CCFFFFFF</color>
     
 </resources>

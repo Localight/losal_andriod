@@ -9,7 +9,7 @@ public class Notice {
 	private String button_link="";
 	private String button_text="";
 	private String teaser="";
-
+	private String date_received="";
 	
 	public Notice(){
 	}
@@ -82,6 +82,14 @@ public class Notice {
 		return this.teaser;
 		
 	}
+
+	public void setDateReceived(String date_received) {
+		this.date_received = date_received;
+	}
 	
 	
+	public String getDateReceived() {
+		return this.date_received;
+		
+	}
 }

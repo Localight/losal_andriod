@@ -338,7 +338,6 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 						.getButtonLink());
 				intent.putExtra("button_text", noticeadapter.getItem(position)
 						.getButtonText());
-
 				ctx.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_from_right,
 						R.anim.slide_out_to_left);

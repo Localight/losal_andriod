@@ -12,11 +12,17 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import co.localism.losal.R;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,11 +36,23 @@ public class NoticeDetailsActivity extends Activity {
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private DisplayImageOptions options;
 
-	private String URL = ""; //"http://www.youtube.com/watch?v=Ojf6sBEd4-A";
+	private String URL = ""; // "http://www.youtube.com/watch?v=Ojf6sBEd4-A";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ActionBar a = getActionBar();
+		a.setDisplayHomeAsUpEnabled(true);
+		a.setDisplayShowTitleEnabled(true);
+		a.setDisplayUseLogoEnabled(false);
+		Drawable dd = new ColorDrawable(R.color.transparent);
+		a.setIcon(dd);
+		a.setDisplayShowCustomEnabled(true);
+		a.setTitle("     ");
+		a.setCustomView(R.layout.actionbar_custome_view);
+		TextView title = (TextView) a.getCustomView().findViewById(
+				R.id.ab_title);
+		title.setText("");
 		setContentView(R.layout.notice_details);
 
 		Bundle extras = getIntent().getExtras();
@@ -108,6 +126,23 @@ public class NoticeDetailsActivity extends Activity {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.general, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 }

@@ -114,7 +114,11 @@ public class NoticeAdapter extends ArrayAdapter<Notice> {
 					.findViewById(R.id.tv_notice_details);
 			holder.iv_image = (ImageView) convertView
 					.findViewById(R.id.iv_image);
-
+			holder.iv_chevron = (ImageView) convertView
+					.findViewById(R.id.
+			iv_chevron);
+			holder.tv_notice_date = (TextView) convertView
+					.findViewById(R.id.tv_notice_date);
 			// Post Image onclick only needs to be set once
 			// notice_click_listener = new OnClickListener() {
 			//
@@ -139,6 +143,7 @@ public class NoticeAdapter extends ArrayAdapter<Notice> {
 		holder.tv_title.setText(cur.getTitle());
 		holder.tv_details.setText(cur.getTeaser());
 		// holder.iv_image.setText(cur.getTitle());
+		holder.tv_notice_date.setText("Received:  "+cur.getDateReceived());
 		mImageLoader.displayImage(cur.getImageUrl(), holder.iv_image, options,
 				animateFirstListener);
 		return convertView;
@@ -148,6 +153,9 @@ public class NoticeAdapter extends ArrayAdapter<Notice> {
 		TextView tv_title;
 		TextView tv_details;
 		ImageView iv_image;
+		ImageView iv_chevron;
+
+		TextView tv_notice_date;
 	}
 
 	private static class AnimateFirstDisplayListener extends

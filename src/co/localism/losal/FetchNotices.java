@@ -2,6 +2,7 @@ package co.localism.losal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
@@ -96,7 +97,19 @@ public class FetchNotices extends Observable  {
 //				n.setLinkUrl(noticesList.get(i).getString("link"));
 				n.setButtonLink(noticesList.get(i).getString("buttonLink"));
 				n.setButtonText(noticesList.get(i).getString("buttonText"));
-
+				Date d = noticesList.get(i).getDate("startDate");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(d);
+				String date = ""+cal.get(Calendar.MONTH)+"-"+cal.get(Calendar.DAY_OF_MONTH)+"-"+cal.get(Calendar.YEAR);
+				int hour = cal.get(Calendar.HOUR_OF_DAY);
+				if(hour == 0)
+					hour += 12;
+				String ampm = "PM";
+				if(cal.get(Calendar.AM_PM) == Calendar.AM)
+					ampm = "AM";
+				String time = hour+":"+cal.get(Calendar.MINUTE)+" "+ampm;
+					
+				n.setDateReceived(date+"  "+time);
 				}catch(Exception e){
 					Log.e(tag, e.toString());
 				}

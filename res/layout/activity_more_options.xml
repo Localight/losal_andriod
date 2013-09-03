@@ -3,6 +3,7 @@
     android:id="@+id/ll_mo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical" >
@@ -49,39 +50,30 @@
                     android:textSize="@dimen/mo_header_size" />
 
                 <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/circle" />
+                    android:id="@+id/iv_chevron_about"
+                     android:layout_width="@dimen/mo_chevron_width"
+                    android:layout_height="@dimen/mo_chevron_height"
+                    />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/tv_mo_about_more"
+                android:id="@+id/ll_mo_about_more"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/mo_more_left_margin"
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/calendar_blue_dot" />
+                    android:id="@+id/iv_local_logo"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/ff"
+                    android:id="@+id/tv_mo_about_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:text="The #LOSAL APP is managed as a service of Localism Inc. using the Localism! Community Engagement Platform (CEP).  Localism! is connecting and empowering local organizations through community-centric technology"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/mo_text_size" />
-
-                <TextView
-                    android:id="@+id/ff"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:text="Learn more at Localism.co/schools"
+                    android:text="@string/mo_about_more"
                     android:textColor="@color/black"
                     android:textSize="@dimen/mo_text_size" />
             </LinearLayout>
@@ -102,24 +94,25 @@
                     android:textSize="@dimen/mo_header_size" />
 
                 <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/circle" />
+                    android:id="@+id/iv_chevron_suggest"
+                  android:layout_width="@dimen/mo_chevron_width"
+                    android:layout_height="@dimen/mo_chevron_height"
+                     />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/tv_mo_suggest_more"
+                android:id="@+id/ll_mo_suggest_more"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/mo_more_left_margin"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/ff"
+                    android:id="@+id/tv_mo_suggest_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:text="We want to make the #LOSAL APP the #BestAppEver!  Have an idea?  Email us!"
+                    android:text="@string/mo_suggest_more"
                     android:textColor="@color/black"
                     android:textSize="@dimen/mo_text_size" />
             </LinearLayout>
@@ -138,20 +131,26 @@
                     android:text="@string/mo_help"
                     android:textColor="@color/black"
                     android:textSize="@dimen/mo_header_size" />
+                 <ImageView
+                    android:id="@+id/iv_chevron_help"
+                android:layout_width="@dimen/mo_chevron_width"
+                    android:layout_height="@dimen/mo_chevron_height"
+                     />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/tv_mo_help_more"
+                android:id="@+id/ll_mo_help_more"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/mo_more_left_margin"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/ff"
+                    android:id="@+id/tv_mo_help_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:text="If you&apos;re having issues with the app or not sure how to use it, please email us and describe the issue in detail."
+                    android:text="@string/mo_help_more"
                     android:textColor="@color/black"
                     android:textSize="@dimen/mo_text_size" />
             </LinearLayout>
@@ -163,37 +162,43 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:id="@+id/tv_mo_safty"
+                    android:id="@+id/tv_mo_safety"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:text="@string/mo_help"
+                    android:text="@string/mo_safety"
                     android:textColor="@color/black"
                     android:textSize="@dimen/mo_header_size" />
+                 <ImageView
+                    android:id="@+id/iv_chevron_safety"
+                   android:layout_width="@dimen/mo_chevron_width"
+                    android:layout_height="@dimen/mo_chevron_height"
+                     />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/tv_mo_safety_more"
+                android:id="@+id/ll_mo_safety_more"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/mo_more_left_margin"
                 android:orientation="vertical" >
 
+                <TextView
+                    android:id="@+id/tv_mo_safety_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/mo_safety_more"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/mo_text_size" />
+                <!--
                 <TextView
                     android:id="@+id/ff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:text="Do you need to report an emergency?  
-Click to call 911 now."
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/mo_text_size" />
-
-                <TextView
-                    android:id="@+id/ff"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:text="Not an emergency? 
+Click to call 911 now.Not an emergency? 
 If you see something, say something:
 Call 562-391-2193 to reach Los Al USD&apos;s campus safety. "
                     android:textColor="@color/black"
@@ -207,14 +212,81 @@ Call 562-391-2193 to reach Los Al USD&apos;s campus safety. "
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/mo_text_size" />
-                
-                
-                
-                
-                
+                -->
+
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/ll_mo_faq"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_mo_faq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/mo_faq"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/mo_header_size" />
+                 <ImageView
+                    android:id="@+id/iv_chevron_faq"
+                      android:layout_width="@dimen/mo_chevron_width"
+                    android:layout_height="@dimen/mo_chevron_height"
+                     />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_mo_faq_more"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/mo_more_left_margin"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_mo_faq_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/mo_faq_more"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/mo_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/iv_arnold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:src="@drawable/arnold_white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/black"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:text="@string/copyright"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <!--
+                 <TextView
                 android:id="@+id/tv_mo_reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -222,6 +294,7 @@ Call 562-391-2193 to reach Los Al USD&apos;s campus safety. "
                 android:text="@string/mo_reset"
                 android:textColor="@color/black"
                 android:textSize="@dimen/mo_header_size" />
+            -->
         </LinearLayout>
     </ScrollView>
 

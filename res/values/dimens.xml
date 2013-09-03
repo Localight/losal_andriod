@@ -59,8 +59,10 @@
 	
 	<dimen name="mo_header_size">20sp</dimen>
 		<dimen name="mo_text_size">14sp</dimen>
+	<dimen name="mo_more_left_margin">10dp</dimen>
+	<dimen name="mo_chevron_width">14dp</dimen>
+	<dimen name="mo_chevron_height">14dp</dimen>
 	
-    		
    <!--  verify_small -->
    
 

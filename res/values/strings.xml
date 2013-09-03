@@ -5,6 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="losal_hs">Los Alamitos High School!</string>
+        <string name="copyright">Copyright 2013 Localism Inc. All rights reserved.</string>
     
         <string name="go_griffins">Go Griffins!</string>
     <string name="notices">Notices</string>
@@ -142,7 +143,71 @@
 	
 	<string name="mo_suggest_feature">Suggest a Feature</string>
 	<string name="mo_help">Need Help\?</string>
-	<string name="mo_about">About</string>
+	<string name="mo_about">About this app</string>
 	<string name="mo_reset">Reset App</string>
-			
+		<string name="mo_safety">Safety and security</string>
+		<string name="mo_faq">Frequently asked questions</string>
+		
+		
+		
+		
+	<string name="mo_about_more">The #LOSAL APP is managed as a service of Localism Inc. using the Localism! Community Engagement Platform (CEP).  Localism! is connecting and empowering local organizations through community-centric technology. \nLearn more at Localism.co/schools</string>
+	<string name="mo_suggest_more">We want to make the #LOSAL APP the #BestAppEver!  Have an idea?  Email us!</string>
+		<string name="mo_help_more">If you\'re having issues with the app or not sure how to use it, please email us and describe the issue in detail.</string>
+	
+	
+	
+	<string name="mo_safety_more">Do you need to report an emergency\?  
+\nClick to call 911 now.  
+
+\n\nNot an emergency\? 
+\nIf you see something, say something:
+\nCall 562-391-2193 to reach Los Al USD\'s campus safety. 
+
+\n\n#LOSAL APP security
+\nThis app is built on Localism\'s CEP and has the following security features:
+Only members of the school community who have been verified have full access to app content (level 1 access).  This level of access only displays students using an obfuscated "persona" format (avatar, first name and last initial), and the posts do not link to the students\' real social media profiles.  
+\nFor posts to appear in the app, they must be:
+\n- Photos that are already publicly available on the internet from Twitter, Instagram or Facebook
+\n- Tagged with #losal
+\n- Submitted by verified students (in-person verification at school) 
+\n- From students who have successfully completed two-factor authentication for their smartphone
+
+\n\nLevel 2 access is for verified parents, faculty and staff.  Verification for adults includes in-person verification, and two-factor smartphone authentication.  Adults have the ability to see all posts and the obfuscated persona of the student, but they do not have the ability to \"like\" or "favorite" posts. 
+
+\n\nLevel 3 access is for non-verified app users. They only see a photo wall in the social feed. They do not see textual content of posts or the obfuscated persona.
+
+\n\nPrivacy and server security
+\nLocalism Inc.\'s CEP is 100% FERPA-compliant meeting or exceeding applicable provisions of the Family Educational Rights and Privacy Act (FERPA), 20 U.S.C. 1232g. Privacy and security measures are in place to protect user data and data transfer. The privacy and security of student data is our first priority. Children\'s Online Privacy Protection Act: Our Applications and Services are directed to the general public.
+See our privacy policy for more information.
+
+\n\nPrivacy policy (English)
+
+\n\nPolítica de privacidad (Español)</string>		
+	
+	
+			<string name="mo_faq_more">How can I post to the app\? 
+\nVerified students must do three things before posting to the app\:  
+\n- Get verified at school (such as registration)
+\n- Confirm their phone by clicking a confirmation text message
+\n- Set their persona (avatar, etc.)
+\n- Activate at least one supported social network (only Twitter and Instagram are supported in this version, with Facebook to follow).
+
+\n\nCan parents submit posts to the app\? 
+\nNo, the social feed would probably be filled with parent posts and drown out student posts.  That said, a \"parents corner\" may be added to the app if there is interest.  You can vote for this feature and suggest others by emailing us! 
+(Links to losalappideas@localism.zendesk.com subject: Parents submitting to social feed)
+
+\n\nCan teachers submit posts to the app\? 
+\nWe are planning on it, and students have requested it. If you have want to voice your opinion, email us. 
+(Links to losalappideas@localism.zendesk.com Faculty submitting to social feed)
+
+\n\nCan the school see my other posts? 
+\nNo. In fact only public posts that have been specifically tagged with #losal enter the system. The system does not index private posts.  That would be creepy!
+
+\n\nI made a post and submitted it by tagging it with #losal, but it didn\'t appear on the social feed. What gives\?
+\nA variety of factors give more weight to post, and only posts that surpass a threshold are displayed in the feed. Weighting factors can include the amount of likes and relevance to selected campus keywords.  Additionally the platform ignores posts that contain common NSFS terms (Not Safe For School).  The purpose of the social feed is to connect the campus with posts from students about school life and activities.  The algorithm and automatic filtering has been tuned to yield these results.</string>
+	
+	
+	
+	
 </resources>

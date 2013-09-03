@@ -42,8 +42,9 @@
 	<string name="verify_no_text">No text message? Email us and we\'ll see what the deal is, or click \"retry\" below.</string>
 	<string name="verify_button">Verify</string>
 	<string name="verify_button_retry">Retry</string>
-						
 		
+	<string name="well_see"> and we\'ll see what the deal is, or click \"retry\" below.</string>
+
     <!-- Calendar  -->
 <!-- 	<string name="calendar_subscribe_url">http://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26</string>
  -->

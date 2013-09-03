@@ -21,42 +21,50 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_verify_begin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-                    android:layout_marginTop="25dp"
-        
+        android:layout_marginTop="25dp"
         android:gravity="center"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/tv_ob_verify_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="45dp"
+        <LinearLayout
+            android:id="@+id/verify_views"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text=""
-            android:textColor="@color/onboard_text"
-            android:textSize="@dimen/ob_large_text" />
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/tv_ob_verify_full_experience"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/verify_full_experience"
-            android:textColor="@color/white"
-            android:textSize="@dimen/ob_small_text" />
+            <TextView
+                android:id="@+id/tv_ob_verify_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="45dp"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/onboard_text"
+                android:textSize="@dimen/ob_large_text" />
 
-        <TextView
-            android:id="@+id/tv_ob_verify_lower_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="35dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/ob_small_text" />
+            <TextView
+                android:id="@+id/tv_ob_verify_full_experience"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/verify_full_experience"
+                android:textColor="@color/white"
+                android:textSize="@dimen/ob_small_text" />
+
+            <TextView
+                android:id="@+id/tv_ob_verify_lower_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="35dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/ob_small_text" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/et_phone"
@@ -67,7 +75,8 @@
             android:ems="8"
             android:gravity="center"
             android:inputType="phone"
-            android:maxLength="10" >
+            android:maxLength="10"
+            android:textSize="20sp" >
 
             <requestFocus />
         </EditText>
@@ -80,8 +89,8 @@
         <Button
             android:id="@+id/btn_verify"
             android:layout_width="wrap_content"
-            android:ems="5"
             android:layout_height="wrap_content"
+            android:ems="5"
             android:text="" />
     </LinearLayout>
 

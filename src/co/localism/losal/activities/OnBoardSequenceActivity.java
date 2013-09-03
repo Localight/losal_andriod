@@ -55,9 +55,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 public class OnBoardSequenceActivity extends FragmentActivity {
 
@@ -65,7 +67,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	private Context ctx = this;
 	private String tag = "OnBoardSequence";
 	private String db_phone = "-1";
-	private static OnClickListener verify_onclick, close_page_onclick;
+	private static OnClickListener verify_onclick, close_page_onclick, email_onclick;
 	private static ProgressBar progress;
 	private static EditText et_phone = null;
 	private static Button btn_verify;
@@ -77,6 +79,11 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	private static TextView tv_message;
 	private static TextView tv_lower_message;
 	private static ImageButton iv_ob_verify_close;
+	
+	private String address = "";
+	private String subject = "";
+	private String EMAIL_NO_TEXT = "losalsmserror@localism.zendesk.com";
+	private String EMAIL_NOT_FOUND = "losalaccess@localism.zendesk.com";
 
 	/*** Circles ***/
 	private static ImageView iv_circle1, iv_circle2, iv_circle3;
@@ -127,7 +134,17 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 			}
 
 		};
+		email_onclick = new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+						"mailto", address, null));
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+				startActivity(Intent.createChooser(emailIntent, "Send email..."));
+			}
 
+		};
+		
 		iv_circle1 = (ImageView) findViewById(R.id.iv_circle1);
 		bgShape1 = (GradientDrawable) iv_circle1.getBackground();
 
@@ -282,6 +299,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 
 			case 3:
 				v = inflater.inflate(R.layout.onboard_verify, container, false);
+				
 				tv_message = (TextView) v
 						.findViewById(R.id.tv_ob_verify_message);
 				tv_message.setText(R.string.verify_start);
@@ -348,29 +366,48 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 
 	private void showErrorScreen() {
 		Log.d("OnBoard", "showError called");
-
-		try {
-			tv_message.setText(R.string.verify_error);
-			tv_lower_message.setVisibility(View.INVISIBLE);
-			tv_ob_verify_full_experience.setVisibility(View.INVISIBLE);
-			// .setText(R.string.enter_phone);
+		LinearLayout llll = (LinearLayout) findViewById(R.id.verify_views);
+		llll.removeAllViews();
+		LayoutInflater inflater =
+			    (LayoutInflater)this.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+		View view = inflater.inflate( R.layout.onboard_verify_error, null );
+		llll.addView(view);
+		address = EMAIL_NOT_FOUND;
+		subject = "";
+		TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
+		tv_email.setOnClickListener(email_onclick);
+		//		try {
+//			tv_message.setText(R.string.verify_error);
+//			tv_lower_message.setVisibility(View.INVISIBLE);
+//			tv_ob_verify_full_experience.setVisibility(View.INVISIBLE);
+//			// .setText(R.string.enter_phone);
 			btn_verify.setVisibility(View.VISIBLE);
 			btn_verify.setText(R.string.verify_button_retry);
 			btn_verify.setOnClickListener(verify_onclick);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	private void showSuccessScreen() {
 		Log.d("OnBoard", "showSuccess called");
-
-		// btn_verify = (Button) findViewById(R.id.btn_verify);
-
-		tv_message.setText(R.string.verify_success);
-		tv_ob_verify_full_experience.setVisibility(View.INVISIBLE);
-		et_phone.setVisibility(View.GONE);
-		tv_lower_message.setText(R.string.verify_no_text);
+		LinearLayout llll = (LinearLayout) findViewById(R.id.verify_views);
+		llll.removeAllViews();
+		LayoutInflater inflater =
+			    (LayoutInflater)this.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+		View view = inflater.inflate( R.layout.onboard_verify_success, null );
+		llll.addView(view);
+		TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
+		tv_email.setOnClickListener(email_onclick);
+		
+		address = EMAIL_NO_TEXT;
+		subject = "";
+		
+		
+//		tv_message.setText(R.string.verify_success);
+//		tv_ob_verify_full_experience.setVisibility(View.INVISIBLE);
+//		et_phone.setVisibility(View.GONE);
+//		tv_lower_message.setText(R.string.verify_no_text);
 		btn_verify.setText(R.string.verify_button_retry);
 		btn_verify.setOnClickListener(verify_onclick);
 		btn_verify.setVisibility(View.VISIBLE);
@@ -406,7 +443,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				Log.d("OnBoard", "success");
 
 				showSuccessScreen();
-				new Twilio().execute(db_phone, "", "");
+//				new Twilio().execute(db_phone, "", "");
 			} else {
 				Log.d("OnBoard", "fail");
 

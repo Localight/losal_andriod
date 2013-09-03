@@ -63,6 +63,13 @@
 	<dimen name="mo_chevron_width">14dp</dimen>
 	<dimen name="mo_chevron_height">14dp</dimen>
 	
+	
+	<dimen name="sl_margin_left">20dp</dimen>
+	<dimen name="sl_margin_bottom">20dp</dimen>
+	<dimen name="sl_text_size">16sp</dimen>
+			
+	
+	
    <!--  verify_small -->
    
 

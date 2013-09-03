@@ -79,9 +79,19 @@ public class TimeHandler {
 						- post_cal.get(Calendar.YEAR) + " years ago";
 
 		else if (today_cal.get(Calendar.MONTH) > post_cal.get(Calendar.MONTH))
-			if (today_cal.MONTH - post_cal.MONTH == 1)
+			if (today_cal.MONTH - post_cal.MONTH == 1) {
+				if (today_cal.get(Calendar.DAY_OF_MONTH) > post_cal
+						.get(Calendar.DAY_OF_MONTH))
+					if (today_cal.get(Calendar.DAY_OF_MONTH)
+							- post_cal.get(Calendar.DAY_OF_MONTH) == 1)
+						return "1 day ago";
+					else
+						return today_cal.get(Calendar.DAY_OF_MONTH)
+								- post_cal.get(Calendar.DAY_OF_MONTH)
+								+ " days ago";
+
 				return "1 month ago";
-			else
+			} else
 				return today_cal.get(Calendar.MONTH)
 						- post_cal.get(Calendar.MONTH) + " months ago";
 
@@ -150,13 +160,15 @@ public class TimeHandler {
 
 		}
 
-		hour = ""+cal.get(Calendar.HOUR);
-		minutes = ""+cal.get(Calendar.MINUTE);
+		hour = "" + cal.get(Calendar.HOUR);
+		minutes = "" + cal.get(Calendar.MINUTE);
 
-		if(cal.get(Calendar.AM_PM) == Calendar.AM)
+		if (cal.get(Calendar.AM_PM) == Calendar.AM)
 			ampm = "am";
 		else
 			ampm = "pm";
+		if(hour.equalsIgnoreCase("0"))
+			hour = "12";
 		return day + ", " + hour + ":" + minutes + ampm;
 	}
 

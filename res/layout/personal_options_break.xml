@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/personal_options_break_groupd_header_left_margin"
         android:text="@string/social_feed"
-        android:textColor="@color/white"
+        android:textColor="@color/trans_white"
         android:textSize="@dimen/personal_options_text_size" />
 
     <LinearLayout
@@ -29,18 +29,18 @@
         <View
             android:layout_width="@dimen/personal_options_break_thickness"
             android:layout_height="match_parent"
-            android:background="@android:color/white" />
+            android:background="@color/trans_white" />
 
         <View
             android:layout_width="0dip"
             android:layout_height="@dimen/personal_options_break_thickness"
             android:layout_weight="10"
-            android:background="@android:color/white" />
+            android:background="@color/trans_white" />
 
         <View
             android:layout_width="@dimen/personal_options_break_thickness"
             android:layout_height="match_parent"
-            android:background="@android:color/white" />
+            android:background="@color/trans_white" />
     </LinearLayout>
 
 </LinearLayout>

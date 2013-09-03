@@ -372,12 +372,12 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		Log.d(tag, "click");
 		switch (v.getId()) {
 		case R.id.ll_mo_suggest:
-			if (ll_mo_suggest_more.getVisibility() == View.GONE)
-				ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f, 0f,
-						1.0f, 500, ll_mo_suggest_more, false));
-			else
-				ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f,
-						1.0f, 0.0f, 500, ll_mo_suggest_more, true));
+//			if (ll_mo_suggest_more.getVisibility() == View.GONE)
+//				ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f, 0f,
+//						1.0f, 500, ll_mo_suggest_more, false));
+//			else
+//				ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f,
+//						1.0f, 0.0f, 500, ll_mo_suggest_more, true));
 
 			// new DropDownAnim(v,50, true).setDuration(500)
 

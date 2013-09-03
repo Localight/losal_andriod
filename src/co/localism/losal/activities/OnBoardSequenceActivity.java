@@ -65,6 +65,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -75,7 +76,8 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	private static Context ctx;
 	private String tag = "OnBoardSequence";
 	private String db_phone = "-1";
-	private static OnClickListener verify_onclick, close_page_onclick, email_onclick;
+	private static OnClickListener verify_onclick, close_page_onclick,
+			email_onclick;
 	private static ProgressBar progress;
 	private static EditText et_phone = null;
 	private static Button btn_verify;
@@ -87,7 +89,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	private static TextView tv_message;
 	private static TextView tv_lower_message;
 	private static ImageButton iv_ob_verify_close;
-	
+
 	private String address = "";
 	private String subject = "";
 	private String EMAIL_NO_TEXT = "losalsmserror@localism.zendesk.com";
@@ -102,13 +104,13 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().hide();
 		setContentView(R.layout.onboardsequence);
 		ctx = this;
 		List<Fragment> fragments = getFragments();
 		pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
-		ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
+		final ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
 		pager.setAdapter(pageAdapter);
-		getActionBar().hide();
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
 				getResources().getString(R.string.parse_client_key));
 		//
@@ -119,11 +121,16 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		// prefEditor.putBoolean("isFirstVisit", false);
 		// prefEditor.commit();
 		//
-		
-     
-		
-		
-		
+
+//		RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl_onboard_all);
+//		rl.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				if(pager.getCurrentItem() == pageAdapter.getItem(1))
+//					pager.setCurrentItem(pageAdapter.getItem(2));
+//			}
+//		});
+
 		verify_onclick = new OnClickListener() {
 
 			@Override
@@ -151,14 +158,15 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		email_onclick = new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-						"mailto", address, null));
+				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+						Uri.fromParts("mailto", address, null));
 				emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-				startActivity(Intent.createChooser(emailIntent, "Send email..."));
+				startActivity(Intent
+						.createChooser(emailIntent, "Send email..."));
 			}
 
 		};
-		
+
 		iv_circle1 = (ImageView) findViewById(R.id.iv_circle1);
 		bgShape1 = (GradientDrawable) iv_circle1.getBackground();
 
@@ -272,40 +280,16 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 			switch (screen) {
 			case 1:
 				v = inflater.inflate(R.layout.onboard_page, container, false);
-				tv_title = (TextView) v.findViewById(R.id.ob_title);
-				tv_subtitle_1 = (TextView) v.findViewById(R.id.ob_subtitle);
-				tv_subtitle_2 = (TextView) v.findViewById(R.id.ob_subtitle_2);
 				iv_ob_screenshot = (ImageView) v
 						.findViewById(R.id.iv_ob_screenshot);
-
-				// tv_title.setText(R.string.ob_1_title_1);
-				// tv_subtitle_1.setText(R.string.ob_1_subtitle_1);
-				// tv_subtitle_2.setText(R.string.ob_1_subtitle_2);
-
-				tv_title.setText("");
-				tv_subtitle_1.setText("");
-				tv_subtitle_2.setText("");
-
 				iv_ob_screenshot
 						.setBackgroundResource(R.drawable.screens1_android_text);
 
 				break;
 			case 2:
 				v = inflater.inflate(R.layout.onboard_page, container, false);
-				tv_title = (TextView) v.findViewById(R.id.ob_title);
-				tv_subtitle_1 = (TextView) v.findViewById(R.id.ob_subtitle);
-				tv_subtitle_2 = (TextView) v.findViewById(R.id.ob_subtitle_2);
 				iv_ob_screenshot = (ImageView) v
 						.findViewById(R.id.iv_ob_screenshot);
-
-				// tv_title.setText(R.string.ob_2_title_1);
-				// tv_subtitle_1.setText(R.string.ob_2_subtitle_1);
-				// tv_subtitle_2.setText(R.string.ob_2_subtitle_2);
-
-				tv_title.setText("");
-				tv_subtitle_1.setText("");
-				tv_subtitle_2.setText("");
-
 				iv_ob_screenshot
 						.setBackgroundResource(R.drawable.screens2_android_text);
 
@@ -313,7 +297,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 
 			case 3:
 				v = inflater.inflate(R.layout.onboard_verify, container, false);
-				
+
 				tv_message = (TextView) v
 						.findViewById(R.id.tv_ob_verify_message);
 				tv_message.setText(R.string.verify_start);
@@ -333,10 +317,10 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 						.findViewById(R.id.tv_ob_verify_full_experience);
 				iv_ob_verify_close.setOnClickListener(close_page_onclick);
 
-//				   SpannableString ss = new SpannableString("helloworldandroid:.");
+				// SpannableString ss = new
+				// SpannableString("helloworldandroid:.");
 
-		            	
-		            et_phone.addTextChangedListener(new TextWatcher() {
+				et_phone.addTextChangedListener(new TextWatcher() {
 
 					@Override
 					public void afterTextChanged(Editable s) {
@@ -385,126 +369,117 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		Log.d("OnBoard", "showError called");
 		LinearLayout llll = (LinearLayout) findViewById(R.id.verify_views);
 		llll.removeAllViews();
-		LayoutInflater inflater =
-			    (LayoutInflater)this.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		View view = inflater.inflate( R.layout.onboard_verify_error, null );
+		LayoutInflater inflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.onboard_verify_error, null);
 		llll.addView(view);
 		address = EMAIL_NOT_FOUND;
 		subject = "";
-		
+
 		tv_message = (TextView) findViewById(R.id.tv_ob_verify_message);
-        String ms =tv_message.getText().toString().toLowerCase(Locale.US);
-        int x = tv_message.getText().toString().toLowerCase(Locale.US).indexOf("email us");
-        Log.d(tag, "ms: "+ms);
+		String ms = tv_message.getText().toString().toLowerCase(Locale.US);
+		int x = tv_message.getText().toString().toLowerCase(Locale.US)
+				.indexOf("email us");
+		Log.d(tag, "ms: " + ms);
 
-        Log.d(tag, "x: "+x);
-        if(x != -1){
-        	SpannableString ss = new SpannableString(tv_message.getText().toString());
-		       ss.setSpan(new ForegroundColorSpan(Color.RED), x, x+8,
-                       Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        	SpannableStringBuilder strBuilder = new SpannableStringBuilder(ss);
+		Log.d(tag, "x: " + x);
+		if (x != -1) {
+			SpannableString ss = new SpannableString(tv_message.getText()
+					.toString());
+			ss.setSpan(new ForegroundColorSpan(Color.RED), x, x + 8,
+					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			SpannableStringBuilder strBuilder = new SpannableStringBuilder(ss);
 
-        
-        	
-        	 ClickableSpan myActivityLauncher = new ClickableSpan() {
-        	     public void onClick(View view) {
-        	    	 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-     						"mailto", address, null));
-     				emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-     				startActivity(Intent.createChooser(emailIntent, "Send email..."));
-        	     }
-        	   };
+			ClickableSpan myActivityLauncher = new ClickableSpan() {
+				public void onClick(View view) {
+					Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+							Uri.fromParts("mailto", address, null));
+					emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+					startActivity(Intent.createChooser(emailIntent,
+							"Send email..."));
+				}
+			};
 
-//        ss.setSpan(new URLSpan("tel:8052334924"), 2, 5,
-//                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        	   strBuilder.
-        	   ss.setSpan(myActivityLauncher, x, x+8, 0);
-        	
-		        tv_message.setText(ss);
+			// ss.setSpan(new URLSpan("tel:8052334924"), 2, 5,
+			// Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			// strBuilder.
+			ss.setSpan(myActivityLauncher, x, x + 8, 0);
 
-		        tv_message.setClickable(true);
-		        tv_message.setMovementMethod(LinkMovementMethod.getInstance());
-        	
-        }
-		
-		
-		
-		
-		
-		
-//		TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
-//		tv_email.setOnClickListener(email_onclick);
-		//		try {
-//			tv_message.setText(R.string.verify_error);
-//			tv_lower_message.setVisibility(View.INVISIBLE);
-//			tv_ob_verify_full_experience.setVisibility(View.INVISIBLE);
-//			// .setText(R.string.enter_phone);
-			btn_verify.setVisibility(View.VISIBLE);
-			btn_verify.setText(R.string.verify_button_retry);
-			btn_verify.setOnClickListener(verify_onclick);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+			tv_message.setText(ss);
+
+			tv_message.setClickable(true);
+			tv_message.setMovementMethod(LinkMovementMethod.getInstance());
+
+		}
+
+		// TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
+		// tv_email.setOnClickListener(email_onclick);
+		// try {
+		// tv_message.setText(R.string.verify_error);
+		// tv_lower_message.setVisibility(View.INVISIBLE);
+		// tv_ob_verify_full_experience.setVisibility(View.INVISIBLE);
+		// // .setText(R.string.enter_phone);
+		btn_verify.setVisibility(View.VISIBLE);
+		btn_verify.setText(R.string.verify_button_retry);
+		btn_verify.setOnClickListener(verify_onclick);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	private void showSuccessScreen() {
 		Log.d("OnBoard", "showSuccess called");
 		LinearLayout llll = (LinearLayout) findViewById(R.id.verify_views);
 		llll.removeAllViews();
-		LayoutInflater inflater =
-			    (LayoutInflater)this.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		View view = inflater.inflate( R.layout.onboard_verify_success, null );
+		LayoutInflater inflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.onboard_verify_success, null);
 		llll.addView(view);
-//		TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
-//		tv_email.setOnClickListener(email_onclick);
-		
+		// TextView tv_email = (TextView) findViewById(R.id.tv_verify_email);
+		// tv_email.setOnClickListener(email_onclick);
+
 		address = EMAIL_NO_TEXT;
 		subject = "";
-		
-		
 
 		tv_message = (TextView) findViewById(R.id.tv_ob_verify_lower_message);
-        String ms =tv_message.getText().toString().toLowerCase(Locale.US);
-        int x = tv_message.getText().toString().toLowerCase(Locale.US).indexOf("email us");
-        Log.d(tag, "ms: "+ms);
+		String ms = tv_message.getText().toString().toLowerCase(Locale.US);
+		int x = tv_message.getText().toString().toLowerCase(Locale.US)
+				.indexOf("email us");
+		Log.d(tag, "ms: " + ms);
 
-        Log.d(tag, "x: "+x);
-        if(x != -1){
-        	SpannableString ss = new SpannableString(tv_message.getText().toString());
-		       ss.setSpan(new ForegroundColorSpan(Color.RED), x, x+8,
-                       Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        	SpannableStringBuilder strBuilder = new SpannableStringBuilder(ss);
+		Log.d(tag, "x: " + x);
+		if (x != -1) {
+			SpannableString ss = new SpannableString(tv_message.getText()
+					.toString());
+			ss.setSpan(new ForegroundColorSpan(Color.RED), x, x + 8,
+					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			SpannableStringBuilder strBuilder = new SpannableStringBuilder(ss);
 
-        
-        	
-        	 ClickableSpan myActivityLauncher = new ClickableSpan() {
-        	     public void onClick(View view) {
-        	    	 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-     						"mailto", address, null));
-     				emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-     				startActivity(Intent.createChooser(emailIntent, "Send email..."));
-        	     }
-        	   };
+			ClickableSpan myActivityLauncher = new ClickableSpan() {
+				public void onClick(View view) {
+					Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+							Uri.fromParts("mailto", address, null));
+					emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+					startActivity(Intent.createChooser(emailIntent,
+							"Send email..."));
+				}
+			};
 
-//        ss.setSpan(new URLSpan("tel:8052334924"), 2, 5,
-//                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        	   strBuilder.
-        	   ss.setSpan(myActivityLauncher, x, x+8, 0);
-        	
-		        tv_message.setText(ss);
+			// ss.setSpan(new URLSpan("tel:8052334924"), 2, 5,
+			// Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			// strBuilder.
+			ss.setSpan(myActivityLauncher, x, x + 8, 0);
 
-		        tv_message.setClickable(true);
-		        tv_message.setMovementMethod(LinkMovementMethod.getInstance());
-        }
-		
-		
-		
-		
-		
-//		tv_message.setText(R.string.verify_success);
-//		tv_ob_verify_full_experience.setVisibility(View.INVISIBLE);
-//		et_phone.setVisibility(View.GONE);
-//		tv_lower_message.setText(R.string.verify_no_text);
+			tv_message.setText(ss);
+
+			tv_message.setClickable(true);
+			tv_message.setMovementMethod(LinkMovementMethod.getInstance());
+		}
+
+		// tv_message.setText(R.string.verify_success);
+		// tv_ob_verify_full_experience.setVisibility(View.INVISIBLE);
+		// et_phone.setVisibility(View.GONE);
+		// tv_lower_message.setText(R.string.verify_no_text);
 		btn_verify.setText(R.string.verify_button_retry);
 		btn_verify.setOnClickListener(verify_onclick);
 		btn_verify.setVisibility(View.VISIBLE);
@@ -540,7 +515,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				Log.d("OnBoard", "success");
 
 				showSuccessScreen();
-//				new Twilio().execute(db_phone, "", "");
+				// new Twilio().execute(db_phone, "", "");
 			} else {
 				Log.d("OnBoard", "fail");
 
@@ -601,24 +576,27 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	}
 
 	private void pingTwilio(String phone) {
-//		String url = "http://losal.parseapp.com/registration.html?phone=";
-//		url += phone;
+		// String url = "http://losal.parseapp.com/registration.html?phone=";
+		// url += phone;
 		String url = "https://api.parse.com/1/functions/register";
 		Log.i(tag, "twilio URL: " + url);
 		savePhoneNumberToPhone(phone);
 		try {
 			HttpPost httppost = new HttpPost(url);
 			HttpClient client = new DefaultHttpClient();
-			httppost.setHeader("X-Parse-Application-Id", "zFi294oXTVT6vj6Tfed5heeF6XPmutl0y1Rf7syg");
-			httppost.setHeader("X-Parse-REST-API-Key", "gyMlPJBhaRG0SV083c3n7ApzsjLnvvbLvXKW0jJm");
-			httppost.setHeader("Content-Type","application/x-www-form-urlencoded");
-			
+			httppost.setHeader("X-Parse-Application-Id",
+					"zFi294oXTVT6vj6Tfed5heeF6XPmutl0y1Rf7syg");
+			httppost.setHeader("X-Parse-REST-API-Key",
+					"gyMlPJBhaRG0SV083c3n7ApzsjLnvvbLvXKW0jJm");
+			httppost.setHeader("Content-Type",
+					"application/x-www-form-urlencoded");
+
 			ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		    nameValuePairs.add(new BasicNameValuePair("phone",phone));
-		    
+			nameValuePairs.add(new BasicNameValuePair("phone", phone));
+
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-	    	
-	        HttpResponse response = client.execute(httppost);
+
+			HttpResponse response = client.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			// is = entity.getContent();
 		} catch (ClientProtocolException e) {
@@ -632,17 +610,14 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		}
 
 	}
-	
-	
-	
-	private void savePhoneNumberToPhone(String phone){
-		 SharedPreferences user_info =
-		 getBaseContext().getSharedPreferences("UserInfo",
-		 MODE_PRIVATE);
-		 SharedPreferences.Editor prefEditor = user_info.edit();
-		 prefEditor.putString("phone_number", phone);
-		 prefEditor.commit();
-		
+
+	private void savePhoneNumberToPhone(String phone) {
+		SharedPreferences user_info = getBaseContext().getSharedPreferences(
+				"UserInfo", MODE_PRIVATE);
+		SharedPreferences.Editor prefEditor = user_info.edit();
+		prefEditor.putString("phone_number", phone);
+		prefEditor.commit();
+
 	}
 
 }

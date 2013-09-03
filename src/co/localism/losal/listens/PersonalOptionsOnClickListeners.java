@@ -55,6 +55,7 @@ private String LOSAL_URL = "http://www.losal.org/lahs";
 		switch (v.getId()) {
 		case R.id.po_social_feed:
 			Log.d(tag, "Social Feed");
+			
 			// TODO: check if social feed is already running. if it is, just
 			// close the sliding menu
 			// I'm not convinced you need to actually check. I think android

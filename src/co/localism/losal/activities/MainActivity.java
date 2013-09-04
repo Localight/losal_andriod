@@ -177,8 +177,17 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW);// .SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(
-				(LinearLayout) findViewById(R.id.po), this);
+				(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_MAIN);
+		LinearLayout l = (LinearLayout) findViewById(R.id.po);
+		l.findViewById(R.id.po_social_feed).setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				sm.toggle();
+				refresh();
+			}
+			
+		});
 		title.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -221,29 +230,6 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		}
 		getPosts();
 		getNotices();
-		// Here is where the magic happens
-		/*
-		 * lv.setOnScrollListener(new OnScrollListener(){ //useless here, skip!
-		 * 
-		 * @Override public void onScrollStateChanged(AbsListView view, int
-		 * scrollState) {}
-		 * 
-		 * 
-		 * @Override public void onScroll(AbsListView view, int
-		 * firstVisibleItem, int visibleItemCount, int totalItemCount) { //what
-		 * is the bottom iten that is visible int lastInScreen =
-		 * firstVisibleItem + visibleItemCount; Log.d(tag,
-		 * "last in screen: "+lastInScreen ); Log.d(tag,
-		 * "total item count: "+totalItemCount ); Log.d(tag,
-		 * "loading more: "+loadingMore );
-		 * 
-		 * //is the bottom item visible & not loading more already ? Load more !
-		 * if(totalItemCount > 0 && (lastInScreen == totalItemCount) &&
-		 * !(loadingMore)){ Log.i(tag, "onscroll: calling new thread"); //
-		 * getPosts(); // Thread thread = new Thread(null, loadMoreListItems);
-		 * // thread.start(); } } });
-		 */
-
 		new FetchHashtags().execute();
 	}
 
@@ -345,8 +331,13 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		});
 	}
 
+	
+	private void refresh(){
+		Toast.makeText(this, "Refreshing feed", Toast.LENGTH_SHORT).show();
+	}
+	
 	private ArrayList<Post> newposts = new ArrayList<Post>();
-
+	
 	/**
 	 * This checks whether we need to pull data from parse or if we can just
 	 * create our posts object from our serialized file.

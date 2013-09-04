@@ -75,7 +75,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_more_options);
 		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(
-				(LinearLayout) findViewById(R.id.po), this);
+				(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS);
 
 		LinearLayout ll_suggest = (LinearLayout) findViewById(R.id.ll_mo_suggest);
 		ll_suggest.setOnClickListener(this);
@@ -99,13 +99,6 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		// Log.e(tag, "failed to use image as background. e: " + e.toString());
 		// }
 
-		// LinearLayout ll = (LinearLayout)
-		// findViewById(R.id.tv_mo_suggest_more);
-		// Log.d(tag, "    h: "+ll.getHeight());
-		// Log.d(tag, "mea h: "+ll.getMeasuredHeight());
-		// ll.setVisibility(View.GONE);
-		// Log.d(tag, "    h: "+ll.getHeight());
-		// Log.d(tag, "mea h: "+ll.getMeasuredHeight());
 		ll_mo_suggest_more = (LinearLayout) findViewById(R.id.ll_mo_suggest_more);
 		ll_mo_about_more = (LinearLayout) findViewById(R.id.ll_mo_about_more);
 
@@ -119,12 +112,17 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		iv.setScaleType(ScaleType.FIT_XY);
 		iv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		// setAllChevrons();
-		// viewSwitcher = (ViewSwitcher) findViewById(R.id.vs);
-		// myFirstView = (LinearLayout) findViewById(R.id.view_app);
-		// mySecondView = (LinearLayout) findViewById(R.id.view_controls);
-		//
+	
 		setFontOnHeaders();
 		setLinks();
+		LinearLayout l = (LinearLayout) findViewById(R.id.po);
+		l.findViewById(R.id.po_more_options).setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				sm.toggle();
+			}
+		});
 	}
 
 	private void setFontOnHeaders() {

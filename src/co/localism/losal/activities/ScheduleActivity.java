@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,7 +64,7 @@ public class ScheduleActivity extends Activity{
         setContentView(R.layout.activity_schedule);
         sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(
-				(LinearLayout) findViewById(R.id.po), this);
+				(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_SCHEDULE);
 		
 		try {
 			// LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
@@ -78,12 +79,15 @@ public class ScheduleActivity extends Activity{
 			Log.e(tag, "failed to use image as background. e: " + e.toString());
 		}
 		
-		
-		
-//        setContentView(R.layout.activity_schedule);
-//        SlidingMenu sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_CONTENT);
-//        new PersonalOptionsOnClickListeners((LinearLayout) findViewById(R.id.po), this);
+		LinearLayout l = (LinearLayout) findViewById(R.id.po);
+		l.findViewById(R.id.po_schedule).setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				sm.toggle();
+			}
+		});
+		
     }
     
     

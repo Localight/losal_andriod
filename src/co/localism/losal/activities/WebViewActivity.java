@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,39 +51,59 @@ public class WebViewActivity extends Activity {
 		TextView title = (TextView) a.getCustomView().findViewById(
 				R.id.ab_title);
 		title.setText(" ");
+		OnClickListener toggle = new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				sm.toggle();
+			}
+		};
 		setContentView(R.layout.webview);
 		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW,
 				true);
-		new PersonalOptionsOnClickListeners(
-				(LinearLayout) findViewById(R.id.po), this);
+//		new PersonalOptionsOnClickListeners(
+//				(LinearLayout) findViewById(R.id.po), this);
 		webView = (WebView) findViewById(R.id.webview);
 		webView.getSettings().setJavaScriptEnabled(true);
+		LinearLayout l = (LinearLayout) findViewById(R.id.po);
 
 		Bundle extras = getIntent().getExtras();
 		switch (extras.getInt("which")) {
 		case GRADES:
 			title.setText("Grades");
+			new PersonalOptionsOnClickListeners(
+					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_GRADES);
+			l.findViewById(R.id.po_grades).setOnClickListener(toggle);
 			webView.loadUrl(GRADES_URL);
 			break;
 		case SOCRATIVE:
 			title.setText("Socrative");
+			new PersonalOptionsOnClickListeners(
+					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_SOCRATIVE);
+			l.findViewById(R.id.po_socrative).setOnClickListener(toggle);
+
 			webView.loadUrl(SOCRATIVE_URL);
 			break;
-		case EVENTS:
+		case EVENTS: //no longer used
 			title.setText("Events");
-
 			webView.loadUrl(EVENTS_URL);
 			break;
-		case LOSAL:
+		case LOSAL: //no longer used
 			title.setText("Losal");
 			webView.loadUrl(LOSAL_URL);
 			break;
 		case EDMODO:
 			title.setText("Edmodo");
+			new PersonalOptionsOnClickListeners(
+					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_EDMODO);
+			l.findViewById(R.id.po_edmodo).setOnClickListener(toggle);
 			webView.loadUrl(EDMODO_URL);
 			break;
 		}
+		
+	
+		
+		
 
 	}
 

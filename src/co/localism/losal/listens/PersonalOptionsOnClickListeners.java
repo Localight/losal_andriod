@@ -21,15 +21,39 @@ import android.widget.LinearLayout;
 public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 	public static Context ctx;
 	private static final String tag = "PersonalOptionsOnClickListeners";
-private String LOSAL_URL = "http://www.losal.org/lahs";
-	
+	private String LOSAL_URL = "http://www.losal.org/lahs";
+
+	public static final int ACTIVITY_MAIN = 0;
+	public static final int ACTIVITY_SCHOOL_LINKS = 1;
+	public static final int ACTIVITY_GRADES = 2;
+	public static final int ACTIVITY_SCHEDULE = 3;
+	public static final int ACTIVITY_SOCRATIVE = 4;
+	public static final int ACTIVITY_EDMODO = 5;
+	public static final int ACTIVITY_MORE_OPTIONS = 6;
+
+	private int which_activity = -1;
+
 	public PersonalOptionsOnClickListeners() {
 	}
 
 	public PersonalOptionsOnClickListeners(LinearLayout l, Context ctx) {
+		this(l, ctx, -1);
+	}
+
+	/**
+	 * 
+	 * @param l
+	 * @param ctx
+	 * @param which_activity
+	 *            this removes the onclick for the item that would lead to that
+	 *            activity. This allows you to set the onclick in the activity
+	 *            itself.
+	 */
+	public PersonalOptionsOnClickListeners(LinearLayout l, Context ctx,
+			int which_activity) {
 		this.ctx = ctx;
 		Log.d(tag, "ctx: " + ctx);
-
+		this.which_activity = which_activity;
 		l.findViewById(R.id.po_social_feed).setOnClickListener(this);
 		l.findViewById(R.id.po_events).setOnClickListener(this);
 		l.findViewById(R.id.po_grades).setOnClickListener(this);
@@ -55,59 +79,67 @@ private String LOSAL_URL = "http://www.losal.org/lahs";
 		switch (v.getId()) {
 		case R.id.po_social_feed:
 			Log.d(tag, "Social Feed");
-			
+
 			// TODO: check if social feed is already running. if it is, just
 			// close the sliding menu
 			// I'm not convinced you need to actually check. I think android
 			// checks for you.
-			intent = new Intent(ctx, MainActivity.class);
-			ctx.startActivity(intent);
+			if (which_activity != PersonalOptionsOnClickListeners.ACTIVITY_MAIN) {
+				intent = new Intent(ctx, MainActivity.class);
+				ctx.startActivity(intent);
+			}
 			break;
 		case R.id.po_events:
 			Log.d(tag, "Events");
 			// Shared
-//			showCalendarDialog();
-			 intent = new Intent(ctx,
-			 SchoolLinksActivity.class);
-//			 .putExtra("which",
-//			 WebViewActivity.EVENTS);
-			 ctx.startActivity(intent);
+			// showCalendarDialog();
+			if (which_activity != PersonalOptionsOnClickListeners.ACTIVITY_SCHOOL_LINKS) {
+				intent = new Intent(ctx, SchoolLinksActivity.class);
+				ctx.startActivity(intent);
+			}
 			break;
 		case R.id.po_grades:
 			Log.d(tag, "Grades");
-			intent = new Intent(ctx, WebViewActivity.class);
-			intent.putExtra("which", WebViewActivity.GRADES);
-			ctx.startActivity(intent);
+			if (which_activity != PersonalOptionsOnClickListeners.ACTIVITY_GRADES) {
+				intent = new Intent(ctx, WebViewActivity.class);
+				intent.putExtra("which", WebViewActivity.GRADES);
+				ctx.startActivity(intent);
+			}
 			break;
 		case R.id.po_schedule:
 			Log.d(tag, "Schedule");
-			intent = new Intent(ctx, ScheduleActivity.class);
-			ctx.startActivity(intent);
+			if (which_activity != PersonalOptionsOnClickListeners.ACTIVITY_SCHEDULE) {
+				intent = new Intent(ctx, ScheduleActivity.class);
+				ctx.startActivity(intent);
+			}
 			break;
 		case R.id.po_socrative:
 			Log.d(tag, "Socrative");
-			intent = new Intent(ctx, WebViewActivity.class).putExtra("which",
-					WebViewActivity.SOCRATIVE);
-			ctx.startActivity(intent);
+			if (which_activity != PersonalOptionsOnClickListeners.ACTIVITY_SOCRATIVE) {
+				intent = new Intent(ctx, WebViewActivity.class).putExtra(
+						"which", WebViewActivity.SOCRATIVE);
+				ctx.startActivity(intent);
+			}
 			break;
 		case R.id.po_edmodo:
 			Log.d(tag, "Edmodo");
-			intent = new Intent(ctx, WebViewActivity.class).putExtra("which",
-					WebViewActivity.EDMODO);
-			ctx.startActivity(intent);
+			if (which_activity != PersonalOptionsOnClickListeners.ACTIVITY_EDMODO) {
+				intent = new Intent(ctx, WebViewActivity.class).putExtra(
+						"which", WebViewActivity.EDMODO);
+				ctx.startActivity(intent);
+			}
 			break;
 		// Log.d("PersonalOptionsOnClickListeners", "Other");
 		case R.id.po_footer:
 			Log.d(tag, "Footer");
 				openURL(LOSAL_URL);
-//			intent = new Intent(ctx, WebViewActivity.class).putExtra("which",
-//					WebViewActivity.LOSAL);
-//			ctx.startActivity(intent);
 			break;
 		case R.id.po_more_options:
 			Log.d(tag, "More Options");
-			intent = new Intent(ctx, MoreOptionsActivity.class);
-			ctx.startActivity(intent);
+			if (which_activity != PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS) {
+				intent = new Intent(ctx, MoreOptionsActivity.class);
+				ctx.startActivity(intent);
+			}
 			break;
 		}
 

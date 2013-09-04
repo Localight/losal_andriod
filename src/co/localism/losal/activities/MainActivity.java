@@ -799,7 +799,9 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 	@Override
 	public void onBackPressed() {
-		if (isFiltered) {
+		if(sm.isSecondaryMenuShowing())
+			sm.toggle();
+		else if (isFiltered) {
 			// undo filtering
 			isFiltered = false;
 			listadapter.removeFilter();

@@ -568,7 +568,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		} else if (site.equalsIgnoreCase(ctx.getResources().getString(
 				R.string.insta)))
 			if (user_info.getBoolean("hasInstagram", false)) {
-				likeInsta(post.getSocialNetworkPostId());
+				likeInsta(post.getSocialNetworkPostId(), post.getUserLiked());
 				post.setUserLiked(!post.getUserLiked());
 
 			} else
@@ -578,8 +578,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	}
 	
 	public void favTwitter(String id, Boolean already_likes){
-		// like the post on instagram
-				// TODO: check if user liked the post already
+		// favorites the post on twitter
 		SharedPreferences.Editor likesEditor = user_likes.edit();
 		if(already_likes){
 			new TwitterRequests().execute(id, user_info.getString("user_id", ""),"unfavorite");
@@ -588,28 +587,27 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			new TwitterRequests().execute(id, user_info.getString("user_id", ""), "favorite");
 			likesEditor.putString(id, Calendar.getInstance().getTime().toString());
 		}
-//		user_likes.edit().putString(id, Calendar.getInstance().getTime().toString()).commit();
-		
-		
 		likesEditor.commit();
-		
 		Log.d(tag, "cal "+Calendar.getInstance().getTime().toString());
 	}
 
-	public void likeInsta(String id) {
+	public void likeInsta(String id, boolean already_likes) {
 		// like the post on instagram
-		// TODO: check if user liked the post already
 		SharedPreferences insta_info = ctx.getSharedPreferences(
-				"InstagramInfo", ctx.MODE_PRIVATE);
+				"InstagramInfo", Context.MODE_PRIVATE);
 		insta_info.getString("access_token", "");
-
-		new InstagramRequests().execute("like", id,
-				insta_info.getString("access_token", ""), user_info.getString("user_id",""));
-//		user_likes.edit().putString(id, Calendar.getInstance().getTime().toString()).commit();
+		String request = "like";
 		SharedPreferences.Editor likesEditor = user_likes.edit();
-		likesEditor.putString(id, Calendar.getInstance().getTime().toString());
+		
+		if(already_likes){
+			request = "unlike";
+			likesEditor.remove(id);
+		}else{
+			likesEditor.putString(id, Calendar.getInstance().getTime().toString());	
+		}
+		new InstagramRequests().execute(request, id,
+				insta_info.getString("access_token", ""), user_info.getString("user_id",""));
 		likesEditor.commit();
-		Log.d(tag, "cal "+Calendar.getInstance().getTime().toString());
 	}
 
 	public static class PostViewHolder {

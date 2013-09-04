@@ -74,67 +74,20 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 		String sss = "https://api.twitter.com/1.1/favorites/create/"+id+".json";
 		
 		HttpClient client = new DefaultHttpClient();
-//		HttpGet verifyGet = new HttpGet(
-//				sss);
-//		        "https://api.twitter.com/1.1/account/verify_credentials.json");
-//		https://api.twitter.com/1.1/favorites/create.json
-		
-		
-//		ParseTwitterUtils.getTwitter().signRequest(verifyGet);
 		ParseTwitterUtils.getTwitter().signRequest(favpost);
-
 		try {
-//			HttpResponse response = client.execute(verifyGet);
 			HttpResponse response = client.execute(favpost);
-
 			HttpEntity entity = response.getEntity();
             is = entity.getContent();
 		Log.d(tag, "tw resp: "+responseToString(is));
 
-        new PushData().execute("like",id, user_id);//log the like in our database
+		new PushData().execute("like",id, user_id);//log the like in our database
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-		
-		/*
-		
-
-		// http post
-		try {
-			ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("id", id));
-			favpost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			
-			ParseTwitterUtils.getTwitter().signRequest(favpost);
-
-			
-			HttpResponse response = httpclient.execute(favpost);
-			HttpEntity entity = response.getEntity();
-			is = entity.getContent();
-			Log.d(tag, responseToString(is));
-			is.close();
-			return returnString;
-		} catch (SocketException e) {
-			
-			Log.e(tag, "Socket error in http connection " + e.toString());
-		}
-	
-		catch (Exception e) {
-			Log.e(tag, " error in connection" + e.toString());
-		}
-		
-		
-		*/
-		
-		
-		
 		return "";
 	}
 	

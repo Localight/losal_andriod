@@ -420,8 +420,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			@Override
 			public void onClick(View v) {
 				// like the post on instagram
-				Toast.makeText(ctx, "pos: " + v.getTag(), Toast.LENGTH_SHORT)
-						.show();
+//				Toast.makeText(ctx, "pos: " + v.getTag(), Toast.LENGTH_SHORT)
+//						.show();
 				Log.d(tag, "social clicked!");
 				Log.d(tag, mPosts.get((Integer) v.getTag()).getText());
 				int pos = (Integer) v.getTag();

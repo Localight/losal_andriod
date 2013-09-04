@@ -814,6 +814,8 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	private void setActionBarTitle(String s) {
 		TextView title = (TextView) getActionBar().getCustomView()
 				.findViewById(R.id.ab_title);
+//		if(s.length() > 14)
+//			s=s.substring(0, 14);
 		title.setText(s);
 	}
 

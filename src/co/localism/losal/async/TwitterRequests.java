@@ -29,14 +29,18 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 
 
 	private final String tag = "TwitterRequests";
-
+	private final String FAV_URL = "https://api.twitter.com/1.1/favorites/create.json";
+	private final String UNFAV_URL = "https://api.twitter.com/1.1/favorites/destroy.json";
 
 
 
 
 	@Override
 	protected String doInBackground(String... params) {
-		favoriteTweet(params[0], params[1]);
+		if(params[2].equalsIgnoreCase("unfavorite"))
+			favoriteTweet(params[0], params[1], false);
+		else
+			favoriteTweet(params[0], params[1], true);
 		return null;
 	}
 
@@ -44,7 +48,7 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 	
 	
 	
-	private String favoriteTweet(String id, String user_id) {
+	private String favoriteTweet(String id, String user_id, boolean Fav) {
 		Log.d(tag, "favoriteTweet called");
 
 		InputStream is = null;
@@ -52,7 +56,12 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 		String returnString = "";
 		
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost favpost = new HttpPost("https://api.twitter.com/1.1/favorites/create.json");
+		HttpPost favpost = null;
+		if(Fav)
+			favpost = new HttpPost(FAV_URL);
+		else
+			favpost = new HttpPost(UNFAV_URL);
+		
 		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("id", id));
 		try {

@@ -65,6 +65,7 @@ public class WebViewActivity extends Activity {
 //				(LinearLayout) findViewById(R.id.po), this);
 		webView = (WebView) findViewById(R.id.webview);
 		webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
 		LinearLayout l = (LinearLayout) findViewById(R.id.po);
 
 		Bundle extras = getIntent().getExtras();

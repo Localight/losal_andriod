@@ -558,7 +558,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 		if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))) {
 			if (user_info.getBoolean("hasTwitter", false)) {
-				favTwitter(post.getSocialNetworkPostId());
+				favTwitter(post.getSocialNetworkPostId(), post.getUserLiked());
 //				new TwitterRequests().execute(post.getSocialNetworkPostId());
 				post.setUserLiked(!post.getUserLiked());
 			} else
@@ -577,15 +577,20 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 	}
 	
-	public void favTwitter(String id){
+	public void favTwitter(String id, Boolean already_likes){
 		// like the post on instagram
 				// TODO: check if user liked the post already
-		new TwitterRequests().execute(id, user_info.getString("user_id", ""));
-		
+		SharedPreferences.Editor likesEditor = user_likes.edit();
+		if(already_likes){
+			new TwitterRequests().execute(id, user_info.getString("user_id", ""),"unfavorite");
+			likesEditor.remove(id);
+		}else{
+			new TwitterRequests().execute(id, user_info.getString("user_id", ""), "favorite");
+			likesEditor.putString(id, Calendar.getInstance().getTime().toString());
+		}
 //		user_likes.edit().putString(id, Calendar.getInstance().getTime().toString()).commit();
 		
-		SharedPreferences.Editor likesEditor = user_likes.edit();
-		likesEditor.putString(id, Calendar.getInstance().getTime().toString());
+		
 		likesEditor.commit();
 		
 		Log.d(tag, "cal "+Calendar.getInstance().getTime().toString());

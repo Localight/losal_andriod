@@ -158,13 +158,13 @@
 	
 	
 	<string name="mo_safety_more">Do you need to report an emergency\?  
-\nClick to call 911 now.  
-
-\n\nNot an emergency\? 
+\nClick to call 911 now. </string> 
+<string name="mo_safety_more1">
+\nNot an emergency\? 
 \nIf you see something, say something:
 \nCall 562-391-2193 to reach Los Al USD\'s campus safety. 
-
-\n\n#LOSAL APP security
+	</string><string name="mo_safety_more2">
+\n#LOSAL APP security
 \nThis app is built on Localism\'s CEP and has the following security features:
 Only members of the school community who have been verified have full access to app content (level 1 access).  This level of access only displays students using an obfuscated "persona" format (avatar, first name and last initial), and the posts do not link to the students\' real social media profiles.  
 \nFor posts to appear in the app, they must be:
@@ -180,10 +180,9 @@ Only members of the school community who have been verified have full access to 
 \n\nPrivacy and server security
 \nLocalism Inc.\'s CEP is 100% FERPA-compliant meeting or exceeding applicable provisions of the Family Educational Rights and Privacy Act (FERPA), 20 U.S.C. 1232g. Privacy and security measures are in place to protect user data and data transfer. The privacy and security of student data is our first priority. Children\'s Online Privacy Protection Act: Our Applications and Services are directed to the general public.
 See our privacy policy for more information.
-
 \n\nPrivacy policy (English)
-
-\n\nPolítica de privacidad (Español)</string>		
+</string>	<string name="mo_safety_more3">
+\nPolítica de privacidad (Español)</string>		
 	
 	
 			<string name="mo_faq_more">How can I post to the app\? 
@@ -195,11 +194,10 @@ See our privacy policy for more information.
 
 \n\nCan parents submit posts to the app\? 
 \nNo, the social feed would probably be filled with parent posts and drown out student posts.  That said, a \"parents corner\" may be added to the app if there is interest.  You can vote for this feature and suggest others by emailing us! 
-(Links to losalappideas@localism.zendesk.com subject: Parents submitting to social feed)
-
-\n\nCan teachers submit posts to the app\? 
+	</string><string name="mo_faq_more1">
+\nCan teachers submit posts to the app\? 
 \nWe are planning on it, and students have requested it. If you have want to voice your opinion, email us. 
-(Links to losalappideas@localism.zendesk.com Faculty submitting to social feed)
+
 
 \n\nCan the school see my other posts? 
 \nNo. In fact only public posts that have been specifically tagged with #losal enter the system. The system does not index private posts.  That would be creepy!

@@ -187,10 +187,41 @@
                     android:id="@+id/tv_mo_safety_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
                     android:text="@string/mo_safety_more"
                     android:textColor="@color/black"
                     android:textSize="@dimen/mo_text_size" />
+              
+                <TextView
+                    android:id="@+id/tv_mo_safety_more1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mo_safety_more1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/mo_text_size" />
+                
+              
+                <TextView
+                    android:id="@+id/tv_mo_safety_more2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mo_safety_more2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/mo_text_size" />  
+                
+           
+                
+                
+                <TextView
+                    android:id="@+id/tv_mo_safety_more3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/mo_safety_more3"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/mo_text_size" />
+                
+                
+                
                 <!--
                 <TextView
                     android:id="@+id/ff"
@@ -248,8 +279,16 @@ Call 562-391-2193 to reach Los Al USD&apos;s campus safety. "
                     android:id="@+id/tv_mo_faq_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
                     android:text="@string/mo_faq_more"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/mo_text_size" />
+                
+                <TextView
+                    android:id="@+id/tv_mo_faq_more1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/mo_faq_more1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/mo_text_size" />
             </LinearLayout>

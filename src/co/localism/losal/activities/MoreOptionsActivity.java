@@ -140,66 +140,82 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 
 	private void setLinks() {
 
-
 		ClickableSpan link_schools = new ClickableSpan() {
 			public void onClick(View view) {
-				openURL("localism.co/schools");
+				openURL("http://www.localism.co/schools");
 			}
 		};
-		
 
 		ClickableSpan suggest_email = new ClickableSpan() {
 			public void onClick(View view) {
 				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
 						Uri.fromParts("mailto", EMAIL_APP_IDEAS, null));
-				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My idea!");
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My idea!)");
 				startActivity(Intent
 						.createChooser(emailIntent, "Send email..."));
 			}
 		};
-		
+		ClickableSpan parents_suggest_email = new ClickableSpan() {
+			public void onClick(View view) {
+				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+						Uri.fromParts("mailto", EMAIL_APP_IDEAS, null));
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Parents submitting to social feed)");
+				startActivity(Intent
+						.createChooser(emailIntent, "Send email..."));
+			}
+		};
+		ClickableSpan faculty_suggest_email = new ClickableSpan() {
+			public void onClick(View view) {
+				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+						Uri.fromParts("mailto", EMAIL_APP_IDEAS, null));
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Faculty submitting to social feed)");
+				startActivity(Intent
+						.createChooser(emailIntent, "Send email..."));
+			}
+		};
+
 		ClickableSpan call_911 = new ClickableSpan() {
 			public void onClick(View view) {
-				String uri = "tel:" + "911" ;
-				 Intent intent = new Intent(Intent.ACTION_CALL);
-				 intent.setData(Uri.parse(uri));
-				 startActivity(intent);
+				String uri = "tel:" + "911";
+				Intent intent = new Intent(Intent.ACTION_CALL);
+				intent.setData(Uri.parse(uri));
+				startActivity(intent);
 			}
 		};
-		ClickableSpan call_non_emergency= new ClickableSpan() {
+		ClickableSpan call_non_emergency = new ClickableSpan() {
 			public void onClick(View view) {
-				String uri = "tel:" + "911" ;
-				 Intent intent = new Intent(Intent.ACTION_CALL);
-				 intent.setData(Uri.parse(uri));
-				 startActivity(intent);
+				String uri = "tel:" + "5623912193";
+				Intent intent = new Intent(Intent.ACTION_CALL);
+				intent.setData(Uri.parse(uri));
+				startActivity(intent);
 			}
 		};
-		ClickableSpan link_privacy_en= new ClickableSpan() {
+		ClickableSpan link_privacy_en = new ClickableSpan() {
 			public void onClick(View view) {
 				openURL("http://localism.co/losalapp/privacy/english/");
 			}
 		};
-		ClickableSpan link_privacy_sp= new ClickableSpan() {
+		ClickableSpan link_privacy_sp = new ClickableSpan() {
 			public void onClick(View view) {
 				openURL("http://localism.co/losalapp/privacy/espanol/");
 			}
 		};
-		
-		
 
 		Typeface slab_font = Typeface.createFromAsset(this.getAssets(),
 				"robotoslab_regular.ttf");
 		int[] ids = { R.id.tv_mo_about_more, R.id.tv_mo_suggest_more,
 				R.id.tv_mo_faq_more, R.id.tv_mo_help_more,
-				R.id.tv_mo_safety_more};
-		
+				R.id.tv_mo_faq_more1, R.id.tv_mo_safety_more,
+				R.id.tv_mo_safety_more1, R.id.tv_mo_safety_more2,
+				R.id.tv_mo_safety_more3 };
+
 		for (int i = 0; i < ids.length; i++) {
 			TextView tv = (TextView) findViewById(ids[i]);
 			tv.setTypeface(slab_font);
 			switch (ids[i]) {
 			case R.id.tv_mo_about_more:
 				int x = tv.getText().toString().toLowerCase(Locale.US)
-						.indexOf("http://www.localism.co/schools");
+						.indexOf("localism.co");
 				if (x != -1) {
 					SpannableString ss = new SpannableString(tv.getText()
 							.toString());
@@ -210,8 +226,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				}
 
 				break;
-			
-			
+
 			case R.id.tv_mo_suggest_more:
 
 				x = tv.getText().toString().toLowerCase(Locale.US)
@@ -228,8 +243,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				break;
 			case R.id.tv_mo_safety_more:
 
-				x = tv.getText().toString()
-						.indexOf("911");
+				x = tv.getText().toString().indexOf("911");
 				if (x != -1) {
 					SpannableString ss = new SpannableString(tv.getText()
 							.toString());
@@ -238,9 +252,11 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				}
 				tv.setClickable(true);
 				tv.setMovementMethod(LinkMovementMethod.getInstance());
-				
-				x = tv.getText().toString()
-						.indexOf("562-391-2193");
+
+				break;
+			case R.id.tv_mo_safety_more1:
+
+				x = tv.getText().toString().indexOf("562-391-2193");
 				if (x != -1) {
 					SpannableString ss = new SpannableString(tv.getText()
 							.toString());
@@ -249,10 +265,10 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				}
 				tv.setClickable(true);
 				tv.setMovementMethod(LinkMovementMethod.getInstance());
-				
-				
-				x = tv.getText().toString()
-						.indexOf("Privacy policy (English)");
+				break;
+			case R.id.tv_mo_safety_more2:
+
+				x = tv.getText().toString().indexOf("Privacy policy (English)");
 				if (x != -1) {
 					SpannableString ss = new SpannableString(tv.getText()
 							.toString());
@@ -261,49 +277,51 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				}
 				tv.setClickable(true);
 				tv.setMovementMethod(LinkMovementMethod.getInstance());
-				
-				
+				break;
+			case R.id.tv_mo_safety_more3:
+
 				x = tv.getText().toString().toLowerCase(Locale.US)
 						.indexOf("de privacidad");
 				if (x != -1) {
 					SpannableString ss = new SpannableString(tv.getText()
 							.toString());
-					ss.setSpan(link_privacy_sp, x-9, x + 13, 0);
+					ss.setSpan(link_privacy_sp, x - 9, x + 13, 0);
 					tv.setText(ss);
 				}
-				
-				
+
 				tv.setClickable(true);
 				tv.setMovementMethod(LinkMovementMethod.getInstance());
 
 				break;
-				
-				
+
 			case R.id.tv_mo_faq_more:
 				SpannableString ss = new SpannableString(tv.getText()
 						.toString());
-				
+
 				x = tv.getText().toString().toLowerCase(Locale.US)
 						.indexOf("email us");
 				if (x != -1) {
-					ss.setSpan(suggest_email, x, x + 8, 0);
+					ss.setSpan(faculty_suggest_email, x, x + 8, 0);
 				}
+
+				tv.setText(ss);
+				tv.setClickable(true);
+				tv.setMovementMethod(LinkMovementMethod.getInstance());
+				break;
+
+			case R.id.tv_mo_faq_more1:
 
 				x = tv.getText().toString().toLowerCase(Locale.US)
 						.indexOf("emailing us");
+				ss = new SpannableString(tv.getText().toString());
 				if (x != -1) {
-					ss.setSpan(suggest_email, x, x + 11, 0);
+					ss.setSpan(parents_suggest_email, x, x + 11, 0);
 				}
 				tv.setText(ss);
 				tv.setClickable(true);
 				tv.setMovementMethod(LinkMovementMethod.getInstance());
 				break;
-				
-		
-				
 			}
-			//
-			//
 
 		}
 	}
@@ -372,12 +390,12 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		Log.d(tag, "click");
 		switch (v.getId()) {
 		case R.id.ll_mo_suggest:
-//			if (ll_mo_suggest_more.getVisibility() == View.GONE)
-//				ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f, 0f,
-//						1.0f, 500, ll_mo_suggest_more, false));
-//			else
-//				ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f,
-//						1.0f, 0.0f, 500, ll_mo_suggest_more, true));
+			// if (ll_mo_suggest_more.getVisibility() == View.GONE)
+			// ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f, 0f,
+			// 1.0f, 500, ll_mo_suggest_more, false));
+			// else
+			// ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f,
+			// 1.0f, 0.0f, 500, ll_mo_suggest_more, true));
 
 			// new DropDownAnim(v,50, true).setDuration(500)
 

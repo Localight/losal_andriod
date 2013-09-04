@@ -79,7 +79,7 @@ public class TimeHandler {
 						- post_cal.get(Calendar.YEAR) + " years ago";
 
 		else if (today_cal.get(Calendar.MONTH) > post_cal.get(Calendar.MONTH))
-			if (today_cal.MONTH - post_cal.MONTH == 1) {
+			if (today_cal.get(Calendar.MONTH) - post_cal.get(Calendar.MONTH) == 1) {
 				if (today_cal.get(Calendar.DAY_OF_MONTH) > post_cal
 						.get(Calendar.DAY_OF_MONTH))
 					if (today_cal.get(Calendar.DAY_OF_MONTH)
@@ -114,7 +114,7 @@ public class TimeHandler {
 						- post_cal.get(Calendar.HOUR_OF_DAY) + " hours ago";
 
 		else if (today_cal.get(Calendar.MINUTE) > post_cal.get(Calendar.MINUTE))
-			if (today_cal.MINUTE - post_cal.MINUTE == 1)
+			if (today_cal.get(Calendar.MINUTE) - post_cal.get(Calendar.MINUTE) == 1)
 				return "1 minute ago";
 			else
 				return today_cal.get(Calendar.MINUTE)

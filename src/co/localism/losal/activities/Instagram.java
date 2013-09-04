@@ -21,14 +21,21 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import co.localism.losal.R;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Instagram extends Activity {
@@ -61,6 +68,18 @@ public class Instagram extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ActionBar a = getActionBar();
+		a.setDisplayHomeAsUpEnabled(true);
+		a.setDisplayShowTitleEnabled(true);
+		a.setDisplayUseLogoEnabled(false);
+		Drawable dd = new ColorDrawable(R.color.transparent);
+		a.setIcon(dd);
+		a.setDisplayShowCustomEnabled(true);
+		a.setTitle("");
+		a.setCustomView(R.layout.actionbar_custome_view);
+		TextView title = (TextView) a.getCustomView().findViewById(
+				R.id.ab_title);
+		title.setText("#LOSAL");
 		setContentView(R.layout.webview);
 
 		CALLBACKURL = getResources().getString(
@@ -349,6 +368,23 @@ public class Instagram extends Activity {
 		prefEditor.commit();
 		Toast.makeText(ctx, "Instagram connected!!", Toast.LENGTH_SHORT).show();
 
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.general, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 }

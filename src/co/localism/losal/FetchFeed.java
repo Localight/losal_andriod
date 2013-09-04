@@ -25,6 +25,7 @@ public class FetchFeed {//extends Observable {
 
 	private static final String tag = "FetchFeed";
 	private PostAdapter pa;
+	private boolean AddToTop = false;
 	
 	public FetchFeed() {
 		// fetch();
@@ -60,31 +61,15 @@ public class FetchFeed {//extends Observable {
 		Log.d(tag, "fetch called");
 
 		new FetchPosts().execute("","","");
-//		pa.addAll(posts);
-//		pa.notifyDataSetChanged();
-//		return posts;
 	}
 	
+	public void refresh(PostAdapter pa) {
+		this.pa = pa;
+		Log.d(tag, "fetch refresh called");
+		new FetchPosts().execute("refresh","","");
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	/**
 	 * This fetches the feed data from Parse. Sends it to {@link createPosts()}
@@ -93,7 +78,7 @@ public class FetchFeed {//extends Observable {
 	 * 
 	 * @return ArrayList<Post>
 	 */
-	public ArrayList<Post> fetch() {
+/*	public ArrayList<Post> fetch() {	
 		final Calendar cal = Calendar.getInstance();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Posts");
 		final ArrayList<Post> posts;
@@ -141,6 +126,9 @@ public class FetchFeed {//extends Observable {
 		});
 		return posts;
 	}
+	
+	
+	*/
 
 	/**
 	 * Should only be called from within fetch(). Parses out the ParseObjects
@@ -208,11 +196,15 @@ public class FetchFeed {//extends Observable {
 				}
 //				p.setClassYear(3);// placeholder data
 //				posts.add(p);
-				pa.add(p);
+				if(AddToTop)
+					pa.add(0, p);
+				else
+					pa.add(p);
 //				pa.notifyDataSetChanged();
 			}
 		}
 		pa.setStatus(false);
+		AddToTop = false;
 		return posts;
 	}
 
@@ -234,23 +226,36 @@ private class FetchPosts extends AsyncTask<String, String, String>{
 	@Override
 	protected String doInBackground(String... args) {
 		Log.d(tag, "doing in background");
-
+		
+			
+		int days_back = 7;
+		try{
+			days_back= MainActivity.POST_DAYS;	
+		}catch(Exception e){
+			
+		}
 		final Calendar cal = Calendar.getInstance();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Posts");
 		final ArrayList<Post> posts;
 		posts = new ArrayList<Post>();
-		// query.whereEqualTo("socialNetworkName", "Instagram");
+
 		query.whereEqualTo("status", "1");
 		query.addDescendingOrder("postTime");
 		Log.d(tag, "Last Post Date"+MainActivity.LAST_POST_DATE);
 		
+		if(args[0].equalsIgnoreCase("refresh")){
+			Log.d(tag, "query setting to refresh");
+			AddToTop = true;
+			cal.setTime(pa.getPost(0).getPostTime());
+			query.whereGreaterThan("postTime", cal.getTime());
+		}else
 		if(MainActivity.LAST_POST_DATE == null){
-			Log.d(tag, "initial fetch");
+			Log.d(tag, "last_post_date == null. initial fetch");
 
 //			getAppSettings();
 //			then start with less than now
 			query.whereLessThan("postTime", cal.getTime());
-			cal.add(Calendar.DATE, -7);
+			cal.add(Calendar.DATE, -days_back);
 			query.whereGreaterThan("postTime", cal.getTime());
 		}else{
 			Log.d(tag, " fetch MORE");
@@ -258,7 +263,7 @@ private class FetchPosts extends AsyncTask<String, String, String>{
 			query.whereLessThan("postTime", MainActivity.LAST_POST_DATE);
 			Date d = MainActivity.LAST_POST_DATE;
 			cal.setTime(d);
-			cal.add(Calendar.DATE, -7);
+			cal.add(Calendar.DATE, -days_back);
 			query.whereGreaterThan("postTime", cal.getTime());
 		}
 		
@@ -270,9 +275,9 @@ private class FetchPosts extends AsyncTask<String, String, String>{
 			public void done(List<ParseObject> postList, ParseException e) {
 				if (e == null) {
 					Log.d(tag, "Retrieved " + postList.size() + " posts");
-//					MainActivity.posts = createPosts(postList);
-					posts.addAll(createPosts(postList));
-					triggerObservers();
+//					posts.addAll(				);
+							createPosts(postList);
+//					triggerObservers();
 				} else {
 					Log.d(tag, "Error: " + e.getMessage());
 				}

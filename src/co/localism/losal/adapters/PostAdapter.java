@@ -172,6 +172,12 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 	}
 
+	public void add(int index, Post p) {
+		mPosts.add(index, p);
+		notifyDataSetChanged();
+
+	}
+
 	public void addAll(ArrayList<Post> p) {
 		super.addAll(p);
 		Log.d(tag, "allAll called!");

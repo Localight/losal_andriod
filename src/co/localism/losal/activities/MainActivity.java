@@ -334,6 +334,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	
 	private void refresh(){
 		Toast.makeText(this, "Refreshing feed", Toast.LENGTH_SHORT).show();
+		ff.refresh(listadapter);
 	}
 	
 	private ArrayList<Post> newposts = new ArrayList<Post>();

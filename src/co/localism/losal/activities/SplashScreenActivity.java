@@ -25,6 +25,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,8 +37,7 @@ public class SplashScreenActivity extends Activity {
 	private String tag = "SplashScreenActivity";
 	private int post_days = -1;
 	private Context ctx = this;
-	
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,21 +47,26 @@ public class SplashScreenActivity extends Activity {
 				getResources().getString(R.string.parse_client_key));
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
-//		ActivateSocialActivity.unlinkTwitterUser();
-//		TODO:REMOVE. DUMMY DATA
+		// ActivateSocialActivity.unlinkTwitterUser();
+		// TODO:REMOVE. DUMMY DATA
 		SharedPreferences.Editor prefEditor = user_info.edit();
-		prefEditor.putBoolean("isFirstVisit", false);
+		prefEditor.putBoolean("isFirstVisit", true);
 
-		prefEditor.putBoolean("hasInstagram", true);
-		prefEditor.putBoolean("hasTwitter", true);
+		prefEditor.putBoolean("hasInstagram", false);
+		prefEditor.putBoolean("hasTwitter", false);
 
 		prefEditor.commit();
-		
+
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();// ConnectivityManager.TYPE_WIFI);
+		if (networkInfo != null && networkInfo.isConnected())
 			new PrefetchData().execute();
-		
-	
-		
-		
+		else {
+			if (user_info.getBoolean("isFirstVisit", true))
+				startActivity(new Intent(ctx, OnBoardSequenceActivity.class));
+			else
+				startActivity(new Intent(this, MainActivity.class));
+		}
 	}
 
 	private class PrefetchData extends AsyncTask<Void, Void, Void> {
@@ -120,7 +126,7 @@ public class SplashScreenActivity extends Activity {
 				i.putExtra("POST_DAYS", post_days);
 				SharedPreferences user_info = getSharedPreferences("UserInfo",
 						MODE_PRIVATE);
-				if(user_info.getBoolean("isFirstVisit", true))
+				if (user_info.getBoolean("isFirstVisit", true))
 					startActivity(new Intent(ctx, OnBoardSequenceActivity.class));
 				else
 					startActivity(i);
@@ -129,33 +135,28 @@ public class SplashScreenActivity extends Activity {
 		return true;
 	}
 
-	
-	
-	
-	 protected String saveToPhone(byte[]... jpeg) {
-	      File photo=new File(Environment.getExternalStorageDirectory(), "losal_bg.jpg");
+	protected String saveToPhone(byte[]... jpeg) {
+		File photo = new File(Environment.getExternalStorageDirectory(),
+				"losal_bg.jpg");
 
-	      if (photo.exists()) {
-	            photo.delete();
-	      }
+		if (photo.exists()) {
+			photo.delete();
+		}
 
-	      try {
-	        FileOutputStream fos=new FileOutputStream(photo.getPath());
+		try {
+			FileOutputStream fos = new FileOutputStream(photo.getPath());
 
-	        fos.write(jpeg[0]);
-	        fos.close();
-            Log.d(tag, "Saved Image!");
+			fos.write(jpeg[0]);
+			fos.close();
+			Log.d(tag, "Saved Image!");
 
-	      }
-	      catch (java.io.IOException e) {
-	        Log.e(tag, "Exception in photoCallback", e);
-            Log.d(tag, "Failed to Save Image...");
+		} catch (java.io.IOException e) {
+			Log.e(tag, "Exception in photoCallback", e);
+			Log.d(tag, "Failed to Save Image...");
 
-	      }
+		}
 
-	      return(null);
-	    }
-	
-	
+		return (null);
+	}
 
 }

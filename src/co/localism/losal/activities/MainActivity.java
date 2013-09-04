@@ -54,6 +54,8 @@ import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -130,9 +132,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 				R.id.ab_title);
 		title.setText("#LOSAL");
 		setContentView(R.layout.activity_main);
-		
-		
-		
+
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
 				getResources().getString(R.string.parse_client_key));
 		ParseTwitterUtils.initialize(
@@ -140,25 +140,24 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 				getResources().getString(R.string.tw_consumer_secret));
 		ParseAnalytics.trackAppOpened(getIntent());
 		Uri data = getIntent().getData();
-		
+
 		if (data != null) {
 			Log.e(tag, "data:" + data.toString());
 			pairUserToApp(data.toString());
 
 		}
-		
 
 		/******** dummy data **********/
-//		SharedPreferences user_info = getSharedPreferences("UserInfo",
-//				MODE_PRIVATE);
-//		SharedPreferences.Editor prefEditor = user_info.edit();
-//		prefEditor.putBoolean("registered", true);
-//		prefEditor.putString("user_type", "student");
-//		prefEditor.putString("user_name", "Joe");
-//		prefEditor.putString("user_icon", "E07E");
-//		prefEditor.putString("fav_color", "#FF3366");
+		// SharedPreferences user_info = getSharedPreferences("UserInfo",
+		// MODE_PRIVATE);
+		// SharedPreferences.Editor prefEditor = user_info.edit();
+		// prefEditor.putBoolean("registered", true);
+		// prefEditor.putString("user_type", "student");
+		// prefEditor.putString("user_name", "Joe");
+		// prefEditor.putString("user_icon", "E07E");
+		// prefEditor.putString("fav_color", "#FF3366");
 
-//		prefEditor.commit();
+		// prefEditor.commit();
 		try {
 			// LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
 			FrameLayout ll_main = (FrameLayout) findViewById(R.id.main);
@@ -177,17 +176,19 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW);// .SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(
-				(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_MAIN);
+				(LinearLayout) findViewById(R.id.po), this,
+				PersonalOptionsOnClickListeners.ACTIVITY_MAIN);
 		LinearLayout l = (LinearLayout) findViewById(R.id.po);
-		l.findViewById(R.id.po_social_feed).setOnClickListener(new OnClickListener(){
+		l.findViewById(R.id.po_social_feed).setOnClickListener(
+				new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				sm.toggle();
-				refresh();
-			}
-			
-		});
+					@Override
+					public void onClick(View v) {
+						sm.toggle();
+						refresh();
+					}
+
+				});
 		title.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -203,12 +204,13 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		ff = new FetchFeed();
 		// ff.addObserver(this);
 
-//		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
-//				getResources().getString(R.string.parse_client_key));
-//		ParseTwitterUtils.initialize(
-//				getResources().getString(R.string.tw_consumer_key),
-//				getResources().getString(R.string.tw_consumer_secret));
-//		ParseAnalytics.trackAppOpened(getIntent());
+		// Parse.initialize(this,
+		// getResources().getString(R.string.parse_app_id),
+		// getResources().getString(R.string.parse_client_key));
+		// ParseTwitterUtils.initialize(
+		// getResources().getString(R.string.tw_consumer_key),
+		// getResources().getString(R.string.tw_consumer_secret));
+		// ParseAnalytics.trackAppOpened(getIntent());
 
 		// ParseFacebookUtils.initialize(getResources().getString(R.string.fb_app_id));
 
@@ -228,19 +230,80 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		if (extras != null) {
 			POST_DAYS = extras.getInt("POST_DAYS", POST_DAYS);
 		}
-		getPosts();
-		getNotices();
-		new FetchHashtags().execute();
+		if (hasNetworkConnection()) {
+			getPosts();
+			getNotices();
+			new FetchHashtags().execute();
+		} else {
+			showNoNetworkConnection();
+		}
+	}
+
+	private boolean hasNetworkConnection() {
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();// ConnectivityManager.TYPE_WIFI);
+		if (networkInfo != null && networkInfo.isConnected())
+			return true;
+		return false;
+	}
+
+	private void showNoNetworkConnection() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+
+		builder.setMessage(
+				"Something is wrong with your network connection. \n\nCheck your network connection and try again!")
+				.setTitle("Oops ={");
+
+		builder.setPositiveButton("Okay",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+
+	private void showPairingError() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+
+		builder.setMessage(
+				"Something is wrong with your network connection.\n\n"
+						+ "Unfortunately this is a crutial step and requires an internet connection. "
+						+ "Make sure you are connected and reenter your phone number to start the process again."
+						+ " \n\nThe link you were sent previously, has expired and will no longer work correctly. Wait for the new link to arrive.")
+				.setTitle("Oops ={");
+
+		builder.setPositiveButton("Okay",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		AlertDialog dialog = builder.create();
+		dialog.show();
 	}
 
 	private void pairUserToApp(String data) {
-		SharedPreferences user_info = getBaseContext().getSharedPreferences(
-				"UserInfo", MODE_PRIVATE);
-		String phone = user_info.getString("phone_number", "");
-		String user_password = data.substring(data.indexOf('/') + 2);
-		loginParseUser(phone, user_password);
-		Log.e(tag, "user data= " + phone + " :  " + user_password);
-		loginParseUser(phone, user_password);
+		if (hasNetworkConnection()) {
+			// they should have a connection because they came from the browser.
+			// nut just in case they go through a tunnel...we fail safe.
+			SharedPreferences user_info = getBaseContext()
+					.getSharedPreferences("UserInfo", MODE_PRIVATE);
+			String phone = user_info.getString("phone_number", "");
+			String user_password = data.substring(data.indexOf('/') + 2);
+			loginParseUser(phone, user_password);
+			Log.e(tag, "user data= " + phone + " :  " + user_password);
+			loginParseUser(phone, user_password);
+		} else {
+			showPairingError();
+			SharedPreferences user_info = getSharedPreferences("UserInfo",
+					MODE_PRIVATE);
+			SharedPreferences.Editor prefEditor = user_info.edit();
+			// so the user can retry when they open the app again.
+			prefEditor.putBoolean("isFirstVisit", true);
+			prefEditor.commit();
+		}
 
 	}
 
@@ -260,11 +323,13 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 						String faveColor = user.getString("faveColor");
 						String icon = user.getString("icon");
 						String userID = user.getString("objectId");
-						saveUserDataToPhone(userID, userType, fname, lname, icon,
-								faveColor, year);
+						saveUserDataToPhone(userID, userType, fname, lname,
+								icon, faveColor, year);
 					} else {
 						Log.i(tag, "login failed. e: " + e.toString());
-
+						Toast.makeText(ctx,
+								"Pairing was unsuccessful. Please try again.",
+								Toast.LENGTH_SHORT).show();
 						// Signup failed. Look at the ParseException to see what
 						// happened.
 					}
@@ -276,8 +341,9 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		}
 	}
 
-	private void saveUserDataToPhone(String userID, String userType, String fName,
-			String lName, String icon, String favColor, String year) {
+	private void saveUserDataToPhone(String userID, String userType,
+			String fName, String lName, String icon, String favColor,
+			String year) {
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = user_info.edit();
@@ -331,14 +397,21 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		});
 	}
 
-	
-	private void refresh(){
-		Toast.makeText(this, "Refreshing feed", Toast.LENGTH_SHORT).show();
-		ff.refresh(listadapter);
+	private void refresh() {
+		if (hasNetworkConnection()) {
+			ff.refresh(listadapter);
+			getNotices();
+			if (hashtags == null || hashtags.size() < 1)
+				new FetchHashtags().execute();
+			Toast.makeText(this, "Refreshing feed", Toast.LENGTH_SHORT).show();
+		} else
+			Toast.makeText(this, "No network connection...", Toast.LENGTH_SHORT)
+					.show();
+		// showNoNetworkConnection();
 	}
-	
+
 	private ArrayList<Post> newposts = new ArrayList<Post>();
-	
+
 	/**
 	 * This checks whether we need to pull data from parse or if we can just
 	 * create our posts object from our serialized file.
@@ -706,50 +779,56 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	// }
 
 	public void showHashtags() {
-		final CharSequence[] mHashtags = getHashtagCharSequence();// =
-																	// findHashtags();
-		// hashtags = new CharSequence[6];// {"",""};
-		// hashtags[0] = "#LOSAL";
-		// hashtags[1] = "#BEDROCKDANCE";
-		// hashtags[2] = "#CLASSOF2014";
-		// hashtags[3] = "#BANDCAMP";
-		// hashtags[4] = "#FOOTBALL";
-		// hashtags[5] = "#GRIFFIN";
-		// hashtags[6] = "#LOSAL";
-		// hashtags[7] = "#Sports";
-		// hashtags[8] = "#Griffin";
+		if (hashtags != null && hashtags.size() > 0) {
+			final CharSequence[] mHashtags = getHashtagCharSequence();// =
+																		// findHashtags();
+			// hashtags = new CharSequence[6];// {"",""};
+			// hashtags[0] = "#LOSAL";
+			// hashtags[1] = "#BEDROCKDANCE";
+			// hashtags[2] = "#CLASSOF2014";
+			// hashtags[3] = "#BANDCAMP";
+			// hashtags[4] = "#FOOTBALL";
+			// hashtags[5] = "#GRIFFIN";
+			// hashtags[6] = "#LOSAL";
+			// hashtags[7] = "#Sports";
+			// hashtags[8] = "#Griffin";
 
-		if (mHashtags != null) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setItems(mHashtags, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					Toast.makeText(ctx, mHashtags[which].toString(),
-							Toast.LENGTH_SHORT).show();
-					setActionBarTitle(mHashtags[which].toString());
-					listadapter.removeFilter();
-					listadapter.Filter(mHashtags[which].toString(), hashtags);
-					isFiltered = true;
-					// filterView(hashtags[which].toString());
-					dialog.dismiss();
-				}
-			});
-			builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
-				@Override
-				public boolean onKey(DialogInterface dialog, int keyCode,
-						KeyEvent event) {
-					if (keyCode == KeyEvent.KEYCODE_BACK
-							&& event.getAction() == KeyEvent.ACTION_UP
-							&& !event.isCanceled()) {
-						dialog.cancel();
-						return true;
+			if (mHashtags != null) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setItems(mHashtags,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								Toast.makeText(ctx,
+										mHashtags[which].toString(),
+										Toast.LENGTH_SHORT).show();
+								setActionBarTitle(mHashtags[which].toString());
+								listadapter.removeFilter();
+								listadapter.Filter(mHashtags[which].toString(),
+										hashtags);
+								isFiltered = true;
+								// filterView(hashtags[which].toString());
+								dialog.dismiss();
+							}
+						});
+				builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
+					@Override
+					public boolean onKey(DialogInterface dialog, int keyCode,
+							KeyEvent event) {
+						if (keyCode == KeyEvent.KEYCODE_BACK
+								&& event.getAction() == KeyEvent.ACTION_UP
+								&& !event.isCanceled()) {
+							dialog.cancel();
+							return true;
+						}
+						return false;
 					}
-					return false;
-				}
-			});
-			AlertDialog dialog = builder.create();
+				});
+				AlertDialog dialog = builder.create();
 
-			dialog.setTitle("Sort by... ");
-			dialog.show();
+				dialog.setTitle("Sort by... ");
+				dialog.show();
+			}
 		}
 	}
 
@@ -791,7 +870,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 	@Override
 	public void onBackPressed() {
-		if(sm.isSecondaryMenuShowing())
+		if (sm.isSecondaryMenuShowing())
 			sm.toggle();
 		else if (isFiltered) {
 			// undo filtering
@@ -806,8 +885,8 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	private void setActionBarTitle(String s) {
 		TextView title = (TextView) getActionBar().getCustomView()
 				.findViewById(R.id.ab_title);
-//		if(s.length() > 14)
-//			s=s.substring(0, 14);
+		// if(s.length() > 14)
+		// s=s.substring(0, 14);
 		title.setText(s);
 	}
 

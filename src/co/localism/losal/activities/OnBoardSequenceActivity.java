@@ -30,13 +30,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -122,26 +126,31 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		// prefEditor.commit();
 		//
 
-//		RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl_onboard_all);
-//		rl.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if(pager.getCurrentItem() == pageAdapter.getItem(1))
-//					pager.setCurrentItem(pageAdapter.getItem(2));
-//			}
-//		});
+		// RelativeLayout rl = (RelativeLayout)
+		// findViewById(R.id.rl_onboard_all);
+		// rl.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// if(pager.getCurrentItem() == pageAdapter.getItem(1))
+		// pager.setCurrentItem(pageAdapter.getItem(2));
+		// }
+		// });
 
 		verify_onclick = new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Button btn_verify = (Button) findViewById(R.id.btn_verify);
-				btn_verify.setText(R.string.verify_button_retry);
-				btn_verify.setVisibility(View.GONE);
-				progress.setVisibility(View.VISIBLE);
-				final EditText et_phone = (EditText) findViewById(R.id.et_phone);
+				if (hasNetworkConnection()) {
+					Button btn_verify = (Button) findViewById(R.id.btn_verify);
+					btn_verify.setText(R.string.verify_button_retry);
+					btn_verify.setVisibility(View.GONE);
+					progress.setVisibility(View.VISIBLE);
+					final EditText et_phone = (EditText) findViewById(R.id.et_phone);
 
-				new VerifyUser().execute(et_phone.getText().toString(), "", "");
+					new VerifyUser().execute(et_phone.getText().toString(), "", "");
+				} else {
+					showNoNetworkConnection();
+				}
 			}
 
 		};
@@ -617,7 +626,31 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		SharedPreferences.Editor prefEditor = user_info.edit();
 		prefEditor.putString("phone_number", phone);
 		prefEditor.commit();
+	}
 
+	private void showNoNetworkConnection() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+
+		builder.setMessage(
+				"Something is wrong with your network connection. \n\nCheck your network connection and try again!")
+				.setTitle("Oops ={");
+
+		builder.setPositiveButton("Okay",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+	
+	private boolean hasNetworkConnection() {
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();// ConnectivityManager.TYPE_WIFI);
+		if (networkInfo != null && networkInfo.isConnected())
+			return true;
+		return false;
 	}
 
 }

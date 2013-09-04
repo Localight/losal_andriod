@@ -66,7 +66,10 @@ public class FetchFeed {//extends Observable {
 	public void refresh(PostAdapter pa) {
 		this.pa = pa;
 		Log.d(tag, "fetch refresh called");
-		new FetchPosts().execute("refresh","","");
+		if(pa.getSize() > 0 )
+			new FetchPosts().execute("refresh","","");
+		else
+			new FetchPosts().execute("","","");
 	}
 	
 

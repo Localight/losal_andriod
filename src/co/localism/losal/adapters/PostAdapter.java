@@ -36,6 +36,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Looper;
 import android.provider.SyncStateContract.Constants;
 import android.util.Log;
@@ -97,7 +99,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		mPosts = posts;
 		mViewResourceId = viewResourceId;
 		this.ctx = ctx;
-		
 
 		TH = new TimeHandler();
 		icon_font = Typeface.createFromAsset(ctx.getAssets(), "icomoon.ttf");
@@ -127,7 +128,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			}
 		};
 
-		
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(ctx));
 
@@ -136,8 +136,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				// .showImageForEmptyUri(R.drawable.ic_empty)
 				// .showImageOnFail(R.drawable.ic_error)
 				// .showStubImage(R.drawable.ic_launcher)
-//				.showImageForEmptyUri(R.drawable.ic_launcher)
-//				.showImageOnFail(R.drawable.ic_launcher)
+				// .showImageForEmptyUri(R.drawable.ic_launcher)
+				// .showImageOnFail(R.drawable.ic_launcher)
 				.resetViewBeforeLoading(true).cacheInMemory(true)
 				.cacheOnDisc(true)
 				// .displayer(new RoundedBitmapDisplayer(20))
@@ -183,6 +183,13 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		Log.d(tag, "allAll called!");
 		mPosts.addAll(p);
 		notifyDataSetChanged();
+	}
+
+	public int getSize() {
+		if (mPosts == null)
+			return mPosts.size();
+		else
+			return -1;
 	}
 
 	public void setStatus(boolean isLoading) {
@@ -260,8 +267,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder = (PostViewHolder) convertView.getTag();
 		}
 		user_info = ctx.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-		user_likes= ctx.getSharedPreferences("UserLikes", Context.MODE_PRIVATE);
-		
+		user_likes = ctx
+				.getSharedPreferences("UserLikes", Context.MODE_PRIVATE);
+
 		if (user_info.getBoolean("registered", false)) {
 			int userType = 0;
 
@@ -302,7 +310,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder.tv_class_year.setText(cur.getClassYear());
 
 			holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
-//			Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
+			// Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
 			holder.tv_post_text.setText(cur.getText());
 
 			holder.tv_user_icon.setTypeface(icon_font);
@@ -316,15 +324,19 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder.tv_user_icon.setText(cur.getUserIcon().toString());
 
 			/**** Social Site LIKE Icon ****/
-			
-			Log.d(tag, cur.getUserLiked()+"");
-			Log.d(tag, "UL: "+user_likes.getString(cur.getSocialNetworkPostId(), "-1"));
-			Log.d(tag, "POID: "+cur.getParseObjectId());
 
-			if(!cur.getUserLiked())
-				if(!user_likes.getString(cur.getSocialNetworkPostId(), "").equalsIgnoreCase(""))
+			Log.d(tag, cur.getUserLiked() + "");
+			Log.d(tag,
+					"UL: "
+							+ user_likes.getString(
+									cur.getSocialNetworkPostId(), "-1"));
+			Log.d(tag, "POID: " + cur.getParseObjectId());
+
+			if (!cur.getUserLiked())
+				if (!user_likes.getString(cur.getSocialNetworkPostId(), "")
+						.equalsIgnoreCase(""))
 					cur.setUserLiked(true);
-			
+
 			if (cur.getUserLiked()) {
 				// holder.iv_social_like_icon.setAlpha(1f);
 				if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
@@ -426,8 +438,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			@Override
 			public void onClick(View v) {
 				// like the post on instagram
-//				Toast.makeText(ctx, "pos: " + v.getTag(), Toast.LENGTH_SHORT)
-//						.show();
+				// Toast.makeText(ctx, "pos: " + v.getTag(), Toast.LENGTH_SHORT)
+				// .show();
 				Log.d(tag, "social clicked!");
 				Log.d(tag, mPosts.get((Integer) v.getTag()).getText());
 				int pos = (Integer) v.getTag();
@@ -559,42 +571,54 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 	private void socialLikeClicked(Post post) {
 		Log.d(tag, post.getText());
-		// TODO: CHECK IF LOGGED IN
-		String site = post.getSocialNetworkName();
+		if (hasNetworkConnection()) {
+			// TODO: CHECK IF LOGGED IN
+			String site = post.getSocialNetworkName();
 
-		if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))) {
-			if (user_info.getBoolean("hasTwitter", false)) {
-				favTwitter(post.getSocialNetworkPostId(), post.getUserLiked());
-//				new TwitterRequests().execute(post.getSocialNetworkPostId());
-				post.setUserLiked(!post.getUserLiked());
-			} else
-				ctx.startActivity(new Intent(ctx, ActivateSocialActivity.class)
-						.putExtra("twitter", true));
-			// MainActivity.favoriteTweet(post.getSocialNetworkPostId());
-		} else if (site.equalsIgnoreCase(ctx.getResources().getString(
-				R.string.insta)))
-			if (user_info.getBoolean("hasInstagram", false)) {
-				likeInsta(post.getSocialNetworkPostId(), post.getUserLiked());
-				post.setUserLiked(!post.getUserLiked());
+			if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))) {
+				if (user_info.getBoolean("hasTwitter", false)) {
+					favTwitter(post.getSocialNetworkPostId(),
+							post.getUserLiked());
+					// new
+					// TwitterRequests().execute(post.getSocialNetworkPostId());
+					post.setUserLiked(!post.getUserLiked());
+				} else
+					ctx.startActivity(new Intent(ctx,
+							ActivateSocialActivity.class).putExtra("twitter",
+							true));
+				// MainActivity.favoriteTweet(post.getSocialNetworkPostId());
+			} else if (site.equalsIgnoreCase(ctx.getResources().getString(
+					R.string.insta)))
+				if (user_info.getBoolean("hasInstagram", false)) {
+					likeInsta(post.getSocialNetworkPostId(),
+							post.getUserLiked());
+					post.setUserLiked(!post.getUserLiked());
 
-			} else
-				ctx.startActivity(new Intent(ctx, ActivateSocialActivity.class)
-						.putExtra("instagram", true));
-
+				} else
+					ctx.startActivity(new Intent(ctx,
+							ActivateSocialActivity.class).putExtra("instagram",
+							true));
+		} else {
+			Toast.makeText(ctx, "No network connection...", Toast.LENGTH_SHORT)
+					.show();
+		}
 	}
-	
-	public void favTwitter(String id, Boolean already_likes){
+
+	public void favTwitter(String id, Boolean already_likes) {
 		// favorites the post on twitter
 		SharedPreferences.Editor likesEditor = user_likes.edit();
-		if(already_likes){
-			new TwitterRequests().execute(id, user_info.getString("user_id", ""),"unfavorite");
+		if (already_likes) {
+			new TwitterRequests().execute(id,
+					user_info.getString("user_id", ""), "unfavorite");
 			likesEditor.remove(id);
-		}else{
-			new TwitterRequests().execute(id, user_info.getString("user_id", ""), "favorite");
-			likesEditor.putString(id, Calendar.getInstance().getTime().toString());
+		} else {
+			new TwitterRequests().execute(id,
+					user_info.getString("user_id", ""), "favorite");
+			likesEditor.putString(id, Calendar.getInstance().getTime()
+					.toString());
 		}
 		likesEditor.commit();
-		Log.d(tag, "cal "+Calendar.getInstance().getTime().toString());
+		Log.d(tag, "cal " + Calendar.getInstance().getTime().toString());
 	}
 
 	public void likeInsta(String id, boolean already_likes) {
@@ -604,16 +628,27 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		insta_info.getString("access_token", "");
 		String request = "like";
 		SharedPreferences.Editor likesEditor = user_likes.edit();
-		
-		if(already_likes){
+
+		if (already_likes) {
 			request = "unlike";
 			likesEditor.remove(id);
-		}else{
-			likesEditor.putString(id, Calendar.getInstance().getTime().toString());	
+		} else {
+			likesEditor.putString(id, Calendar.getInstance().getTime()
+					.toString());
 		}
 		new InstagramRequests().execute(request, id,
-				insta_info.getString("access_token", ""), user_info.getString("user_id",""));
+				insta_info.getString("access_token", ""),
+				user_info.getString("user_id", ""));
 		likesEditor.commit();
+	}
+
+	private boolean hasNetworkConnection() {
+		ConnectivityManager connMgr = (ConnectivityManager) ctx
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();// ConnectivityManager.TYPE_WIFI);
+		if (networkInfo != null && networkInfo.isConnected())
+			return true;
+		return false;
 	}
 
 	public static class PostViewHolder {
@@ -692,4 +727,5 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		}
 		isFiltered = false;
 	}
+
 }

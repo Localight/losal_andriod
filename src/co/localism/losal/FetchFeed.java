@@ -36,7 +36,8 @@ public class FetchFeed {//extends Observable {
 	}
 	
 	public void getAppSettings(){
-		
+		Log.d(tag, "getAppSetting called");
+
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("AppSettings");
 		
 
@@ -54,58 +55,15 @@ public class FetchFeed {//extends Observable {
 		
 	}
 	
-	public ArrayList<Post> fetch(PostAdapter pa) {
+	public void fetch(PostAdapter pa) {
 		this.pa = pa;
-		final Calendar cal = Calendar.getInstance();
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Posts");
-		final ArrayList<Post> posts;
-		posts = new ArrayList<Post>();
-		// query.whereEqualTo("socialNetworkName", "Instagram");
-		query.whereEqualTo("status", "1");
-		query.addDescendingOrder("postTime");
-		Log.d(tag, "Last Post Date"+MainActivity.LAST_POST_DATE);
-		
-		if(MainActivity.LAST_POST_DATE == null){
-			Log.d(tag, "initial fetch");
+		Log.d(tag, "fetch called");
 
-//			getAppSettings();
-//			then start with less than now
-			query.whereLessThan("postTime", cal.getTime());
-			cal.add(Calendar.DATE, -7);
-			query.whereGreaterThan("postTime", cal.getTime());
-		}else{
-			Log.d(tag, " fetch MORE");
-
-			query.whereLessThan("postTime", MainActivity.LAST_POST_DATE);
-			Date d = MainActivity.LAST_POST_DATE;
-			cal.setTime(d);
-			cal.add(Calendar.DATE, -7);
-			query.whereGreaterThan("postTime", cal.getTime());
-		}
-		
-		
-
-		query.include("user");
-		// query.whereStartsWith("socialNetworkName", "Instagram");
-		query.findInBackground(new FindCallback<ParseObject>() {
-			public void done(List<ParseObject> postList, ParseException e) {
-				if (e == null) {
-					Log.d(tag, "Retrieved " + postList.size() + " posts");
-//					MainActivity.posts = createPosts(postList);
-					posts.addAll(createPosts(postList));
-					triggerObservers();
-				} else {
-					Log.d(tag, "Error: " + e.getMessage());
-				}
-			}
-		});
+		new FetchPosts().execute("","","");
 //		pa.addAll(posts);
 //		pa.notifyDataSetChanged();
-		return posts;
+//		return posts;
 	}
-	
-	
-	
 	
 	
 	
@@ -270,4 +228,62 @@ public class FetchFeed {//extends Observable {
 //		setChanged();
 //		notifyObservers();
 	}
+
+private class FetchPosts extends AsyncTask<String, String, String>{
+
+	@Override
+	protected String doInBackground(String... args) {
+		Log.d(tag, "doing in background");
+
+		final Calendar cal = Calendar.getInstance();
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Posts");
+		final ArrayList<Post> posts;
+		posts = new ArrayList<Post>();
+		// query.whereEqualTo("socialNetworkName", "Instagram");
+		query.whereEqualTo("status", "1");
+		query.addDescendingOrder("postTime");
+		Log.d(tag, "Last Post Date"+MainActivity.LAST_POST_DATE);
+		
+		if(MainActivity.LAST_POST_DATE == null){
+			Log.d(tag, "initial fetch");
+
+//			getAppSettings();
+//			then start with less than now
+			query.whereLessThan("postTime", cal.getTime());
+			cal.add(Calendar.DATE, -7);
+			query.whereGreaterThan("postTime", cal.getTime());
+		}else{
+			Log.d(tag, " fetch MORE");
+
+			query.whereLessThan("postTime", MainActivity.LAST_POST_DATE);
+			Date d = MainActivity.LAST_POST_DATE;
+			cal.setTime(d);
+			cal.add(Calendar.DATE, -7);
+			query.whereGreaterThan("postTime", cal.getTime());
+		}
+		
+		
+
+		query.include("user");
+		// query.whereStartsWith("socialNetworkName", "Instagram");
+		query.findInBackground(new FindCallback<ParseObject>() {
+			public void done(List<ParseObject> postList, ParseException e) {
+				if (e == null) {
+					Log.d(tag, "Retrieved " + postList.size() + " posts");
+//					MainActivity.posts = createPosts(postList);
+					posts.addAll(createPosts(postList));
+					triggerObservers();
+				} else {
+					Log.d(tag, "Error: " + e.getMessage());
+				}
+			}
+		});
+		return null;
+	}
+		
+	}
+	
+	
+	
+
 }

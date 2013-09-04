@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import co.localism.losal.activities.MainActivity;
@@ -42,33 +43,9 @@ public class FetchNotices extends Observable  {
 	 * 
 	 * @return ArrayList<Post>
 	 */
-	public ArrayList<Notice> fetch(NoticeAdapter na) {
-		final Calendar cal = Calendar.getInstance();
-
-
-		
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Notifications");
-		final ArrayList<Notice> notices;
-		notices = new ArrayList<Notice>();
+	public void fetch(NoticeAdapter na) {
 		this.na = na;
-		
-		query.whereGreaterThan("endDate", cal.getTime());
-		query.whereLessThan("startDate", cal.getTime());
-
-		query.addDescendingOrder("startDate");
-
-		query.findInBackground(new FindCallback<ParseObject>() {
-			public void done(List<ParseObject> noticeList, ParseException e) {
-				if (e == null) {
-					Log.d(tag, "Retrieved " + noticeList.size() + " notices");
-					notices.addAll(createnotices(noticeList));
-					triggerObservers();
-				} else {
-					Log.d(tag, "Error: " + e.getMessage());
-				}
-			}
-		});
-		return notices;
+		new FetchInBackground().execute("","","");
 	}
 
 	/**
@@ -130,6 +107,38 @@ public class FetchNotices extends Observable  {
 		Log.d(tag, "triggerObservers called");
 		setChanged();
 		notifyObservers();
+	}
+	
+	
+	private class FetchInBackground extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			final Calendar cal = Calendar.getInstance();
+			ParseQuery<ParseObject> query = ParseQuery.getQuery("Notifications");
+			final ArrayList<Notice> notices;
+			notices = new ArrayList<Notice>();
+			
+			query.whereGreaterThan("endDate", cal.getTime());
+			query.whereLessThan("startDate", cal.getTime());
+
+			query.addDescendingOrder("startDate");
+
+			query.findInBackground(new FindCallback<ParseObject>() {
+				public void done(List<ParseObject> noticeList, ParseException e) {
+					if (e == null) {
+						Log.d(tag, "Retrieved " + noticeList.size() + " notices");
+						notices.addAll(createnotices(noticeList));
+						triggerObservers();
+					} else {
+						Log.d(tag, "Error: " + e.getMessage());
+					}
+				}
+			});
+			
+			return null;
+		}
+		
 	}
 }
 

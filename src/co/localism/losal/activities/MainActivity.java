@@ -237,6 +237,11 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		} else {
 			showNoNetworkConnection();
 		}
+		 SharedPreferences user_info = getSharedPreferences("UserInfo",
+		 MODE_PRIVATE);
+		SharedPreferences.Editor prefEditor = user_info.edit();
+		prefEditor.putBoolean("isFirstVisit", false);
+		prefEditor.commit();
 	}
 
 	private boolean hasNetworkConnection() {
@@ -469,14 +474,9 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		// getMenuInflater().inflate(R.menu.main, menu);
-		// menu.findItem(R.id.notices).setIcon(
-		// new SVGHandler().svg_to_drawable(ctx, R.raw.lightning));
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
-		// return true;
 	}
 
 	@Override
@@ -497,12 +497,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 
 	public void updateView() {
 		Log.d(tag, "updateView called");
-		// posts.addAll(newposts);
-		// setListAdapter(listadapter);
 		loadingMore = false;
-		// getListView().setOnItemClickListener(this);
-		// findViewById(R.id.iv_post_image).setClickable(false);
-
 	}
 
 	// @Override
@@ -515,7 +510,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	@Override
 	public void onResume() {
 		super.onResume();
-		updateView();
+//		updateView();
 	}
 
 	private void createTestparseUser() {

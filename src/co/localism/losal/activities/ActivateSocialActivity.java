@@ -111,11 +111,11 @@ public class ActivateSocialActivity extends Activity {
 			LinearLayout ll_tw = (LinearLayout) findViewById(R.id.ll_activate_tw);
 			ll_tw.setVisibility(View.VISIBLE);
 			ll_tw.addView(
-					new SVGHandler().svg_to_imageview(this, R.raw.tw, 0.6f), 0,
+					new SVGHandler().svg_to_imageview(this, R.raw.tw, 1.0f), 0,
 					params);
 			ll_tw.setOnClickListener(tw_onclick);
 			TextView tv_tw = (TextView) findViewById(R.id.tv_activate_tw_text);
-			tv_tw.setAlpha(0.6f);
+			tv_tw.setAlpha(1.0f);
 		}
 	}
 
@@ -127,10 +127,10 @@ public class ActivateSocialActivity extends Activity {
 			LinearLayout ll_insta = (LinearLayout) findViewById(R.id.ll_activate_insta);
 			ll_insta.setVisibility(View.VISIBLE);
 			ll_insta.addView(
-					new SVGHandler().svg_to_imageview(this, R.raw.insta, 0.6f),
+					new SVGHandler().svg_to_imageview(this, R.raw.insta, 1.0f),
 					0, params);
 			TextView tv_insta = (TextView) findViewById(R.id.tv_activate_insta_text);
-			tv_insta.setAlpha(0.6f);
+			tv_insta.setAlpha(1.0f);
 			ll_insta.setOnClickListener(insta_onclick);
 		}
 	}

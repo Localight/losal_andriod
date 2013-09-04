@@ -108,132 +108,137 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().hide();
-		setContentView(R.layout.onboardsequence);
-		ctx = this;
-		List<Fragment> fragments = getFragments();
-		pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
-		final ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
-		pager.setAdapter(pageAdapter);
-		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
-				getResources().getString(R.string.parse_client_key));
-		//
-		// SharedPreferences user_info =
-		// getBaseContext().getSharedPreferences("UserInfo",
-		// MODE_PRIVATE);
-		// SharedPreferences.Editor prefEditor = user_info.edit();
-		// prefEditor.putBoolean("isFirstVisit", false);
-		// prefEditor.commit();
-		//
+		SharedPreferences user_info = getBaseContext().getSharedPreferences(
+				"UserInfo", MODE_PRIVATE);
+		if (!user_info.getBoolean("isFirstVisit", true)) {
+			startActivity(new Intent(this, MainActivity.class));
+			finish();
+		} else {
 
-		// RelativeLayout rl = (RelativeLayout)
-		// findViewById(R.id.rl_onboard_all);
-		// rl.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// if(pager.getCurrentItem() == pageAdapter.getItem(1))
-		// pager.setCurrentItem(pageAdapter.getItem(2));
-		// }
-		// });
+			getActionBar().hide();
+			setContentView(R.layout.onboardsequence);
+			ctx = this;
+			List<Fragment> fragments = getFragments();
+			pageAdapter = new MyPageAdapter(getSupportFragmentManager(),
+					fragments);
+			final ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
+			pager.setAdapter(pageAdapter);
+			Parse.initialize(this,
+					getResources().getString(R.string.parse_app_id),
+					getResources().getString(R.string.parse_client_key));
+			//
 
-		verify_onclick = new OnClickListener() {
+			// SharedPreferences.Editor prefEditor = user_info.edit();
+			// prefEditor.putBoolean("isFirstVisit", false);
+			// prefEditor.commit();
+			//
 
-			@Override
-			public void onClick(View v) {
-				if (hasNetworkConnection()) {
-					Button btn_verify = (Button) findViewById(R.id.btn_verify);
-					btn_verify.setText(R.string.verify_button_retry);
-					btn_verify.setVisibility(View.GONE);
-					progress.setVisibility(View.VISIBLE);
-					final EditText et_phone = (EditText) findViewById(R.id.et_phone);
+			// RelativeLayout rl = (RelativeLayout)
+			// findViewById(R.id.rl_onboard_all);
+			// rl.setOnClickListener(new OnClickListener() {
+			// @Override
+			// public void onClick(View v) {
+			// if(pager.getCurrentItem() == pageAdapter.getItem(1))
+			// pager.setCurrentItem(pageAdapter.getItem(2));
+			// }
+			// });
 
-					new VerifyUser().execute(et_phone.getText().toString(), "", "");
-				} else {
-					showNoNetworkConnection();
+			verify_onclick = new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					if (hasNetworkConnection()) {
+						Button btn_verify = (Button) findViewById(R.id.btn_verify);
+						btn_verify.setText(R.string.verify_button_retry);
+						btn_verify.setVisibility(View.GONE);
+						progress.setVisibility(View.VISIBLE);
+						final EditText et_phone = (EditText) findViewById(R.id.et_phone);
+
+						new VerifyUser().execute(et_phone.getText().toString(),
+								"", "");
+					} else {
+						showNoNetworkConnection();
+					}
 				}
-			}
+			};
 
-		};
+			close_page_onclick = new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
 
-		close_page_onclick = new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
+					Intent i = new Intent(ctx, MainActivity.class);
+					startActivity(i);
+					finish();
+				}
 
-				Intent i = new Intent(ctx, MainActivity.class);
-				startActivity(i);
-			}
+			};
+			email_onclick = new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+							Uri.fromParts("mailto", address, null));
+					emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+					startActivity(Intent.createChooser(emailIntent,
+							"Send email..."));
+				}
+			};
 
-		};
-		email_onclick = new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
-						Uri.fromParts("mailto", address, null));
-				emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-				startActivity(Intent
-						.createChooser(emailIntent, "Send email..."));
-			}
+			iv_circle1 = (ImageView) findViewById(R.id.iv_circle1);
+			bgShape1 = (GradientDrawable) iv_circle1.getBackground();
 
-		};
+			iv_circle2 = (ImageView) findViewById(R.id.iv_circle2);
+			bgShape2 = (GradientDrawable) iv_circle2.getBackground();
+			iv_circle3 = (ImageView) findViewById(R.id.iv_circle3);
+			bgShape3 = (GradientDrawable) iv_circle3.getBackground();
 
-		iv_circle1 = (ImageView) findViewById(R.id.iv_circle1);
-		bgShape1 = (GradientDrawable) iv_circle1.getBackground();
+			bgShape1.setColor(getResources().getColor(R.color.activated_circle));
+			bgShape2.setColor(getResources().getColor(R.color.inactive_circle));
+			bgShape3.setColor(getResources().getColor(R.color.inactive_circle));
 
-		iv_circle2 = (ImageView) findViewById(R.id.iv_circle2);
-		bgShape2 = (GradientDrawable) iv_circle2.getBackground();
-		iv_circle3 = (ImageView) findViewById(R.id.iv_circle3);
-		bgShape3 = (GradientDrawable) iv_circle3.getBackground();
+			// OnPageListener pageListener = new OnPageChangedListener();
+			pager.setOnPageChangeListener(new OnPageChangeListener() {
 
-		bgShape1.setColor(getResources().getColor(R.color.activated_circle));
-		bgShape2.setColor(getResources().getColor(R.color.inactive_circle));
-		bgShape3.setColor(getResources().getColor(R.color.inactive_circle));
-
-		// OnPageListener pageListener = new OnPageChangedListener();
-		pager.setOnPageChangeListener(new OnPageChangeListener() {
-
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onPageSelected(int x) {
-				Log.d(tag, "current page: " + x);
-				switch (x) {
-				case 0:
-					bgShape1.setColor(getResources().getColor(
-							R.color.activated_circle));
-					bgShape2.setColor(getResources().getColor(
-							R.color.inactive_circle));
-					bgShape3.setColor(getResources().getColor(
-							R.color.inactive_circle));
-
-					break;
-				case 1:
-					bgShape2.setColor(getResources().getColor(
-							R.color.activated_circle));
-					bgShape3.setColor(getResources().getColor(
-							R.color.inactive_circle));
-
-					break;
-				case 2:
-					bgShape3.setColor(getResources().getColor(
-							R.color.activated_circle));
-					break;
+				@Override
+				public void onPageScrollStateChanged(int arg0) {
 
 				}
 
-			}
+				@Override
+				public void onPageScrolled(int arg0, float arg1, int arg2) {
 
-		});
+				}
 
+				@Override
+				public void onPageSelected(int x) {
+					Log.d(tag, "current page: " + x);
+					switch (x) {
+					case 0:
+						bgShape1.setColor(getResources().getColor(
+								R.color.activated_circle));
+						bgShape2.setColor(getResources().getColor(
+								R.color.inactive_circle));
+						bgShape3.setColor(getResources().getColor(
+								R.color.inactive_circle));
+
+						break;
+					case 1:
+						bgShape2.setColor(getResources().getColor(
+								R.color.activated_circle));
+						bgShape3.setColor(getResources().getColor(
+								R.color.inactive_circle));
+
+						break;
+					case 2:
+						bgShape3.setColor(getResources().getColor(
+								R.color.activated_circle));
+						break;
+
+					}
+
+				}
+
+			});
+		}
 	}
 
 	private List<Fragment> getFragments() {
@@ -524,7 +529,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				Log.d("OnBoard", "success");
 
 				showSuccessScreen();
-				// new Twilio().execute(db_phone, "", "");
+				new Twilio().execute(db_phone, "", "");
 			} else {
 				Log.d("OnBoard", "fail");
 
@@ -644,13 +649,18 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
-	
+
 	private boolean hasNetworkConnection() {
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();// ConnectivityManager.TYPE_WIFI);
 		if (networkInfo != null && networkInfo.isConnected())
 			return true;
 		return false;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 	}
 
 }

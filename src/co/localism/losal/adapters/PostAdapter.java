@@ -404,10 +404,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				// Make imageview as tall as it is wide. This will act as a
 				// place
 				// holder when there is no image loaded yet
-
 				mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image,
 						options, animateFirstListener);
-
 				holder.iv_post_image.setTag(cur.getUrl());
 				holder.iv_post_image.setOnClickListener(new OnClickListener() {
 
@@ -419,7 +417,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 						intent.putExtra("imageURL", url);// mPosts.get(pos-1).getUrl());
 						ctx.startActivity(intent);
 					}
-
 				});
 
 			} else {// this post does not have an image to display so hide the

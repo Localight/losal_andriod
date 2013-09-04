@@ -147,17 +147,19 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 
 				@Override
 				public void onClick(View v) {
-					if (hasNetworkConnection()) {
-						Button btn_verify = (Button) findViewById(R.id.btn_verify);
-						btn_verify.setText(R.string.verify_button_retry);
-						btn_verify.setVisibility(View.GONE);
-						progress.setVisibility(View.VISIBLE);
-						final EditText et_phone = (EditText) findViewById(R.id.et_phone);
+					final EditText et_phone = (EditText) findViewById(R.id.et_phone);
+					if (et_phone.getText().toString().length() > 9) {
+						if (hasNetworkConnection()) {
+							Button btn_verify = (Button) findViewById(R.id.btn_verify);
+							btn_verify.setText(R.string.verify_button_retry);
+							btn_verify.setVisibility(View.GONE);
+							progress.setVisibility(View.VISIBLE);
 
-						new VerifyUser().execute(et_phone.getText().toString(),
-								"", "");
-					} else {
-						showNoNetworkConnection();
+							new VerifyUser().execute(et_phone.getText()
+									.toString(), "", "");
+						} else {
+							showNoNetworkConnection();
+						}
 					}
 				}
 			};
@@ -323,6 +325,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 						.findViewById(R.id.iv_ob_verify_close);
 				btn_verify = (Button) v.findViewById(R.id.btn_verify);
 				btn_verify.setText(R.string.verify_button);
+				btn_verify.setClickable(false);
 
 				progress = (ProgressBar) v.findViewById(R.id.verify_progress);
 				progress.setVisibility(View.GONE);
@@ -360,9 +363,16 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 							// .getColor(R.color.trans_white));
 							et_phone.setTextColor(getResources().getColor(
 									R.color.localism_blue));
-						} else
+							btn_verify.setClickable(true);
+							btn_verify.setBackgroundColor(getResources()
+									.getColor(R.color.localism_blue));
+						} else {
+							btn_verify.setBackgroundColor(getResources()
+									.getColor(R.color.trans_white));
+							btn_verify.setClickable(false);
 							et_phone.setTextColor(getResources().getColor(
 									R.color.white));
+						}
 					}
 
 				});
@@ -549,7 +559,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	private String checkPhoneInParse(final String phone) {
 		Log.d(tag, "checkPhoneInParse called ");
 		Log.d(tag, "phone = " + phone);
-
+		db_phone = "-1";
 		ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
 		userQuery.whereMatches("username", phone);
 		userQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -558,19 +568,20 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 					if (e == null) {
 						Log.d(tag, "Retrieved " + List.size()
 								+ " phone numbers");
-						Log.d(tag,
-								"username " + List.get(0).getString("username"));
 
-						if (List.size() > 0)
+						if (List.size() > 0){
+							Log.d(tag,
+									"username " + List.get(0).getString("username"));
 							db_phone = List.get(0).getString("username");
-						else
+						}else
 							db_phone = "error";
 					} else {
-						db_phone = "errpr";
+						db_phone = "error";
 						Log.d(tag, "Error: " + e.getMessage());
 					}
 				} catch (Exception ep) {
 					Log.e(tag, ep.toString());
+					db_phone = "error";
 				}
 			}
 		});

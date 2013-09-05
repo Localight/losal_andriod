@@ -419,40 +419,32 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					}
 				});
 
-			} else {// this post does not have an image to display so hide the
-					// imageview
+			} else {
+				// this post does not have an image to display so hide the imageview
 				holder.tv_post_text.setBackgroundResource(0);
-
 				holder.iv_post_image.setVisibility(View.GONE);
 			}
 		} catch (Exception e) {
 			Log.e(tag, e.toString());
 		}
-		Log.d("", "");
-		// holder.iv_post_image.setOnClickListener(fullscreen_onClick);
 		holder.ll_social.setTag(position);
 		holder.ll_social.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// like the post on instagram
-				// Toast.makeText(ctx, "pos: " + v.getTag(), Toast.LENGTH_SHORT)
-				// .show();
 				Log.d(tag, "social clicked!");
 				Log.d(tag, mPosts.get((Integer) v.getTag()).getText());
 				int pos = (Integer) v.getTag();
-				// TODO: HANDLE TURNING BLUE
-				// if (!mPosts.get(pos).getUserLiked()) {
-				// v.findViewById(R.id.iv_social_like_icon).setAlpha(1f);
-				// v.setBackground(background)
-				// } else
-				// v.findViewById(R.id.iv_social_like_icon).setAlpha(0.6f);
-
 				socialLikeClicked(mPosts.get(pos));
 				setSocialIcons(v, pos);
 				Log.d(tag, "" + mPosts.get(pos).getUserLiked());
 			}
 		});
 
+//		if(user_info.getBoolean("hasTwitter", false)){
+			
+//		}
+		
+		
 		return convertView;
 	}
 

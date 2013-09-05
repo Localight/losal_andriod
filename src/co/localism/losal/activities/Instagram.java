@@ -83,11 +83,11 @@ public class Instagram extends Activity {
 		setContentView(R.layout.webview);
 
 		CALLBACKURL = getResources().getString(
-				R.string.XJOEXinstagram_callback_url);
+				R.string.instagram_callback_url);
 
-		client_id = getResources().getString(R.string.XJOEXinstagram_client_id);
+		client_id = getResources().getString(R.string.instagram_client_id);
 		client_secret = getResources().getString(
-				R.string.XJOEXinstagram_client_secret);
+				R.string.instagram_client_secret);
 		authURLString = AUTHURL
 				+ "?client_id="
 				+ client_id

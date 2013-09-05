@@ -75,18 +75,11 @@
 	<string name="instagram_client_id">64392b8719fb49f59f71213ed640fb68</string>
 	<string name="instagram_client_secret">7897fc2fa21d4572a0218fe1a012847d</string>
            
-	<string name="instagram_callback_url"></string>
+	<string name="instagram_callback_url">losal64392b8719fb49f59f71213ed640fb68://authorize</string>
            
 	
-	  <!-- These are the instagram creds for a test app that Joe created. These should not be used and should be removed from any activities that use them -->
-	<string name="XJOEXinstagram_client_id">3affd6fa93e14464a5abeae436fe0f64</string>
-	<string name="XJOEXinstagram_client_secret">2ba08e3133cf4ccbb96987a54c65c45a</string>
-	<string name="XJOEXinstagram_callback_url">http://www.joezoob.com</string>
-		  <!-- These are the instagram creds for a test app that Joe created. These should not be used and should be removed from any activities that use them -->
-	 <string name="XJOEXtw_consumer_key">AyqXmigigCQVBXJogUn8A</string>
-	<string name="XJOEXtw_consumer_secret">reBwex0DQsmZMxjCBGnXyKifiBRrdZanseoCdlLUrFE</string>
-	<string name="XJOEXtw_callback_url">http://www.joezoob.com</string>
-        
+	
+	
         
         
     <!-- Twitter -->

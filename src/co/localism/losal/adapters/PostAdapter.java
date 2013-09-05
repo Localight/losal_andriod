@@ -80,7 +80,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	private OnClickListener activate_onClick, fb_onClick, insta_onClick,
 			fullscreen_onClick, tw_onClick;
 	public static ImageLoader mImageLoader;
-	private ImageLoadingListener animateFirstDisplayListener;
 	private PostViewHolder holder;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private TimeHandler TH;

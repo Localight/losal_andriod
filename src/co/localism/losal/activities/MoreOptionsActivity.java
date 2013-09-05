@@ -109,7 +109,9 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				R.raw.localism, R.color.white, R.color.black);
 		ImageView iv = (ImageView) findViewById(R.id.iv_local_logo);
 		iv.setImageDrawable(local_logo);
-		iv.setScaleType(ScaleType.FIT_XY);
+//		iv.setScaleType(ScaleType.FIT_XY);
+//		iv.setScaleX(2);
+//		iv.setScaleY(2);
 		iv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		// setAllChevrons();
 	

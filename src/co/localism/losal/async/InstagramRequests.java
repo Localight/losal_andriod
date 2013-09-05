@@ -34,12 +34,14 @@ public class InstagramRequests extends AsyncTask<String, String, String> {
 		String user_id = "";
 		request = params[0];
 		img_id = params[1];
-		user_id = params[3];
 		access_token = params[2];
-		return (executeRequest(request, img_id, user_id));
+		user_id = params[3];
+		String post_id = params[4];
+
+		return executeRequest(request, img_id, user_id, post_id);
 	}
 
-	private String executeRequest(String request, String img_id, String user_id) {
+	private String executeRequest(String request, String img_id, String user_id, String post_id) {
 		try {
 			Log.d(tag, "request: " + request);
 			String URL = "https://api.instagram.com/v1/media/" + img_id
@@ -55,6 +57,8 @@ public class InstagramRequests extends AsyncTask<String, String, String> {
 			}else{
 				httpPost = new HttpPost(URL);
 				response = client.execute(httpPost);
+				// log the like in our database
+				new PushData().execute("like", post_id, user_id);
 			}		
 			
 			HttpEntity entity = response.getEntity();
@@ -70,8 +74,7 @@ public class InstagramRequests extends AsyncTask<String, String, String> {
 			} catch (Exception e) {
 
 			}
-			new PushData().execute("like", img_id, user_id);// log the like in
-															// our database
+
 			return "success";
 		} catch (Exception e) {
 			Log.d(tag, e.toString());

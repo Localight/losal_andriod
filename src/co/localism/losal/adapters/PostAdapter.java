@@ -88,7 +88,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	private DisplayImageOptions options;
 	Post cur;
 	private Drawable INSTA_ICON, TW_ICON, INSTA_LIKE_ICON, TW_LIKE_ICON,
-			INSTA_LIKE_ICON_LIKED, TW_LIKE_ICON_LIKED;
+			INSTA_LIKE_ICON_LIKED, TW_LIKE_ICON_LIKED, ADD_ICON;
 	private boolean loading = false;
 
 	public PostAdapter(final Context ctx, int viewResourceId,
@@ -111,6 +111,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				R.raw.tw_like, R.color.white, R.color.localism_blue);
 		INSTA_LIKE_ICON_LIKED = new SVGHandler().svg_to_drawable(ctx,
 				R.raw.heart, R.color.white, R.color.localism_blue);
+		ADD_ICON = new SVGHandler().svg_to_drawable(ctx, R.raw.add);
 
 		activate_onClick = new OnClickListener() {
 			@Override
@@ -575,7 +576,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))) {
 				if (user_info.getBoolean("hasTwitter", false)) {
 					favTwitter(post.getSocialNetworkPostId(),
-							post.getUserLiked());
+							post.getUserLiked(), post.getParseObjectId());
 					// new
 					// TwitterRequests().execute(post.getSocialNetworkPostId());
 					post.setUserLiked(!post.getUserLiked());
@@ -588,7 +589,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					R.string.insta)))
 				if (user_info.getBoolean("hasInstagram", false)) {
 					likeInsta(post.getSocialNetworkPostId(),
-							post.getUserLiked());
+							post.getUserLiked(), post.getParseObjectId());
 					post.setUserLiked(!post.getUserLiked());
 
 				} else
@@ -601,16 +602,16 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		}
 	}
 
-	public void favTwitter(String id, Boolean already_likes) {
+	public void favTwitter(String id, Boolean already_likes, String objId) {
 		// favorites the post on twitter
 		SharedPreferences.Editor likesEditor = user_likes.edit();
 		if (already_likes) {
 			new TwitterRequests().execute(id,
-					user_info.getString("user_id", ""), "unfavorite");
+					user_info.getString("user_id", ""), "unfavorite", objId);
 			likesEditor.remove(id);
 		} else {
 			new TwitterRequests().execute(id,
-					user_info.getString("user_id", ""), "favorite");
+					user_info.getString("user_id", ""), "favorite", objId);
 			likesEditor.putString(id, Calendar.getInstance().getTime()
 					.toString());
 		}
@@ -618,7 +619,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		Log.d(tag, "cal " + Calendar.getInstance().getTime().toString());
 	}
 
-	public void likeInsta(String id, boolean already_likes) {
+	public void likeInsta(String id, boolean already_likes, String objId) {
 		// like the post on instagram
 		SharedPreferences insta_info = ctx.getSharedPreferences(
 				"InstagramInfo", Context.MODE_PRIVATE);
@@ -635,7 +636,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		}
 		new InstagramRequests().execute(request, id,
 				insta_info.getString("access_token", ""),
-				user_info.getString("user_id", ""));
+				user_info.getString("user_id", "")
+				, objId);
 		likesEditor.commit();
 	}
 

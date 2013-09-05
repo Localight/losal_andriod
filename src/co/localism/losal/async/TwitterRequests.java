@@ -38,9 +38,9 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 	@Override
 	protected String doInBackground(String... params) {
 		if(params[2].equalsIgnoreCase("unfavorite"))
-			favoriteTweet(params[0], params[1], false);
+			favoriteTweet(params[0], params[1], false, params[3]);
 		else
-			favoriteTweet(params[0], params[1], true);
+			favoriteTweet(params[0], params[1], true, params[3]);
 		return null;
 	}
 
@@ -48,7 +48,7 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 	
 	
 	
-	private String favoriteTweet(String id, String user_id, boolean Fav) {
+	private String favoriteTweet(String id, String user_id, boolean Fav, String post_id) {
 		Log.d(tag, "favoriteTweet called");
 
 		InputStream is = null;
@@ -81,8 +81,12 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
             is = entity.getContent();
 		Log.d(tag, "tw resp: "+responseToString(is));
 
-		new PushData().execute("like",id, user_id);//log the like in our database
+		if(Fav)
+			new PushData().execute("like", post_id, user_id);//log the like in our database
+//		else			
+//			new PushData().execute("unlike",id, user_id);//log the like in our database
 
+			
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

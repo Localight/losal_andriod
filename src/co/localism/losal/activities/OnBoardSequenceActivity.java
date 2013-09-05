@@ -115,7 +115,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 			finish();
 		} else {
 
-			getActionBar().hide();
+//			getActionBar().hide();
 			setContentView(R.layout.onboardsequence);
 			ctx = this;
 			List<Fragment> fragments = getFragments();

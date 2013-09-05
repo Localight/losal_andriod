@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import co.localism.losal.R;
+import co.localism.losal.SVGHandler;
 import co.localism.losal.activities.NoticeDetailsActivity;
 import co.localism.losal.objects.Notice;
 import android.app.Activity;
@@ -21,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,6 +121,9 @@ public class NoticeAdapter extends ArrayAdapter<Notice> {
 			iv_chevron);
 			holder.tv_notice_date = (TextView) convertView
 					.findViewById(R.id.tv_notice_date);
+			Drawable d = new SVGHandler().svg_to_drawable(ctx, R.raw.right_chevron);
+			holder.iv_chevron.setImageDrawable(d);
+			holder.iv_chevron.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 			// Post Image onclick only needs to be set once
 			// notice_click_listener = new OnClickListener() {
 			//

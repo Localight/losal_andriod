@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,24 +36,23 @@ public class NoticeDetailsActivity extends Activity {
 	public static ImageLoader mImageLoader;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private DisplayImageOptions options;
-	
+
 	private String URL = ""; // "http://www.youtube.com/watch?v=Ojf6sBEd4-A";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		ActionBar a = getActionBar();
 		a.setDisplayHomeAsUpEnabled(true);
 		a.setDisplayShowTitleEnabled(true);
 		a.setDisplayUseLogoEnabled(false);
 		Drawable dd = new ColorDrawable(R.color.transparent);
 		a.setIcon(dd);
-		a.setDisplayShowCustomEnabled(true);
-		a.setTitle("     ");
-		a.setCustomView(R.layout.actionbar_custome_view);
-		TextView title = (TextView) a.getCustomView().findViewById(
-				R.id.ab_title);
-		title.setText("");
+//		 a.setDisplayShowCustomEnabled(true);
+		a.setTitle("         ");
+
+		a.setBackgroundDrawable(dd);
 		setContentView(R.layout.notice_details);
 
 		Bundle extras = getIntent().getExtras();
@@ -144,11 +144,12 @@ public class NoticeDetailsActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-@Override
-public void onBackPressed(){
-	super.onBackPressed();
-	overridePendingTransition(R.anim.slide_in_from_left,
-			R.anim.slide_out_to_right);
-}
-	
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.slide_in_from_left,
+				R.anim.slide_out_to_right);
+	}
+
 }

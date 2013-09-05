@@ -4,12 +4,14 @@
     android:layout_height="match_parent"
     android:background="#282828"
     android:orientation="vertical"
+    android:weightSum="7"
     android:paddingLeft="@dimen/sl_margin_left"
     android:paddingTop="@dimen/sl_margin_left" >
 
     <LinearLayout
         android:id="@+id/sl_insta"
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/sl_margin_bottom"
         android:orientation="horizontal" >
@@ -45,6 +47,7 @@
     <LinearLayout
         android:id="@+id/sl_flickr"
         android:layout_width="match_parent"
+                android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/sl_margin_bottom"
         android:orientation="horizontal" >
@@ -80,6 +83,7 @@
 
     <LinearLayout
         android:id="@+id/sl_fb"
+                android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/sl_margin_bottom"
@@ -117,6 +121,7 @@
         android:id="@+id/sl_tw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+                android:layout_weight="1"
         android:layout_marginBottom="@dimen/sl_margin_bottom"
         android:orientation="horizontal" >
 
@@ -151,6 +156,7 @@
         android:id="@+id/sl_yt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+                android:layout_weight="1"
         android:layout_marginBottom="@dimen/sl_margin_bottom"
         android:orientation="horizontal" >
 
@@ -186,6 +192,7 @@
         android:id="@+id/sl_yt_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+                android:layout_weight="1"
         android:layout_marginBottom="@dimen/sl_margin_bottom"
         android:orientation="horizontal" >
 

@@ -65,6 +65,7 @@ public class FetchNotices extends Observable {
 					if (noticesList.get(i).getInt("ad") == 1){
 						MainActivity.AD_URL = noticesList.get(i).getString(
 								"image");
+						MainActivity.AD_CLICK_URL = noticesList.get(i).getString("buttonLink");
 					isAd = true;
 					}else {
 						n.setTitle(noticesList.get(i).getString("title"));

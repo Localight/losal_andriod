@@ -119,7 +119,7 @@ public class MainActivity extends ListActivity {
 	/**** Ad URL for top of right panel  ****/
 	public static String AD_URL = "";
 	public static ImageView iv_ad;
-
+	public static String AD_CLICK_URL  ="";
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -183,7 +183,21 @@ public class MainActivity extends ListActivity {
 				PersonalOptionsOnClickListeners.ACTIVITY_MAIN);
 		LinearLayout ll_notices =  (LinearLayout) findViewById(R.id.ll_notices);
 		iv_ad = (ImageView) ll_notices.findViewById(R.id.iv_notices_ad);
-		
+		iv_ad.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				if (AD_CLICK_URL.length() > 0) {
+					try {
+						Intent openURL = new Intent(Intent.ACTION_VIEW, Uri.parse(AD_CLICK_URL));
+						startActivity(openURL);
+					} catch (Exception e) {
+
+					}
+				}
+			}
+			
+		});
 		Log.i(tag, iv_ad.toString());
 		LinearLayout l = (LinearLayout) findViewById(R.id.po);
 		l.findViewById(R.id.po_social_feed).setOnClickListener(
@@ -407,6 +421,8 @@ public class MainActivity extends ListActivity {
 
 	private void refresh() {
 		if (hasNetworkConnection()) {
+			AD_URL = "";
+			AD_CLICK_URL = "";
 			ff.refresh(listadapter);
 			getNotices();
 			if (hashtags == null || hashtags.size() < 1)

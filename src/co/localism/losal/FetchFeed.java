@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -26,6 +28,8 @@ public class FetchFeed {// extends Observable {
 	private static final String tag = "FetchFeed";
 	private PostAdapter pa;
 	private boolean AddToTop = false;
+	private Context ctx;
+	private SharedPreferences user_info;
 
 	public FetchFeed() {
 		// fetch();
@@ -55,8 +59,11 @@ public class FetchFeed {// extends Observable {
 
 	}
 
-	public void fetch(PostAdapter pa) {
+	public void fetch(PostAdapter pa, Context context) {
 		this.pa = pa;
+		this.ctx = context;
+		user_info = ctx.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+
 		Log.d(tag, "fetch called");
 
 		new FetchPosts().execute("", "", "");
@@ -83,67 +90,104 @@ public class FetchFeed {// extends Observable {
 		Log.d(tag, "empty: " + postsList.isEmpty());
 
 		if (postsList != null) {
-
+			boolean skip = false;
 			for (int i = 0; i < postsList.size(); i++) {
+
 				Post p = new Post();
 
-				p.setPostTime(postsList.get(i).getDate("postTime"));
-				MainActivity.LAST_POST_DATE = p.getPostTime();
-				// (postsList.get(i).getString("featured"));
-				p.setSocialNetworkPostId(postsList.get(i).getString(
-						"socialNetworkPostID"));
-				// (postsList.get(i).getString("createdAt"));
-				p.setParseObjectId(postsList.get(i).getObjectId());
-				// postsList.get(i).getString("objectId"));
-				Log.i(tag, "objectID: " + postsList.get(i).getObjectId());
-				// if(postsList.get(i).getParseObject("user") != null);
-				try {
-					// postsList.get(i).get("user").toString();
-					// Log.d(tag, ""+
-					// postsList.get(i).getParseObject("user").toString());
-					// Log.d(tag, ""+
-					// postsList.get(i).getParseObject("user").toString());
-					Log.e(tag, "before name");
-					p.setName(postsList.get(i).getParseObject("user")
-							.getString("firstName"));
+				// if(i == 1)
+				// p.setIsSystemPost(true);
 
-					Log.e(tag, "name"
-							+ postsList.get(i).getParseObject("user")
-									.getString("firstName"));
-					String lname = postsList.get(i).getParseObject("user")
-							.getString("lastName");
-					p.setName(p.getName() + " " + lname.substring(0, 1) + ".");
-					p.setClassYear(postsList.get(i).getParseObject("user")
-							.getString("year"));
-					p.setUserIcon(postsList.get(i).getParseObject("user")
-							.getString("icon"));
-					p.setFaveColor(postsList.get(i).getParseObject("user")
-							.getString("faveColor"));
-				} catch (Exception e) {
-					Log.e(tag, e.toString());
-					p.setName("Unknown");// placeholder data
-					p.setUserIcon("e00c");
-					p.setFaveColor("#FFFFFF");
-				}
-				// Log.d(tag, ""+
-				// postsList.get(i).getParseObject("user").get("firstName"));
+				if (postsList.get(i).getInt("system_post") == 1) {
+					skip = true;//took away this feature for the time being.
+					/*
+					Log.i(tag, "SYSTEM_POST");
+					if (user_info.getString("user_type", "").equalsIgnoreCase(
+							"student")) {
+						if (postsList.get(i).getString("socialNetworkName")
+								.equalsIgnoreCase("twitter")) {
+							if (user_info.getBoolean("hasTwitter", false))
+								skip = true;
+							else
+								p.setIsSystemPost(true);
+						} else if (postsList.get(i)
+								.getString("socialNetworkName")
+								.equalsIgnoreCase("instagram")) {
+							if (user_info.getBoolean("hasInstagram", false))
+								skip = true;
+							else
+								p.setIsSystemPost(true);
+						}
 
-				p.setText(postsList.get(i).getString("text"));
-				// Log.d(tag, postsList.get(i).getString("text"));
-				p.setSocialNetworkName(postsList.get(i).getString(
-						"socialNetworkName"));
-				try {
-					p.setUrl(postsList.get(i).getString("url"));
-				} catch (NullPointerException npe) {
-					p.setUrl("");
+					} else {
+						skip = true;
+					}
+					 p.setText(postsList.get(i).getString("text"));
+//					p.setText("to submit #losal");
+					p.setSocialNetworkName(postsList.get(i).getString(
+							"socialNetworkName"));
+					p.setPostTime(postsList.get(i).getDate("postTime"));
+*/
+				} else {
+
+					p.setPostTime(postsList.get(i).getDate("postTime"));
+					MainActivity.LAST_POST_DATE = p.getPostTime();
+					// (postsList.get(i).getString("featured"));
+					p.setSocialNetworkPostId(postsList.get(i).getString(
+							"socialNetworkPostID"));
+					// (postsList.get(i).getString("createdAt"));
+					p.setParseObjectId(postsList.get(i).getObjectId());
+					// postsList.get(i).getString("objectId"));
+					Log.i(tag, "objectID: " + postsList.get(i).getObjectId());
+					// if(postsList.get(i).getParseObject("user") != null);
+					try {
+						p.setName(postsList.get(i).getParseObject("user")
+								.getString("firstName"));
+						Log.e(tag,
+								"name"
+										+ postsList.get(i)
+												.getParseObject("user")
+												.getString("firstName"));
+						String lname = postsList.get(i).getParseObject("user")
+								.getString("lastName");
+						p.setName(p.getName() + " " + lname.substring(0, 1)
+								+ ".");
+						p.setClassYear(postsList.get(i).getParseObject("user")
+								.getString("year"));
+						p.setUserIcon(postsList.get(i).getParseObject("user")
+								.getString("icon"));
+						p.setFaveColor(postsList.get(i).getParseObject("user")
+								.getString("faveColor"));
+					} catch (Exception e) {
+						Log.e(tag, e.toString());
+						p.setName("Unknown");// placeholder data
+						p.setUserIcon("e00c");
+						p.setFaveColor("#FFFFFF");
+					}
+					// Log.d(tag, ""+
+					// postsList.get(i).getParseObject("user").get("firstName"));
+
+					p.setText(postsList.get(i).getString("text"));
+					// Log.d(tag, postsList.get(i).getString("text"));
+					p.setSocialNetworkName(postsList.get(i).getString(
+							"socialNetworkName"));
+					try {
+						p.setUrl(postsList.get(i).getString("url"));
+					} catch (NullPointerException npe) {
+						p.setUrl("");
+					}
+					// p.setClassYear(3);// placeholder data
+					// posts.add(p);
 				}
-				// p.setClassYear(3);// placeholder data
-				// posts.add(p);
-				if (AddToTop)
-					pa.add(0, p);
-				else
-					pa.add(p);
+				if (!skip) {
+					if (AddToTop)
+						pa.add(0, p);
+					else
+						pa.add(p);
+				} else
+					skip = false;
 			}
+
 		}
 		pa.setStatus(false);
 		AddToTop = false;

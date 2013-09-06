@@ -24,11 +24,11 @@ public class Post implements Serializable {
 	private String parse_object_id = "";
 	private String fave_color = "";
 	private boolean user_liked = false;
-	
+	private boolean is_system_post = false;
 	
 	
 	public Post() {
-
+		this.setUserIcon("e00c");
 	}
 
 	public Post(String name, String year) {
@@ -130,5 +130,12 @@ public class Post implements Serializable {
 	
 	public boolean getUserLiked(){
 		return this.user_liked;
+	}
+	public void setIsSystemPost(boolean isSystemPost){
+		this.is_system_post = isSystemPost;
+	}
+	
+	public boolean isSystemPost(){
+		return this.is_system_post;
 	}
 }

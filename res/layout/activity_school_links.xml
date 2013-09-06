@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/sl_insta"
         android:layout_width="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="1"	
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/sl_margin_bottom"
         android:orientation="horizontal" >

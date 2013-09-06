@@ -437,7 +437,7 @@ public class MainActivity extends ListActivity {
 		Log.d(tag, "chose to fetch new data");
 
 		try {
-			ff.fetch(listadapter);
+			ff.fetch(listadapter, this);
 			// posts = ff.fetch();
 			// posts =
 			// return ff.fetch();

@@ -206,7 +206,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			//
 			loading = true;
 			FetchFeed fetcher = new FetchFeed();
-			fetcher.fetch(this);
+			fetcher.fetch(this, ctx);
 			// // addAll(fetcher.fetch());
 		}
 		if (convertView == null) {
@@ -324,14 +324,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder.tv_user_icon.setText(cur.getUserIcon().toString());
 
 			/**** Social Site LIKE Icon ****/
-
-			Log.d(tag, cur.getUserLiked() + "");
-			Log.d(tag,
-					"UL: "
-							+ user_likes.getString(
-									cur.getSocialNetworkPostId(), "-1"));
-			Log.d(tag, "POID: " + cur.getParseObjectId());
-
+			// Log.d(tag, "UL: " +
+			// user_likes.getString(cur.getSocialNetworkPostId(), "-1"));
+			// Log.d(tag, "POID: " + cur.getParseObjectId());
 			if (!cur.getUserLiked())
 				if (!user_likes.getString(cur.getSocialNetworkPostId(), "")
 						.equalsIgnoreCase(""))
@@ -383,16 +378,21 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 				}
 			}
-
-			// holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
-			// .svg_to_drawable(ctx, R.raw.tw));
-			// else if (cur.getSocialNetworkName().equalsIgnoreCase("facebook"))
-			// holder.iv_social_site_icon.setImageDrawable(new SVGHandler()
-			// .svg_to_drawable(ctx, R.raw.fb));
-
-			// holder.iv_social_site_icon.setAlpha(0.6f);
 			holder.iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE,
 					null);
+
+			
+			
+			
+			if (cur.isSystemPost()) {
+				holder.tv_name.setText(cur.getText());
+				holder.iv_social_like_icon.setImageDrawable(ADD_ICON);
+				holder.iv_social_like_icon.setLayerType(
+						View.LAYER_TYPE_SOFTWARE, null);
+				holder.tv_user_icon.setText("");
+				holder.tv_post_text.setText("");
+
+			}
 
 			/****** Post Image ******/
 			if (cur.getUrl() != null && cur.getUrl().length() > 3) {
@@ -420,7 +420,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				});
 
 			} else {
-				// this post does not have an image to display so hide the imageview
+				// this post does not have an image to display so hide the
+				// imageview
 				holder.tv_post_text.setBackgroundResource(0);
 				holder.iv_post_image.setVisibility(View.GONE);
 			}
@@ -440,11 +441,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			}
 		});
 
-//		if(user_info.getBoolean("hasTwitter", false)){
-			
-//		}
-		
-		
+		// if(user_info.getBoolean("hasTwitter", false)){
+
+		// }
+
 		return convertView;
 	}
 
@@ -627,8 +627,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		}
 		new InstagramRequests().execute(request, id,
 				insta_info.getString("access_token", ""),
-				user_info.getString("user_id", "")
-				, objId);
+				user_info.getString("user_id", ""), objId);
 		likesEditor.commit();
 	}
 

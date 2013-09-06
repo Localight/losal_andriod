@@ -14,6 +14,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import co.localism.losal.R;
 import co.localism.losal.SVGHandler;
+import co.localism.losal.activities.MainActivity;
 import co.localism.losal.activities.NoticeDetailsActivity;
 import co.localism.losal.objects.Notice;
 import android.app.Activity;
@@ -50,7 +51,6 @@ public class NoticeAdapter extends ArrayAdapter<Notice> {
 	public static ImageLoader mImageLoader;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private DisplayImageOptions options;
-
 	// public ImageAndTextAdapter(Context ctx, int viewResourceId,
 	// String[] strings, TypedArray icons, ArrayList<Integer> openclose,
 	// ArrayList<String> companies, ArrayList<String> place_ids) {
@@ -77,7 +77,6 @@ public class NoticeAdapter extends ArrayAdapter<Notice> {
 				.cacheOnDisc(true)
 				// .displayer(new RoundedBitmapDisplayer(20))
 				.build();
-
 	}
 
 	@Override
@@ -151,6 +150,16 @@ public class NoticeAdapter extends ArrayAdapter<Notice> {
 		holder.tv_notice_date.setText("Received:  "+cur.getDateReceived());
 		mImageLoader.displayImage(cur.getImageUrl(), holder.iv_image, options,
 				animateFirstListener);
+		try{
+		if(MainActivity.iv_ad.getTag() == null)
+			Log.i(tag, "Loading Ad!!");
+
+			MainActivity.iv_ad.setTag(true);
+			mImageLoader.displayImage(MainActivity.AD_URL, MainActivity.iv_ad);
+		}catch(Exception e){
+			Log.e(tag, e.toString());
+		}
+		Log.i(tag, "NoticeAdapter!!!!");
 		return convertView;
 	}
 
@@ -159,7 +168,7 @@ public class NoticeAdapter extends ArrayAdapter<Notice> {
 		TextView tv_details;
 		ImageView iv_image;
 		ImageView iv_chevron;
-
+		 
 		TextView tv_notice_date;
 	}
 

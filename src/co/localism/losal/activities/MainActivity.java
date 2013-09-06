@@ -90,6 +90,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -97,9 +98,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends ListActivity {// implements Observer {// ,
-												// OnItemClickListener
-												// {
+public class MainActivity extends ListActivity {
 
 	public Context ctx = this;
 	public static PostAdapter listadapter;
@@ -117,6 +116,9 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 	private boolean isFiltered = false;
 	private boolean isInitialized = false;
 	private HashMap<String, ArrayList<String>> hashtags;
+	/**** Ad URL for top of right panel  ****/
+	public static String AD_URL = "";
+	public static ImageView iv_ad;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -158,6 +160,7 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		// prefEditor.putString("fav_color", "#FF3366");
 
 		// prefEditor.commit();
+
 		try {
 			// LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
 			FrameLayout ll_main = (FrameLayout) findViewById(R.id.main);
@@ -178,24 +181,24 @@ public class MainActivity extends ListActivity {// implements Observer {// ,
 		new PersonalOptionsOnClickListeners(
 				(LinearLayout) findViewById(R.id.po), this,
 				PersonalOptionsOnClickListeners.ACTIVITY_MAIN);
+		LinearLayout ll_notices =  (LinearLayout) findViewById(R.id.ll_notices);
+		iv_ad = (ImageView) ll_notices.findViewById(R.id.iv_notices_ad);
+		
+		Log.i(tag, iv_ad.toString());
 		LinearLayout l = (LinearLayout) findViewById(R.id.po);
 		l.findViewById(R.id.po_social_feed).setOnClickListener(
 				new OnClickListener() {
-
 					@Override
 					public void onClick(View v) {
 						sm.toggle();
 						refresh();
 					}
-
 				});
 		title.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				showHashtags();
 			}
-
 		});
 		Drawable d = new ColorDrawable(R.color.transparent);
 		a.setIcon(d);

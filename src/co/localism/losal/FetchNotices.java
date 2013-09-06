@@ -21,31 +21,25 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-
-
-
-public class FetchNotices extends Observable  {
+public class FetchNotices extends Observable {
 
 	private NoticeAdapter na;
 	private static final String tag = "FetchNotices";
 
-	
-	
-	
 	public FetchNotices() {
 		// fetch();
 	}
 
 	/**
-	 * This fetches the feed data from Parse. Sends it to {@link createnotices()}
-	 * to parse the data. Then triggers observer from MainActivity to update the
-	 * listadapter.
+	 * This fetches the feed data from Parse. Sends it to {@link
+	 * createnotices()} to parse the data. Then triggers observer from
+	 * MainActivity to update the listadapter.
 	 * 
 	 * @return ArrayList<Post>
 	 */
 	public void fetch(NoticeAdapter na) {
 		this.na = na;
-		new FetchInBackground().execute("","","");
+		new FetchInBackground().execute("", "", "");
 	}
 
 	/**
@@ -63,43 +57,58 @@ public class FetchNotices extends Observable  {
 
 			for (int i = 0; i < noticesList.size(); i++) {
 				Notice n = new Notice();
-				try{
-				Log.d(tag, "notice title: "
-						+ noticesList.get(i).getString("title"));
-				n.setTitle(noticesList.get(i).getString("title"));
-				n.setDetails(noticesList.get(i).getString("description"));
-				n.setTeaser(noticesList.get(i).getString("teaser"));
-				
-				n.setImageUrl(noticesList.get(i).getString("image"));
-//				n.setLinkUrl(noticesList.get(i).getString("link"));
-				n.setButtonLink(noticesList.get(i).getString("buttonLink"));
-				n.setButtonText(noticesList.get(i).getString("buttonText"));
-				Date d = noticesList.get(i).getDate("startDate");
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(d);
-				String date = ""+cal.get(Calendar.MONTH)+"-"+cal.get(Calendar.DAY_OF_MONTH)+"-"+cal.get(Calendar.YEAR);
-				int hour = cal.get(Calendar.HOUR_OF_DAY);
-				if(hour == 0)
-					hour += 12;
-				String ampm = "PM";
-				if(cal.get(Calendar.AM_PM) == Calendar.AM)
-					ampm = "AM";
-				String time = hour+":"+cal.get(Calendar.MINUTE)+" "+ampm;
-					
-				n.setDateReceived(date+"  "+time);
-				}catch(Exception e){
+				Boolean isAd = false;
+				try {
+					Log.d(tag,
+							"notice title: "
+									+ noticesList.get(i).getString("title"));
+					if (noticesList.get(i).getInt("ad") == 1){
+						MainActivity.AD_URL = noticesList.get(i).getString(
+								"image");
+					isAd = true;
+					}else {
+						n.setTitle(noticesList.get(i).getString("title"));
+						n.setDetails(noticesList.get(i)
+								.getString("description"));
+						n.setTeaser(noticesList.get(i).getString("teaser"));
+
+						n.setImageUrl(noticesList.get(i).getString("image"));
+						// n.setLinkUrl(noticesList.get(i).getString("link"));
+						n.setButtonLink(noticesList.get(i).getString(
+								"buttonLink"));
+						n.setButtonText(noticesList.get(i).getString(
+								"buttonText"));
+
+						/** Time and Date Received **/
+						Date d = noticesList.get(i).getDate("startDate");
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(d);
+						String date = "" + cal.get(Calendar.MONTH) + "-"
+								+ cal.get(Calendar.DAY_OF_MONTH) + "-"
+								+ cal.get(Calendar.YEAR);
+						int hour = cal.get(Calendar.HOUR_OF_DAY);
+						if (hour == 0)
+							hour += 12;
+						String ampm = "PM";
+						if (cal.get(Calendar.AM_PM) == Calendar.AM)
+							ampm = "AM";
+						String time = hour + ":" + cal.get(Calendar.MINUTE)
+								+ " " + ampm;
+
+						n.setDateReceived(date + "  " + time);
+					}
+				} catch (Exception e) {
 					Log.e(tag, e.toString());
 				}
-				na.add(n);
+				if(isAd)
+					isAd = false;
+				else
+					na.add(n);
 			}
 		}
 		return notices;
 	}
 
-	
-	
-	
-	
 	/**
 	 * Notifies MainActivity that the data set has changed
 	 */
@@ -108,17 +117,17 @@ public class FetchNotices extends Observable  {
 		setChanged();
 		notifyObservers();
 	}
-	
-	
-	private class FetchInBackground extends AsyncTask<String, String, String>{
+
+	private class FetchInBackground extends AsyncTask<String, String, String> {
 
 		@Override
 		protected String doInBackground(String... params) {
 			final Calendar cal = Calendar.getInstance();
-			ParseQuery<ParseObject> query = ParseQuery.getQuery("Notifications");
+			ParseQuery<ParseObject> query = ParseQuery
+					.getQuery("Notifications");
 			final ArrayList<Notice> notices;
 			notices = new ArrayList<Notice>();
-			
+
 			query.whereGreaterThan("endDate", cal.getTime());
 			query.whereLessThan("startDate", cal.getTime());
 
@@ -127,7 +136,8 @@ public class FetchNotices extends Observable  {
 			query.findInBackground(new FindCallback<ParseObject>() {
 				public void done(List<ParseObject> noticeList, ParseException e) {
 					if (e == null) {
-						Log.d(tag, "Retrieved " + noticeList.size() + " notices");
+						Log.d(tag, "Retrieved " + noticeList.size()
+								+ " notices");
 						notices.addAll(createnotices(noticeList));
 						triggerObservers();
 					} else {
@@ -135,10 +145,9 @@ public class FetchNotices extends Observable  {
 					}
 				}
 			});
-			
+
 			return null;
 		}
-		
+
 	}
 }
-

@@ -124,7 +124,6 @@ public class MainActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ActionBar a = getActionBar();
-		// a.setIcon(new SVGHandler().svg_to_drawable(ctx, R.raw.left_chevron));
 		a.setDisplayHomeAsUpEnabled(true);
 		a.setDisplayShowTitleEnabled(true);
 		a.setDisplayUseLogoEnabled(false);
@@ -134,19 +133,21 @@ public class MainActivity extends ListActivity {
 				R.id.ab_title);
 		title.setText("#LOSAL");
 		setContentView(R.layout.activity_main);
-
+		try{
 		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
 				getResources().getString(R.string.parse_client_key));
 		ParseTwitterUtils.initialize(
 				getResources().getString(R.string.tw_consumer_key),
 				getResources().getString(R.string.tw_consumer_secret));
 		ParseAnalytics.trackAppOpened(getIntent());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		Uri data = getIntent().getData();
 
 		if (data != null) {
 			Log.e(tag, "data:" + data.toString());
 			pairUserToApp(data.toString());
-
 		}
 
 		/******** dummy data **********/
@@ -158,13 +159,10 @@ public class MainActivity extends ListActivity {
 		// prefEditor.putString("user_name", "Joe");
 		// prefEditor.putString("user_icon", "E07E");
 		// prefEditor.putString("fav_color", "#FF3366");
-
 		// prefEditor.commit();
-
 		try {
 			// LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
 			FrameLayout ll_main = (FrameLayout) findViewById(R.id.main);
-
 			Bitmap bmImg = (BitmapFactory.decodeFile(Environment
 					.getExternalStorageDirectory() + "/losal_bg.jpg"));
 			Drawable d = new BitmapDrawable(getResources(), bmImg);
@@ -173,10 +171,6 @@ public class MainActivity extends ListActivity {
 		} catch (Exception e) {
 			Log.e(tag, "failed to use image as background. e: " + e.toString());
 		}
-		// // Bitmap bmImg = BitmapFactory.decodeStream(is);
-		// BitmapDrawable background = new BitmapDrawable(bmImg);
-		// ll_main.setBackground(background);
-
 		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW);// .SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(
 				(LinearLayout) findViewById(R.id.po), this,
@@ -184,7 +178,6 @@ public class MainActivity extends ListActivity {
 		LinearLayout ll_notices =  (LinearLayout) findViewById(R.id.ll_notices);
 		iv_ad = (ImageView) ll_notices.findViewById(R.id.iv_notices_ad);
 		iv_ad.setOnClickListener(new OnClickListener(){
-
 			@Override
 			public void onClick(View arg0) {
 				if (AD_CLICK_URL.length() > 0) {
@@ -192,11 +185,10 @@ public class MainActivity extends ListActivity {
 						Intent openURL = new Intent(Intent.ACTION_VIEW, Uri.parse(AD_CLICK_URL));
 						startActivity(openURL);
 					} catch (Exception e) {
-
+						e.printStackTrace();
 					}
 				}
 			}
-			
 		});
 		Log.i(tag, iv_ad.toString());
 		LinearLayout l = (LinearLayout) findViewById(R.id.po);
@@ -217,30 +209,12 @@ public class MainActivity extends ListActivity {
 		Drawable d = new ColorDrawable(R.color.transparent);
 		a.setIcon(d);
 		a.setDisplayShowCustomEnabled(true);
-		// a.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		ff = new FetchFeed();
-		// ff.addObserver(this);
-
-		// Parse.initialize(this,
-		// getResources().getString(R.string.parse_app_id),
-		// getResources().getString(R.string.parse_client_key));
-		// ParseTwitterUtils.initialize(
-		// getResources().getString(R.string.tw_consumer_key),
-		// getResources().getString(R.string.tw_consumer_secret));
-		// ParseAnalytics.trackAppOpened(getIntent());
-
-		// ParseFacebookUtils.initialize(getResources().getString(R.string.fb_app_id));
-
-		// createTestparseUser();
-
 		ListView lv = getListView();
 		boolean pauseOnScroll = true; // or true
 		boolean pauseOnFling = true; // or false
 		PauseOnScrollListener listener = new PauseOnScrollListener(
 				PostAdapter.mImageLoader, pauseOnScroll, pauseOnFling);
-		// lv.setOnScrollListener(listener);
-		// posts.add(new Post());
-		// posts.add(new Post());
 		listadapter = new PostAdapter(ctx, R.layout.post, posts, 1);
 		setListAdapter(listadapter);
 		Bundle extras = getIntent().getExtras();
@@ -254,8 +228,8 @@ public class MainActivity extends ListActivity {
 		} else {
 			showNoNetworkConnection();
 		}
-		 SharedPreferences user_info = getSharedPreferences("UserInfo",
-		 MODE_PRIVATE);
+		SharedPreferences user_info = getSharedPreferences("UserInfo",
+		MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = user_info.edit();
 		prefEditor.putBoolean("isFirstVisit", false);
 		prefEditor.commit();
@@ -271,11 +245,9 @@ public class MainActivity extends ListActivity {
 
 	private void showNoNetworkConnection() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-
 		builder.setMessage(
 				"Something is wrong with your network connection. \n\nCheck your network connection and try again!")
 				.setTitle("Oops ={");
-
 		builder.setPositiveButton("Okay",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
@@ -533,6 +505,7 @@ public class MainActivity extends ListActivity {
 	}
 
 	private void createTestparseUser() {
+		try{
 		ParseUser user = new ParseUser();
 		user.setUsername("joe");
 		user.setPassword("1234");
@@ -551,6 +524,9 @@ public class MainActivity extends ListActivity {
 				}
 			}
 		});
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public void toFile(String file_name, Object o) {
@@ -645,168 +621,9 @@ public class MainActivity extends ListActivity {
 		}
 	}
 
-	// @Override
-	// protected void onListItemClick(ListView l, View v, int position, long id)
-	// {
-	// super.onListItemClick(l, v, position, id);
-	// Log.d(tag, ""+v.getId());
-	// // Object p = this.getListAdapter().getItem(position);
-	// // Log.d(tag, "p = "+p.toString());
-	// Log.d(tag, "text = "+posts.get(position).getText());
-	// switch (v.getId()) {
-	// case R.id.iv_post_image:
-	// Log.d(tag, "image pressed");
-	// Intent intent = new Intent(this, FullScreenImageActivity.class);
-	// intent.putExtra("imageURL", posts.get(position).getUrl());
-	// startActivity(intent);
-	// break;
-	// case R.id.ll_social_like_area:
-	// Log.d(tag, "like area");
-	// // socialLikeClicked(posts.get(position));
-	// break;
-	// case R.id.iv_social_like_icon:
-	// Log.d(tag, "like icon");
-	// posts.get(position);
-	// // socialLikeClicked(posts.get(position));
-	// break;
-	// case R.id.iv_social_site_icon:
-	// Log.d(tag, "site icon");
-	// // socialLikeClicked(posts.get(position));
-	// break;
-	// }
-	//
-	// }
-
-	public static void favoriteTweet(String id) {
-		Log.d(tag, "favoriteTwee called");
-
-		HttpClient client = new DefaultHttpClient();
-		HttpGet verifyGet = new HttpGet(
-				"https://api.twitter.com/1/account/verify_credentials.json");
-		https: // api.twitter.com/1.1/favorites/create.json
-		ParseTwitterUtils.getTwitter().signRequest(verifyGet);
-		try {
-			HttpResponse response = client.execute(verifyGet);
-
-			Log.d(tag, "tw resp: " + response.toString());
-
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	/*
-	 * @Override public void onItemClick(AdapterView<?> av, View v, int
-	 * position, long id) { // TODO Auto-generated method stub Log.d(tag,
-	 * "v "+v.getId()); Log.d(tag, "av "+av.getId()); Log.d(tag, "id "+id);
-	 * Log.d(tag, "v tag "+v.getTag());
-	 * 
-	 * // Object p = this.getListAdapter().getItem(position); // Log.d(tag,
-	 * "p = "+p.toString()); Log.d(tag,
-	 * "text = "+posts.get(position).getText()); switch (v.getId()) { case
-	 * R.id.iv_post_image: Log.d(tag, "image pressed"); Intent intent = new
-	 * Intent(this, FullScreenImageActivity.class); intent.putExtra("imageURL",
-	 * posts.get(position).getUrl()); startActivity(intent); break; case
-	 * R.id.ll_social_like_area: Log.d(tag, "like area"); //
-	 * socialLikeClicked(posts.get(position)); break; case
-	 * R.id.iv_social_like_icon: Log.d(tag, "like icon"); posts.get(position);
-	 * // socialLikeClicked(posts.get(position)); break; case
-	 * R.id.iv_social_site_icon: Log.d(tag, "site icon"); //
-	 * socialLikeClicked(posts.get(position)); break; } }
-	 */
-
-	private Runnable loadMoreListItems = new Runnable() {
-		private int itemsPerPage = 15;
-
-		@Override
-		public void run() {
-			// Set flag so we cant load new items 2 at the same time
-			loadingMore = true;
-
-			getPosts();
-			// Reset the array that holds the new items
-			// posts = new ArrayList<Post>();
-			// Simulate a delay, delete this on a production environment!
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-			}
-			// Get 15 new listitems
-			// for (int i = 0; i < itemsPerPage ; i++) {
-			// Fill the item with some bogus information
-			// myListItems.add("Date: " + (d.get(Calendar.MONTH) + 1) + "/"
-			// + d.get(Calendar.DATE) + "/" + d.get(Calendar.YEAR));
-			// +1 day
-			// d.add(Calendar.DATE, 1);
-			// }
-			// Done! now continue on the UI thread
-
-			// runOnUiThread(returnRes);
-		}
-	};
-
-	// Since we cant update our UI from a thread this Runnable takes care of
-	// that!
-	private Runnable returnRes = new Runnable() {
-		@Override
-		public void run() {
-			updateView();
-		}
-		// Loop thru the new items and add them to the adapter
-		// if(posts != null && posts.size() > 0){
-		// for(int i=0;i < posts.size();i++)
-		// listadapter.add(posts.get(i));
-		// }
-		// //Update the Application title
-		// setTitle("Neverending List with " +
-		// String.valueOf(adapter.getCount()) + " items");
-		// //Tell to the adapter that changes have been made, this will cause
-		// the list to refresh
-		// listadapter.notifyDataSetChanged();
-		// //Done loading more.
-		// loadingMore = false;
-		// }
-	};
-
-	//
-
-	// public void showsortsalert() {
-	// AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	// builder.setItems(R.array.sortTypes,
-	// new DialogInterface.OnClickListener() {
-	// public void onClick(DialogInterface dialog, int which) {
-	// try {
-	// switch (which) {
-	// case 0:
-	// break;
-	// case 1:
-	// }
-	// }catch(Exception e){
-	//
-	// }
-	// }
-	// }
-	// );
-	// }
-
 	public void showHashtags() {
 		if (hashtags != null && hashtags.size() > 0) {
-			final CharSequence[] mHashtags = getHashtagCharSequence();// =
-																		// findHashtags();
-			// hashtags = new CharSequence[6];// {"",""};
-			// hashtags[0] = "#LOSAL";
-			// hashtags[1] = "#BEDROCKDANCE";
-			// hashtags[2] = "#CLASSOF2014";
-			// hashtags[3] = "#BANDCAMP";
-			// hashtags[4] = "#FOOTBALL";
-			// hashtags[5] = "#GRIFFIN";
-			// hashtags[6] = "#LOSAL";
-			// hashtags[7] = "#Sports";
-			// hashtags[8] = "#Griffin";
-
+			final CharSequence[] mHashtags = getHashtagCharSequence();
 			if (mHashtags != null) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setItems(mHashtags,
@@ -821,7 +638,6 @@ public class MainActivity extends ListActivity {
 								listadapter.Filter(mHashtags[which].toString(),
 										hashtags);
 								isFiltered = true;
-								// filterView(hashtags[which].toString());
 								dialog.dismiss();
 							}
 						});
@@ -856,27 +672,6 @@ public class MainActivity extends ListActivity {
 			for (int i = 0; i < tags.length; i++) {
 				tags[i] = keyset[i].toString();
 			}
-			// finds unique types
-			// while (count < tags.length - 1) {
-			// if (tags[count] != null && tags[count + 1] != null) {
-			// if (tags[count].toString().compareToIgnoreCase(
-			// tags[count + 1].toString()) > 0) {
-			// CharSequence temp = tags[count];
-			// tags[count] = tags[count + 1];
-			// tags[count + 1] = temp;
-			// count = 0;
-			// } else
-			// count++;
-			// } else
-			// break;
-			// }
-			// removes wifi from list.
-			// CharSequence[] typesShortened = new CharSequence[count];
-			// for (int i = 0; i < count; i++) {
-			// if (!types[i].toString().equalsIgnoreCase("wifi"))
-			// typesShortened[i] = types[i];
-			// else
-			// i--;
 		}
 		return tags;
 
@@ -929,8 +724,6 @@ public class MainActivity extends ListActivity {
 								String postID = List.get(i).getString("postId");
 								Log.d(tag, "postID " + postID);
 
-								// addToHashtagsMap(hashtag, postID);
-
 								if (hm.containsKey(hashtag)) {
 									hm.get(hashtag).add(postID);
 								} else {
@@ -950,38 +743,13 @@ public class MainActivity extends ListActivity {
 			});
 			hashtags = hm;
 			Log.d(tag, "keyset: " + hashtags.keySet().toArray().toString());
-
 			return null;
 		}
-
 	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
-		// Log.e(tag, "onNewIntent called : ");
-		//
-		// Uri data = intent.getData();
-		// Log.e(tag, "data: "+data.toString());
-		// if (data != null) {
-		// String password =
-		// data.getLastPathSegment();//.getQueryParameter("access_token");
-		// Log.i(tag, "PASS: "+password);
-		// }
+		 Log.i(tag, "onNewIntent called : ");
 	}
-
-	// private void addToHashtagsMap(String hashtag, String postID) {
-	// // HashMap<String, ArrayList<String>> hm = new HashMap<String,
-	// ArrayList<String>>();
-	// String key = "griffins";
-	// String objID = "304sfkJdwm";
-	// if (hm.containsKey(key)) {
-	// hm.get(key).add(postID);
-	// } else {
-	// ArrayList<String> value = new ArrayList<String>();
-	// value.add(postID);
-	// hm.put(key, value);
-	// }
-	// }
-
 }

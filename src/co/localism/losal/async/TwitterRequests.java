@@ -43,9 +43,6 @@ public class TwitterRequests extends AsyncTask<String, String, String> {
 			favoriteTweet(params[0], params[1], true, params[3]);
 		return null;
 	}
-
-	
-	
 	
 	
 	private String favoriteTweet(String id, String user_id, boolean Fav, String post_id) {

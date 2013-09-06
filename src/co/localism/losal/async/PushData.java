@@ -36,12 +36,7 @@ public class PushData extends AsyncTask<String, String, String> {
 			like.put("postID", post);
 			ParseObject user = ParseObject.createWithoutData("User", userId);
 			like.put("userID", pu);
-
-			// like.put("parent", ParseObject.createWithoutData("userID", ));
-			// like.put("parent", ParseObject.createWithoutData("Post",
-			// postId));
 			like.saveInBackground(new SaveCallback() {
-
 				@Override
 				public void done(com.parse.ParseException e) {
 					// TODO Auto-generated method stub
@@ -55,7 +50,5 @@ public class PushData extends AsyncTask<String, String, String> {
 		} catch (Exception e) {
 			Log.e("PushData", e.toString());
 		}
-
 	}
-
 }

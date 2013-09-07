@@ -370,7 +370,7 @@ public class Instagram extends Activity {
 		Toast.makeText(ctx, "Instagram connected!!", Toast.LENGTH_SHORT).show();
 		
 		try{
-		new PushData().execute("instagramID", uname);
+		new PushData().execute("instagramID", uname, id);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

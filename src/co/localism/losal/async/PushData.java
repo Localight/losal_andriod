@@ -1,5 +1,6 @@
 package co.localism.losal.async;
 
+import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -16,18 +17,22 @@ public class PushData extends AsyncTask<String, String, String> {
 		if (args[0].equalsIgnoreCase("like"))
 			pushLike(args[1], args[2]);
 		else if (args[0].equalsIgnoreCase("twitterID"))
-			pushTwitterId(args[1]);
+			pushTwitterId(args[1], args[2]);
 		else if (args[0].equalsIgnoreCase("instagramID"))
-			pushInstagramId(args[1]);
+			pushInstagramId(args[1], args[2]);
 
 		return null;
 	}
 
-	private void pushTwitterId(String id) {
+	private void pushTwitterId(String username, String id) {
 		try {
+			Log.i(tag, "username= " + username);
 			Log.i(tag, "id= " + id);
+
 			ParseUser user = ParseUser.getCurrentUser();
-			user.put("twitterID", id);
+			user.put("twitterID", username);
+			user.put("userTwitterId", id);
+
 			user.saveInBackground(new SaveCallback() {
 
 				@Override
@@ -47,11 +52,15 @@ public class PushData extends AsyncTask<String, String, String> {
 
 	}
 
-	private void pushInstagramId(String id) {
+	private void pushInstagramId(String username, String id) {
 		try {
+			Log.i(tag, "username= " + username);
 			Log.i(tag, "id= " + id);
+
 			ParseUser user = ParseUser.getCurrentUser();
-			user.put("instagramID", id);
+			user.put("instagramID", username);
+			user.put("userInstagramId", id);
+
 			user.saveInBackground(new SaveCallback() {
 
 				@Override
@@ -89,6 +98,8 @@ public class PushData extends AsyncTask<String, String, String> {
 			like.put("postID", post);
 			ParseObject user = ParseObject.createWithoutData("User", userId);
 			like.put("userID", pu);
+//			ParseACL acl = new ParseACL();
+//			like.setACL(acl);
 			like.saveInBackground(new SaveCallback() {
 				@Override
 				public void done(com.parse.ParseException e) {

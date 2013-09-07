@@ -240,7 +240,7 @@ public class ActivateSocialActivity extends Activity {
 		}
 		try{
 			new PushData().execute("twitterID",
-			ParseTwitterUtils.getTwitter().getScreenName());
+			ParseTwitterUtils.getTwitter().getScreenName(), ParseTwitterUtils.getTwitter().getUserId());
 		}catch(Exception e){
 			e.printStackTrace();
 		}

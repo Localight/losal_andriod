@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import co.localism.losal.R;
+import co.localism.losal.async.PushData;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -359,7 +360,7 @@ public class Instagram extends Activity {
 		prefEditor.putString("full_name", full_name);
 		prefEditor.commit();
 
-		/***** InstagramInfo *****/
+		/***** UserInfo *****/
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
 		prefEditor = user_info.edit();
@@ -367,7 +368,12 @@ public class Instagram extends Activity {
 			prefEditor.putBoolean("hasInstagram", true);
 		prefEditor.commit();
 		Toast.makeText(ctx, "Instagram connected!!", Toast.LENGTH_SHORT).show();
-
+		
+		try{
+		new PushData().execute("instagramID", uname);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

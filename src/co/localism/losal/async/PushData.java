@@ -9,15 +9,48 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class PushData extends AsyncTask<String, String, String> {
-
+	private String tag = "PushData";
+	
 	@Override
 	protected String doInBackground(String... args) {
 		if (args[0].equalsIgnoreCase("like"))
 			pushLike(args[1], args[2]);
+		else if (args[0].equalsIgnoreCase("twitterID"))
+			pushTwitterId(args[1], args[2]);
+		else if (args[0].equalsIgnoreCase("instagramID"))
+			pushInstagramId(args[1]);
 
 		return null;
 	}
 
+	private void pushTwitterId(String id, String user){
+		
+	}
+	
+	private void pushInstagramId(String id){
+		try{
+			Log.i(tag, "id= "+id);
+		ParseUser user = ParseUser.getCurrentUser();
+		user.put("instagramID", id);
+		user.saveInBackground(new SaveCallback() {
+
+		@Override
+		public void done(com.parse.ParseException e) {
+			if(e != null){
+				Log.e(tag, "not null "+ e.toString());
+				
+			}else{
+				Log.e(tag, "null ");
+
+			}
+		}
+		});
+		}catch(Exception e){
+			Log.e(tag, "exception caught: "+e.toString());
+		}
+
+	}
+	
 	/**
 	 * This is called when a user likes a post. This will push the data into the
 	 * Likes table in our parse db.
@@ -26,7 +59,7 @@ public class PushData extends AsyncTask<String, String, String> {
 	 * @param userId
 	 */
 	private void pushLike(String postId, String userId) {
-		Log.d("PushData", "pushing like to db");
+		Log.d(tag, "pushing like to db");
 		try {
 			ParseObject like = new ParseObject("Likes");
 			ParseUser pu = ParseUser.getCurrentUser();

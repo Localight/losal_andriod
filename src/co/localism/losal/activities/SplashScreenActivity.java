@@ -49,13 +49,13 @@ public class SplashScreenActivity extends Activity {
 				MODE_PRIVATE);
 		// ActivateSocialActivity.unlinkTwitterUser();
 		// TODO:REMOVE. DUMMY DATA
-//		SharedPreferences.Editor prefEditor = user_info.edit();
+		SharedPreferences.Editor prefEditor = user_info.edit();
 //		prefEditor.putBoolean("isFirstVisit", true);
 
-//		prefEditor.putBoolean("hasInstagram", false);
+		prefEditor.putBoolean("hasInstagram", false);
 //		prefEditor.putBoolean("hasTwitter", false);
 
-//		prefEditor.commit();
+		prefEditor.commit();
 
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();// ConnectivityManager.TYPE_WIFI);

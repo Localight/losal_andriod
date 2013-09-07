@@ -224,7 +224,7 @@ public class ActivateSocialActivity extends Activity {
 					if (ParseTwitterUtils.isLinked(currentUser)) {
 						Log.d("MyApp", "Woohoo, user logged in with Twitter!");
 //						Toast.makeText(ctx, "Twitter connected!!", Toast.LENGTH_SHORT).show();
-
+//						currentUser
 						// add this info to user_info
 						saveToUserInfo();
 					} 

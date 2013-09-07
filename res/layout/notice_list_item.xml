@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:text="Received 11-2-13 12:00pm"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="@dimen/notice_list_item_date_size" />
         </RelativeLayout>

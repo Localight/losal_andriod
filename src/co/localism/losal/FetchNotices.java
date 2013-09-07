@@ -62,12 +62,13 @@ public class FetchNotices extends Observable {
 					Log.d(tag,
 							"notice title: "
 									+ noticesList.get(i).getString("title"));
-					if (noticesList.get(i).getInt("ad") == 1){
+					if (noticesList.get(i).getInt("ad") == 1) {
 						MainActivity.AD_URL = noticesList.get(i).getString(
 								"image");
-						MainActivity.AD_CLICK_URL = noticesList.get(i).getString("buttonLink");
-					isAd = true;
-					}else {
+						MainActivity.AD_CLICK_URL = noticesList.get(i)
+								.getString("buttonLink");
+						isAd = true;
+					} else {
 						n.setTitle(noticesList.get(i).getString("title"));
 						n.setDetails(noticesList.get(i)
 								.getString("description"));
@@ -81,27 +82,25 @@ public class FetchNotices extends Observable {
 								"buttonText"));
 
 						/** Time and Date Received **/
-						Date d = noticesList.get(i).getDate("startDate");
-						Calendar cal = Calendar.getInstance();
-						cal.setTime(d);
-						String date = "" + cal.get(Calendar.MONTH) + "-"
-								+ cal.get(Calendar.DAY_OF_MONTH) + "-"
-								+ cal.get(Calendar.YEAR);
-						int hour = cal.get(Calendar.HOUR_OF_DAY);
-						if (hour == 0)
-							hour += 12;
-						String ampm = "PM";
-						if (cal.get(Calendar.AM_PM) == Calendar.AM)
-							ampm = "AM";
-						String time = hour + ":" + cal.get(Calendar.MINUTE)
-								+ " " + ampm;
-
-						n.setDateReceived(date + "  " + time);
+						/*
+						 * Date d = noticesList.get(i).getDate("startDate");
+						 * Calendar cal = Calendar.getInstance();
+						 * cal.setTime(d); String date = "" +
+						 * cal.get(Calendar.MONTH) + "-" +
+						 * cal.get(Calendar.DAY_OF_MONTH) + "-" +
+						 * cal.get(Calendar.YEAR); int hour =
+						 * cal.get(Calendar.HOUR_OF_DAY); if (hour == 0) hour +=
+						 * 12; String ampm = "PM"; if (cal.get(Calendar.AM_PM)
+						 * == Calendar.AM) ampm = "AM"; String time = hour + ":"
+						 * + cal.get(Calendar.MINUTE) + " " + ampm;
+						 * 
+						 * n.setDateReceived(date + "  " + time);
+						 */
 					}
 				} catch (Exception e) {
 					Log.e(tag, e.toString());
 				}
-				if(isAd)
+				if (isAd)
 					isAd = false;
 				else
 					na.add(n);

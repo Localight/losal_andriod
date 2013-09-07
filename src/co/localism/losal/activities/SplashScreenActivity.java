@@ -53,7 +53,7 @@ public class SplashScreenActivity extends Activity {
 //		prefEditor.putBoolean("isFirstVisit", true);
 
 		prefEditor.putBoolean("hasInstagram", false);
-//		prefEditor.putBoolean("hasTwitter", false);
+		prefEditor.putBoolean("hasTwitter", false);
 
 		prefEditor.commit();
 

@@ -382,16 +382,23 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					null);
 
 			
-			
-			
+			/****** System Post ******/
 			if (cur.isSystemPost()) {
-				holder.tv_name.setText(cur.getText());
-				holder.iv_social_like_icon.setImageDrawable(ADD_ICON);
-				holder.iv_social_like_icon.setLayerType(
-						View.LAYER_TYPE_SOFTWARE, null);
-				holder.tv_user_icon.setText("");
-				holder.tv_post_text.setText("");
-
+				// holder.tv_name.setText(cur.getText());
+				if (cur.getSocialNetworkName().equalsIgnoreCase("twitter")) {
+					if (!user_info.getBoolean("hasTwitter", false)) {
+						holder.iv_social_like_icon.setImageDrawable(ADD_ICON);
+						holder.iv_social_like_icon.setLayerType(
+								View.LAYER_TYPE_SOFTWARE, null);
+					}
+				} else if (cur.getSocialNetworkName().equalsIgnoreCase(
+						"instagram")) {
+					if (!user_info.getBoolean("hasInstagram", false)) {
+						holder.iv_social_like_icon.setImageDrawable(ADD_ICON);
+						holder.iv_social_like_icon.setLayerType(
+								View.LAYER_TYPE_SOFTWARE, null);
+					}
+				}
 			}
 
 			/****** Post Image ******/
@@ -537,18 +544,21 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			}
 		} else {
 			if (p.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM)) {
-				iv_like.setImageDrawable(INSTA_LIKE_ICON);
-				if (!user_info.getBoolean("hasInstagram", false)) {
-					holder.iv_social_like_icon.setAlpha(0.6f);
-					holder.iv_social_site_icon.setAlpha(0.6f);
+				if (!p.isSystemPost()) {
+					iv_like.setImageDrawable(INSTA_LIKE_ICON);
+					if (!user_info.getBoolean("hasInstagram", false)) {
+						holder.iv_social_like_icon.setAlpha(0.6f);
+						holder.iv_social_site_icon.setAlpha(0.6f);
+					}
 				}
 			} else if (p.getSocialNetworkName().equalsIgnoreCase(TWITTER)) {
-				iv_like.setImageDrawable(TW_LIKE_ICON);
-				if (!user_info.getBoolean("hasTwitter", false)) {
-					holder.iv_social_like_icon.setAlpha(0.6f);
-					holder.iv_social_site_icon.setAlpha(0.6f);
+				if (!p.isSystemPost()) {
+					iv_like.setImageDrawable(TW_LIKE_ICON);
+					if (!user_info.getBoolean("hasTwitter", false)) {
+						holder.iv_social_like_icon.setAlpha(0.6f);
+						holder.iv_social_site_icon.setAlpha(0.6f);
+					}
 				}
-
 			}
 			// holder.iv_social_like_icon.setAlpha(0.6f);
 		}

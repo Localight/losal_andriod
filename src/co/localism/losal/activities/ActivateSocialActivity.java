@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import co.localism.losal.R;
 import co.localism.losal.SVGHandler;
+import co.localism.losal.async.PushData;
 
 public class ActivateSocialActivity extends Activity {
 
@@ -216,7 +217,6 @@ public class ActivateSocialActivity extends Activity {
 		ParseTwitterUtils.initialize(
 				getResources().getString(R.string.tw_consumer_key),
 				getResources().getString(R.string.tw_consumer_secret));
-
 		if (!ParseTwitterUtils.isLinked(currentUser)) {
 			ParseTwitterUtils.link(currentUser, this, new SaveCallback() {
 				@Override
@@ -230,7 +230,6 @@ public class ActivateSocialActivity extends Activity {
 					} 
 					else
 						Log.d("MyApp", "Error User not linked through Twitter!");
-
 				}
 			});
 			
@@ -238,6 +237,12 @@ public class ActivateSocialActivity extends Activity {
 			// is linked
 			Toast.makeText(ctx, "Already Logged In!", Toast.LENGTH_SHORT).show();
 			saveToUserInfo();
+		}
+		try{
+			new PushData().execute("twitterID",
+			ParseTwitterUtils.getTwitter().getScreenName());
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 //		finish();
 	}

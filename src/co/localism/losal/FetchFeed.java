@@ -99,8 +99,8 @@ public class FetchFeed {// extends Observable {
 				// p.setIsSystemPost(true);
 
 				if (postsList.get(i).getInt("system_post") == 1) {
-					skip = true;//took away this feature for the time being.
-					/*
+					// skip = true;//took away this feature for the time being.
+
 					Log.i(tag, "SYSTEM_POST");
 					if (user_info.getString("user_type", "").equalsIgnoreCase(
 							"student")) {
@@ -122,22 +122,33 @@ public class FetchFeed {// extends Observable {
 					} else {
 						skip = true;
 					}
-					 p.setText(postsList.get(i).getString("text"));
-//					p.setText("to submit #losal");
-					p.setSocialNetworkName(postsList.get(i).getString(
-							"socialNetworkName"));
-					p.setPostTime(postsList.get(i).getDate("postTime"));
-*/
-				} else {
+					/*****
+					 * Some of this is redundant code because it does the same
+					 * thing below but because of the system_post. It is easiest
+					 * to keep it separate for now
+					 *****/
+//					p.setText(postsList.get(i).getString("text"));
+//					// p.setText("to submit #losal");
+//					p.setSocialNetworkName(postsList.get(i).getString(
+//							"socialNetworkName"));
+//					p.setPostTime(postsList.get(i).getDate("postTime"));
+//					try {
+//						p.setName(postsList.get(i).getParseObject("user")
+//								.getString("firstName"));
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+
+				} 
+//				else {
 
 					p.setPostTime(postsList.get(i).getDate("postTime"));
 					MainActivity.LAST_POST_DATE = p.getPostTime();
 					// (postsList.get(i).getString("featured"));
 					p.setSocialNetworkPostId(postsList.get(i).getString(
 							"socialNetworkPostID"));
-					// (postsList.get(i).getString("createdAt"));
 					p.setParseObjectId(postsList.get(i).getObjectId());
-					// postsList.get(i).getString("objectId"));
+					
 					Log.i(tag, "objectID: " + postsList.get(i).getObjectId());
 					// if(postsList.get(i).getParseObject("user") != null);
 					try {
@@ -171,6 +182,7 @@ public class FetchFeed {// extends Observable {
 					// Log.d(tag, postsList.get(i).getString("text"));
 					p.setSocialNetworkName(postsList.get(i).getString(
 							"socialNetworkName"));
+					
 					try {
 						p.setUrl(postsList.get(i).getString("url"));
 					} catch (NullPointerException npe) {
@@ -178,7 +190,7 @@ public class FetchFeed {// extends Observable {
 					}
 					// p.setClassYear(3);// placeholder data
 					// posts.add(p);
-				}
+//				}
 				if (!skip) {
 					if (AddToTop)
 						pa.add(0, p);

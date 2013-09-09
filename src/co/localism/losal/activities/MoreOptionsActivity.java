@@ -79,6 +79,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				(LinearLayout) findViewById(R.id.po), this,
 				PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS);
 
+		
 		LinearLayout ll_suggest = (LinearLayout) findViewById(R.id.ll_mo_suggest);
 		ll_suggest.setOnClickListener(this);
 		// TextView tv_help = (TextView) findViewById(R.id.tv_mo_help);

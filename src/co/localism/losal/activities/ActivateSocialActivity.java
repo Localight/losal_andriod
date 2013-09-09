@@ -135,8 +135,8 @@ public class ActivateSocialActivity extends Activity {
 			ll_insta.setOnClickListener(insta_onclick);
 		}
 	}
-	
-	private void setHeaderTitle(int s){
+
+	private void setHeaderTitle(int s) {
 		TextView title = (TextView) findViewById(R.id.tv_activate_title);
 		title.setText(s);
 	}
@@ -196,7 +196,7 @@ public class ActivateSocialActivity extends Activity {
 		});
 
 	}
-	
+
 	public void unlinkTwitterUser() {
 		ParseTwitterUtils.initialize(
 				getResources().getString(R.string.tw_consumer_key),
@@ -209,42 +209,48 @@ public class ActivateSocialActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-	
+
 	}
 
 	private void linkTwitterUser() {
-		ParseTwitterUtils.initialize(
-				getResources().getString(R.string.tw_consumer_key),
-				getResources().getString(R.string.tw_consumer_secret));
-		if (!ParseTwitterUtils.isLinked(currentUser)) {
-			ParseTwitterUtils.link(currentUser, this, new SaveCallback() {
-				@Override
-				public void done(ParseException ex) {
-					if (ParseTwitterUtils.isLinked(currentUser)) {
-						Log.d("MyApp", "Woohoo, user logged in with Twitter!");
-//						Toast.makeText(ctx, "Twitter connected!!", Toast.LENGTH_SHORT).show();
-//						currentUser
-						// add this info to user_info
-						saveToUserInfo();
-					} 
-					else
-						Log.d("MyApp", "Error User not linked through Twitter!");
-				}
-			});
-			
-		} else {
-			// is linked
-			Toast.makeText(ctx, "Already Logged In!", Toast.LENGTH_SHORT).show();
-			saveToUserInfo();
-		}
-		try{
-			new PushData().execute("twitterID",
-			ParseTwitterUtils.getTwitter().getScreenName(), ParseTwitterUtils.getTwitter().getUserId());
-		}catch(Exception e){
+		try {
+			ParseTwitterUtils.initialize(
+					getResources().getString(R.string.tw_consumer_key),
+					getResources().getString(R.string.tw_consumer_secret));
+			if (!ParseTwitterUtils.isLinked(currentUser)) {
+				ParseTwitterUtils.link(currentUser, this, new SaveCallback() {
+					@Override
+					public void done(ParseException ex) {
+						if (ParseTwitterUtils.isLinked(currentUser)) {
+							Log.d("MyApp",
+									"Woohoo, user logged in with Twitter!");
+							Toast.makeText(ctx, "Twitter connected!!",
+									Toast.LENGTH_SHORT).show();
+							// currentUser
+							// add this info to user_info
+							saveToUserInfo();
+						} else
+							Log.d("MyApp", "Error linking Twitter.");
+					}
+				});
+
+			} else {
+				// is linked
+				Toast.makeText(ctx, "Already Logged In!", Toast.LENGTH_SHORT)
+						.show();
+				saveToUserInfo();
+			}
+			try {
+				new PushData().execute("twitterID", ParseTwitterUtils
+						.getTwitter().getScreenName(), ParseTwitterUtils
+						.getTwitter().getUserId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		finish();
+		// finish();
 	}
 
 	private void saveToUserInfo() {

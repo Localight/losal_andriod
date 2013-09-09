@@ -25,7 +25,7 @@ public class Post implements Serializable {
 	private String fave_color = "";
 	private boolean user_liked = false;
 	private boolean is_system_post = false;
-	
+	private String user_type = "";
 	
 	public Post() {
 		this.setUserIcon("e00c");
@@ -138,4 +138,14 @@ public class Post implements Serializable {
 	public boolean isSystemPost(){
 		return this.is_system_post;
 	}
+	
+	public void setUserType(String userType){
+		this.user_type = userType;
+	}
+	
+	public String getUserType(){
+		return this.user_type;
+	}
+	
+	
 }

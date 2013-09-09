@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#AA484848"
+        android:background="#282828"
         android:orientation="vertical" >
         
         

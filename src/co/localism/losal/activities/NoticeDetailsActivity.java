@@ -14,20 +14,25 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import co.localism.losal.R;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class NoticeDetailsActivity extends Activity {
@@ -69,13 +74,16 @@ public class NoticeDetailsActivity extends Activity {
 				// .showImageForEmptyUri(R.drawable.ic_empty)
 				// .showImageOnFail(R.drawable.ic_error)
 				// .showStubImage(R.drawable.ic_launcher)
-				.showImageForEmptyUri(R.drawable.ic_launcher)
-				.showImageOnFail(R.drawable.ic_launcher)
+//				.showImageForEmptyUri(R.drawable.ic_launcher)
+//				.showImageOnFail(R.drawable.ic_launcher)
 				.resetViewBeforeLoading(true).cacheInMemory(true)
 				.cacheOnDisc(true)
 				// .displayer(new RoundedBitmapDisplayer(20))
 				.build();
 
+		Display display = getDisplay();
+		LayoutParams params = new LinearLayout.LayoutParams(display.getWidth(), display.getWidth());
+		iv.setLayoutParams(params);
 		if (extras != null) {
 			// iv.setImageResource(extras.getInt("imageID"));
 			mImageLoader.displayImage(extras.getString("image_url"), iv,
@@ -96,7 +104,12 @@ public class NoticeDetailsActivity extends Activity {
 			});
 		}
 	}
-
+	private Display getDisplay() {
+		WindowManager wm = (WindowManager) this
+				.getSystemService(Context.WINDOW_SERVICE);
+		return wm.getDefaultDisplay();
+	}
+	
 	public void openURL() {
 		if (URL.length() > 0) {
 			try {

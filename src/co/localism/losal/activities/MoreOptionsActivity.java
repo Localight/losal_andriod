@@ -40,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 import co.localism.losal.R;
 import co.localism.losal.SVGHandler;
@@ -75,7 +76,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_more_options);
 		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(
-				(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS);
+				(LinearLayout) findViewById(R.id.po), this,
+				PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS);
 
 		LinearLayout ll_suggest = (LinearLayout) findViewById(R.id.ll_mo_suggest);
 		ll_suggest.setOnClickListener(this);
@@ -83,8 +85,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		// tv_suggest.setOnClickListener(this);
 		// TextView tv_about = (TextView) findViewById(R.id.tv_mo_about);
 		// tv_suggest.setOnClickListener(this);
-		// TextView tv_reset = (TextView) findViewById(R.id.tv_mo_reset);
-		// tv_suggest.setOnClickListener(this);
+		TextView tv_reset = (TextView) findViewById(R.id.tv_mo_reset);
+		tv_reset.setOnClickListener(this);
 
 		// try {
 		// // LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
@@ -109,33 +111,49 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				R.raw.localism, R.color.white, R.color.black);
 		ImageView iv = (ImageView) findViewById(R.id.iv_local_logo);
 		iv.setImageDrawable(local_logo);
-//		iv.setScaleType(ScaleType.FIT_XY);
-//		iv.setScaleX(2);
-//		iv.setScaleY(2);
+		// iv.setScaleType(ScaleType.FIT_XY);
+		// iv.setScaleX(2);
+		// iv.setScaleY(2);
 		iv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		// setAllChevrons();
-	
+
 		setFontOnHeaders();
 		setLinks();
+		setEasterEgg();
 		LinearLayout l = (LinearLayout) findViewById(R.id.po);
-		l.findViewById(R.id.po_more_options).setOnClickListener(new OnClickListener(){
+		l.findViewById(R.id.po_more_options).setOnClickListener(
+				new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				sm.toggle();
-			}
-		});
+					@Override
+					public void onClick(View v) {
+						sm.toggle();
+					}
+				});
 	}
 
 	private void setFontOnHeaders() {
 		Typeface slab_font = Typeface.createFromAsset(this.getAssets(),
 				"robotoslab_regular.ttf");
 		int[] ids = { R.id.tv_mo_about, R.id.tv_mo_suggest, R.id.tv_mo_faq,
-				R.id.tv_mo_help, R.id.tv_mo_safety };
+				R.id.tv_mo_help, R.id.tv_mo_safety, R.id.tv_mo_reset };
 		for (int i = 0; i < ids.length; i++) {
 			TextView tv = (TextView) findViewById(ids[i]);
 			tv.setTypeface(slab_font);
 		}
+	}
+
+	private void setEasterEgg() {
+		ImageView iv = (ImageView) findViewById(R.id.iv_arnold);
+		iv.setVisibility(View.GONE);
+		// taking this view out for the time being because we don't have a link
+		// yet.
+		// Also in the future we might want to make the image changeable and
+		// have that as part of the app settings.
+		/*
+		 * iv.setOnClickListener(new OnClickListener(){
+		 * 
+		 * @Override public void onClick(View v) { // openURL(""); } });
+		 */
 	}
 
 	private void setLinks() {
@@ -159,7 +177,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 			public void onClick(View view) {
 				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
 						Uri.fromParts("mailto", EMAIL_APP_IDEAS, null));
-				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Parents submitting to social feed)");
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT,
+						"Parents submitting to social feed)");
 				startActivity(Intent
 						.createChooser(emailIntent, "Send email..."));
 			}
@@ -168,7 +187,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 			public void onClick(View view) {
 				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
 						Uri.fromParts("mailto", EMAIL_APP_IDEAS, null));
-				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Faculty submitting to social feed)");
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT,
+						"Faculty submitting to social feed)");
 				startActivity(Intent
 						.createChooser(emailIntent, "Send email..."));
 			}
@@ -417,10 +437,10 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 			// viewSwitcher.showNext();
 			// }
 			break;
-		// case R.id.tv_mo_reset:
-		// resetApp();
+		case R.id.tv_mo_reset:
+			resetApp();
 
-		// break;
+			break;
 
 		}
 	}
@@ -436,24 +456,32 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		sh = this.getSharedPreferences("TwitterInfo", Context.MODE_PRIVATE);
 		sh.edit().clear().commit();
 		unlinkUser();
+		Toast.makeText(this, "#LOSAL is now reset.", Toast.LENGTH_LONG).show();
+		startActivity(new Intent(this, OnBoardSequenceActivity.class));
+		finish();
 	}
 
 	public void unlinkUser() {
-
-		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
-				getResources().getString(R.string.parse_client_key));
-		ParseTwitterUtils.initialize(
-				getResources().getString(R.string.tw_consumer_key),
-				getResources().getString(R.string.tw_consumer_secret));
-		ParseUser currentUser = ParseUser.getCurrentUser();
-
 		try {
-			ParseTwitterUtils.unlink(currentUser);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			Parse.initialize(this,
+					getResources().getString(R.string.parse_app_id),
+					getResources().getString(R.string.parse_client_key));
+			ParseTwitterUtils.initialize(
+					getResources().getString(R.string.tw_consumer_key),
+					getResources().getString(R.string.tw_consumer_secret));
+
+			ParseUser currentUser = ParseUser.getCurrentUser();
+
+			try {
+				ParseTwitterUtils.unlink(currentUser);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ParseUser.logOut();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ParseUser.logOut();
 
 	}
 

@@ -197,8 +197,8 @@ See our privacy policy for more information.
 
 \n\nI made a post and submitted it by tagging it with #losal, but it didn\'t appear on the social feed. What gives\?
 \nA variety of factors give more weight to post, and only posts that surpass a threshold are displayed in the feed. Weighting factors can include the amount of likes and relevance to selected campus keywords.  Additionally the platform ignores posts that contain common NSFS terms (Not Safe For School).  The purpose of the social feed is to connect the campus with posts from students about school life and activities.  The algorithm and automatic filtering has been tuned to yield these results.</string>
-	
-	
+		
+		<string name="mo_reset_more">Click here to reset the app.</string>
 	
 	
 </resources>

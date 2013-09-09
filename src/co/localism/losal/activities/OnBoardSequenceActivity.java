@@ -37,6 +37,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.net.ConnectivityManager;
@@ -93,7 +94,9 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	private static TextView tv_message;
 	private static TextView tv_lower_message;
 	private static ImageButton iv_ob_verify_close;
-
+	
+	private static Typeface slab_font;
+	
 	private String address = "";
 	private String subject = "";
 	private String EMAIL_NO_TEXT = "losalsmserror@localism.zendesk.com";
@@ -115,8 +118,12 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 			finish();
 		} else {
 
-//			getActionBar().hide();
+			// getActionBar().hide();
 			setContentView(R.layout.onboardsequence);
+
+			slab_font = Typeface.createFromAsset(this.getAssets(),
+					"robotoslab_regular.ttf");
+
 			ctx = this;
 			List<Fragment> fragments = getFragments();
 			pageAdapter = new MyPageAdapter(getSupportFragmentManager(),
@@ -316,9 +323,12 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 
 				tv_message = (TextView) v
 						.findViewById(R.id.tv_ob_verify_message);
+				tv_message.setTypeface(slab_font);
 				tv_message.setText(R.string.verify_start);
 				tv_lower_message = (TextView) v
 						.findViewById(R.id.tv_ob_verify_lower_message);
+				tv_lower_message.setTypeface(slab_font);
+
 				et_phone = (EditText) v.findViewById(R.id.et_phone);
 				tv_lower_message.setText(R.string.enter_phone);
 				iv_ob_verify_close = (ImageButton) v
@@ -332,10 +342,11 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				progress.setIndeterminate(true);
 				tv_ob_verify_full_experience = (TextView) v
 						.findViewById(R.id.tv_ob_verify_full_experience);
+				tv_ob_verify_full_experience.setTypeface(slab_font);
+
 				iv_ob_verify_close.setOnClickListener(close_page_onclick);
 
-				// SpannableString ss = new
-				// SpannableString("helloworldandroid:.");
+				
 
 				et_phone.addTextChangedListener(new TextWatcher() {
 
@@ -569,11 +580,12 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 						Log.d(tag, "Retrieved " + List.size()
 								+ " phone numbers");
 
-						if (List.size() > 0){
+						if (List.size() > 0) {
 							Log.d(tag,
-									"username " + List.get(0).getString("username"));
+									"username "
+											+ List.get(0).getString("username"));
 							db_phone = List.get(0).getString("username");
-						}else
+						} else
 							db_phone = "error";
 					} else {
 						db_phone = "error";

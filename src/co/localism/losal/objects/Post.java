@@ -3,6 +3,10 @@ package co.localism.losal.objects;
 import java.io.Serializable;
 import java.util.Date;
 
+import android.util.Log;
+import co.localism.losal.activities.MainActivity;
+
+import com.parse.ParseObject;
 import com.parse.codec.binary.StringUtils;
 
 /**
@@ -29,6 +33,70 @@ public class Post implements Serializable {
 	
 	public Post() {
 		this.setUserIcon("e00c");
+	}
+	
+	
+	public Post(ParseObject po, ParseObject user){
+		this(po, user, false);
+	}
+	public Post(ParseObject po,ParseObject user, Boolean forFilter){
+		this.setPostTime(po.getDate("postTime"));
+		if(!forFilter)
+			MainActivity.LAST_POST_DATE = this.getPostTime();
+		// (po.getString("featured"));
+		this.setSocialNetworkPostId(po.getString(
+				"socialNetworkPostID"));
+		this.setParseObjectId(po.getObjectId());
+
+//		Log.i(tag, "objectID: " + po.getObjectId());
+		// if(user != null);
+		try {
+//			Log.e(tag, "name"							+ user.getString("firstName"));
+			this.setUserType(user.getString("userType"));
+			
+			if(this.getUserType().equalsIgnoreCase("student")){
+//				student users show as first name and first initial of last
+				this.setName(user
+						.getString("firstName"));
+				String lname = user
+						.getString("lastName");
+				this.setName(this.getName() + " " + lname.substring(0, 1) + ".");
+				this.setClassYear(user
+						.getString("year"));
+			}else{
+//				faculty and staff show as prefix and last name
+				this.setName(user
+						.getString("prefix") + " " + user
+						.getString("lastName"));
+				this.setClassYear(this.getUserType());
+			}
+			
+		
+			this.setClassYear(user
+					.getString("year"));
+			this.setUserIcon(user
+					.getString("icon"));
+			this.setFaveColor(user
+					.getString("faveColor"));
+		} catch (Exception e) {
+//			Log.e(tag, e.toString());
+			this.setName("Unknown");// placeholder data
+			this.setUserIcon("e00c");
+			this.setFaveColor("#FFFFFF");
+		}
+		// Log.d(tag, ""+
+		// user.get("firstName"));
+
+		this.setText(po.getString("text"));
+		// Log.d(tag, po.getString("text"));
+		this.setSocialNetworkName(po.getString(
+				"socialNetworkName"));
+
+		try {
+			this.setUrl(po.getString("url"));
+		} catch (NullPointerException npe) {
+			this.setUrl("");
+		}
 	}
 
 	public Post(String name, String year) {

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -115,7 +116,8 @@ public class MainActivity extends ListActivity {
 	private SlidingMenu sm;
 	private boolean isFiltered = false;
 	private boolean isInitialized = false;
-	private HashMap<String, ArrayList<String>> hashtags;
+//	private HashMap<String, ArrayList<String>> hashtags;
+	private HashSet<String> hashtags = new HashSet<String>();
 	/**** Ad URL for top of right panel  ****/
 	public static String AD_URL = "";
 	public static ImageView iv_ad;
@@ -666,7 +668,7 @@ public class MainActivity extends ListActivity {
 		int count = 0;
 		CharSequence[] tags = null;
 		if (!hashtags.isEmpty()) {
-			Object[] keyset = hashtags.keySet().toArray();
+			Object[] keyset = hashtags.toArray();//.keySet().toArray();
 
 			tags = new CharSequence[keyset.length];
 			for (int i = 0; i < tags.length; i++) {
@@ -703,13 +705,14 @@ public class MainActivity extends ListActivity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			final HashMap<String, ArrayList<String>> hm = new HashMap<String, ArrayList<String>>();
-
+//			final HashMap<String, ArrayList<ParseObject>> hm = new HashMap<String, ArrayList<ParseObject>>();
+			final HashSet<String> hs = new HashSet<String>();
+			
 			Log.d(tag, "FetchHashtags called ");
 
 			ParseQuery<ParseObject> query = ParseQuery
 					.getQuery("HashTagsIndex");
-
+//			query.include("postId");
 			query.findInBackground(new FindCallback<ParseObject>() {
 				public void done(List<ParseObject> List, ParseException e) {
 					Log.d(tag, "Retrieved " + List.size() + " hashtags");
@@ -721,19 +724,21 @@ public class MainActivity extends ListActivity {
 										"hashTags");
 								Log.d(tag, "hashtag " + hashtag);
 
-								String postID = List.get(i).getString("postId");
-								Log.d(tag, "postID " + postID);
-
-								if (hm.containsKey(hashtag)) {
-									hm.get(hashtag).add(postID);
+//								String postID = List.get(i).getParseObject("postId").getObjectId();//.getString("objectId");
+//								Log.d(tag, "postID " + postID);
+//								ParseObject po = List.get(i).getParseObject("postId");
+								if (hs.contains(hashtag)) {
+									
+//									hm.get(hashtag).add(po);
+//									hm.get(hashtag).add(postID);
 								} else {
-									ArrayList<String> value = new ArrayList<String>();
-									value.add(postID);
-									hm.put(hashtag, value);
+									hs.add(hashtag);
+//									ArrayList<String> value = new ArrayList<String>();
+//									value.add(postID);
+//									hm.put(hashtag, value);
 								}
 							} catch (Exception ex) {
 								Log.e(tag, ex.toString());
-
 							}
 						} else {
 							Log.d(tag, "Error: " + e.getMessage());
@@ -741,8 +746,9 @@ public class MainActivity extends ListActivity {
 					}
 				}
 			});
-			hashtags = hm;
-			Log.d(tag, "keyset: " + hashtags.keySet().toArray().toString());
+			hashtags = hs;
+			Log.d(tag, "keyset: " + hashtags.toArray().toString());
+//					.keySet()
 			return null;
 		}
 	}

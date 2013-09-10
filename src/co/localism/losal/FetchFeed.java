@@ -93,7 +93,8 @@ public class FetchFeed {// extends Observable {
 			boolean skip = false;
 			for (int i = 0; i < postsList.size(); i++) {
 
-				Post p = new Post();
+//				Post p = new Post();
+				Post p = new Post(postsList.get(i), postsList.get(i).getParseObject("user"));
 
 				/****** This is for system posts. It needs this extra logic ******/
 				if (postsList.get(i).getInt("system_post") == 1) {
@@ -119,62 +120,7 @@ public class FetchFeed {// extends Observable {
 					}
 				}
 
-				p.setPostTime(postsList.get(i).getDate("postTime"));
-				MainActivity.LAST_POST_DATE = p.getPostTime();
-				// (postsList.get(i).getString("featured"));
-				p.setSocialNetworkPostId(postsList.get(i).getString(
-						"socialNetworkPostID"));
-				p.setParseObjectId(postsList.get(i).getObjectId());
-
-				Log.i(tag, "objectID: " + postsList.get(i).getObjectId());
-				// if(postsList.get(i).getParseObject("user") != null);
-				try {
-//					Log.e(tag, "name"							+ postsList.get(i).getParseObject("user").getString("firstName"));
-					p.setUserType(postsList.get(i).getParseObject("user").getString("userType"));
-					
-					if(p.getUserType().equalsIgnoreCase("student")){
-//						student users show as first name and first initial of last
-						p.setName(postsList.get(i).getParseObject("user")
-								.getString("firstName"));
-						String lname = postsList.get(i).getParseObject("user")
-								.getString("lastName");
-						p.setName(p.getName() + " " + lname.substring(0, 1) + ".");
-						p.setClassYear(postsList.get(i).getParseObject("user")
-								.getString("year"));
-					}else{
-//						faculty and staff show as prefix and last name
-						p.setName(postsList.get(i).getParseObject("user")
-								.getString("prefix") + " " + postsList.get(i).getParseObject("user")
-								.getString("lastName"));
-						p.setClassYear(p.getUserType());
-					}
-					
-				
-					p.setClassYear(postsList.get(i).getParseObject("user")
-							.getString("year"));
-					p.setUserIcon(postsList.get(i).getParseObject("user")
-							.getString("icon"));
-					p.setFaveColor(postsList.get(i).getParseObject("user")
-							.getString("faveColor"));
-				} catch (Exception e) {
-					Log.e(tag, e.toString());
-					p.setName("Unknown");// placeholder data
-					p.setUserIcon("e00c");
-					p.setFaveColor("#FFFFFF");
-				}
-				// Log.d(tag, ""+
-				// postsList.get(i).getParseObject("user").get("firstName"));
-
-				p.setText(postsList.get(i).getString("text"));
-				// Log.d(tag, postsList.get(i).getString("text"));
-				p.setSocialNetworkName(postsList.get(i).getString(
-						"socialNetworkName"));
-
-				try {
-					p.setUrl(postsList.get(i).getString("url"));
-				} catch (NullPointerException npe) {
-					p.setUrl("");
-				}
+			
 				// p.setClassYear(3);// placeholder data
 				// posts.add(p);
 				// }

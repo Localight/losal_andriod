@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,10 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import co.localism.losal.FetchFeed;
 import co.localism.losal.R;
@@ -38,6 +43,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Looper;
 import android.provider.SyncStateContract.Constants;
 import android.util.Log;
@@ -201,7 +207,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			final ViewGroup parent) {
 		cur = mPosts.get(position);
 		// if((mPosts.size() == 0 || mPosts.size()-1 == position) && !loading){
-		if (mPosts.size() - 4 == position && position > 0 && !loading) {
+		if (mPosts.size() - 4 == position && position > 0 && !loading && !isFiltered) {
 			Log.d(tag, "FETCHING");
 			//
 			loading = true;
@@ -381,7 +387,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder.iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE,
 					null);
 
-			
 			/****** System Post ******/
 			if (cur.isSystemPost()) {
 				// holder.tv_name.setText(cur.getText());
@@ -694,27 +699,26 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		}
 	}
 
-	public void Filter(String filter, HashMap<String, ArrayList<String>> hm) {
+	public void Filter(String filter, HashSet<String> hashtags) {
 		if (isFiltered) {
 			removeFilter();
 		}
 		isFiltered = true;
 		copyOfPosts = new ArrayList<Post>();
 		copyOfPosts.addAll(mPosts);
-		ArrayList<String> al = hm.get(filter);
-		Log.i(tag, "filter list: " + al.toString());
-		for (int index = 0; index < mPosts.size(); index++) {
-			// Log.i(tag, "filter. id: "+mPosts.get(index).getText());
-			String id = mPosts.get(index).getParseObjectId();
-			Log.i(tag, "filter. id: " + id);
+		mPosts.removeAll(mPosts);
+		notifyDataSetChanged();
 
-			if (!al.toString().matches(".*" + id + ".*")) {// (id)) {
+		new FetchHashtagPosts().execute(filter);
+		// ArrayList<String> al = hashtags.get(filter);
+		// Log.i(tag, "filter list: " + al.toString());
+			// Log.i(tag, "filter. id: "+mPosts.get(index).getText());
+			/*if (!al.toString().matches(".*" + id + ".*")) {// (id)) {
 				Log.i(tag, "filter removing post");
 				mPosts.remove(index);
 				index--;
-			}
-		}
-		notifyDataSetChanged();
+			}*/
+//		notifyDataSetChanged();
 
 	}
 
@@ -725,6 +729,56 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			copyOfPosts = null;
 		}
 		isFiltered = false;
+		// notifyDataSetChanged();
+	}
+
+	private class FetchHashtagPosts extends AsyncTask<String, String, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			String filter = params[0];
+			Log.d(tag, "FetchHashtagPosts called ");
+
+			ParseQuery<ParseObject> query = ParseQuery
+					.getQuery("HashTagsIndex");
+			query.whereContains("hashTags", filter);
+//			query.include("postId");
+			query.include("postId.user");
+
+			
+//			ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("HashTagsIndex");
+//			innerQuery.whereContains("hashTags", filter);
+//			ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+//			query.whereMatchesQuery("postId", innerQuery);
+			Calendar cal = Calendar.getInstance();
+			
+			query.addDescendingOrder("postTime");
+//			query.whereLessThan("postTime", cal.getTime());
+			cal.add(Calendar.DATE, -30);
+			query.whereGreaterThan("postTime", cal.getTime());
+			query.findInBackground(new FindCallback<ParseObject>() {
+				public void done(List<ParseObject> List, ParseException e) {
+					Log.d(tag, "Retrieved " + List.size() + " hashtag posts");
+					for (int i = 0; i < List.size(); i++) {
+						if (e == null) {
+							try {
+								Post p = new Post(List.get(i).getParseObject("postId"), List.get(i).getParseObject("postId").getParseObject("user"), true);
+//								if(mPosts == null)
+//									Log.e(tag, "mPosts == null");
+
+								add(p);
+//								 notifyDataSetChanged();
+							} catch (Exception ex) {
+								Log.e(tag, ex.toString());
+							}
+						} else {
+							Log.d(tag, "Error: " + e.getMessage());
+						}
+					}
+				}
+			});
+			return null;
+		}
 	}
 
 }

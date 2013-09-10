@@ -754,8 +754,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			
 			query.addDescendingOrder("postTime");
 //			query.whereLessThan("postTime", cal.getTime());
-			cal.add(Calendar.DATE, -30);
-			query.whereGreaterThan("postTime", cal.getTime());
+//			cal.add(Calendar.DATE, -30);
+//			query.whereGreaterThan("postTime", cal.getTime());
 			query.findInBackground(new FindCallback<ParseObject>() {
 				public void done(List<ParseObject> List, ParseException e) {
 					Log.d(tag, "Retrieved " + List.size() + " hashtag posts");

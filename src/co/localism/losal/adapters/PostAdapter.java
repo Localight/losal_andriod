@@ -71,30 +71,29 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 	private ArrayList<Post> mPosts;
 	private ArrayList<Post> copyOfPosts;
-	private boolean isFiltered = false;
 
 	private TypedArray mIcons;
 	private int mViewResourceId;
 	private Context ctx;
-	private ImageView TW_IMAGE_VIEW, FB_IMAGE_VIEW, INSTA_IMAGE_VIEW;
 	private static final String tag = "PostAdapter", TWITTER = "Twitter",
 			FACEBOOK = "Facebook", INSTAGRAM = "Instagram";
-	public static Filter filter;
-	private static String[] CLASS_YEAR = new String[] { "", "Freshman",
-			"Sophomore", "Junior", "Senior" };
 	private SharedPreferences user_info, user_likes;
-	private OnClickListener activate_onClick, fb_onClick, insta_onClick,
-			fullscreen_onClick, tw_onClick;
 	public static ImageLoader mImageLoader;
 	private PostViewHolder holder;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private TimeHandler TH;
 	private Typeface icon_font;
 	private DisplayImageOptions options;
-	Post cur;
+	private Post cur;
 	private Drawable INSTA_ICON, TW_ICON, INSTA_LIKE_ICON, TW_LIKE_ICON,
 			INSTA_LIKE_ICON_LIKED, TW_LIKE_ICON_LIKED, ADD_ICON;
 	private boolean loading = false;
+
+	/****** HashTag Filter ******/
+	private boolean isFiltered = false;
+	public static String filter = "";
+	private int hashtagPeriodsBack = 0;
+	private final int hashtagNumberMorePosts = 20;
 
 	public PostAdapter(final Context ctx, int viewResourceId,
 			ArrayList<Post> posts, int UserType) {
@@ -117,22 +116,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		INSTA_LIKE_ICON_LIKED = new SVGHandler().svg_to_drawable(ctx,
 				R.raw.heart, R.color.white, R.color.localism_blue);
 		ADD_ICON = new SVGHandler().svg_to_drawable(ctx, R.raw.add);
-
-		activate_onClick = new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// check which social site it is and either like, or show
-				// activate social activity
-				Intent intent = new Intent(ctx, ActivateSocialActivity.class);
-				ctx.startActivity(intent);
-			}
-		};
-		fb_onClick = new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// like the post on fb
-			}
-		};
 
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(ctx));
@@ -207,12 +190,21 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			final ViewGroup parent) {
 		cur = mPosts.get(position);
 		// if((mPosts.size() == 0 || mPosts.size()-1 == position) && !loading){
-		if (mPosts.size() - 4 == position && position > 0 && !loading && !isFiltered) {
+		if (mPosts.size() - 4 == position && position > 0 && !loading) {
 			Log.d(tag, "FETCHING");
-			//
-			loading = true;
-			FetchFeed fetcher = new FetchFeed();
-			fetcher.fetch(this, ctx);
+			if (isFiltered) {
+				if (hashtagPeriodsBack != -1) {
+					hashtagPeriodsBack++;
+					new FetchHashtagPosts().execute(filter, "loadMore");
+				}else
+					setStatus(false);
+			} else {
+
+				//
+				loading = true;
+				FetchFeed fetcher = new FetchFeed();
+				fetcher.fetch(this, ctx);
+			}
 			// // addAll(fetcher.fetch());
 		}
 		if (convertView == null) {
@@ -712,23 +704,24 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		new FetchHashtagPosts().execute(filter);
 		// ArrayList<String> al = hashtags.get(filter);
 		// Log.i(tag, "filter list: " + al.toString());
-			// Log.i(tag, "filter. id: "+mPosts.get(index).getText());
-			/*if (!al.toString().matches(".*" + id + ".*")) {// (id)) {
-				Log.i(tag, "filter removing post");
-				mPosts.remove(index);
-				index--;
-			}*/
-//		notifyDataSetChanged();
+		// Log.i(tag, "filter. id: "+mPosts.get(index).getText());
+		/*
+		 * if (!al.toString().matches(".*" + id + ".*")) {// (id)) { Log.i(tag,
+		 * "filter removing post"); mPosts.remove(index); index--; }
+		 */
+		// notifyDataSetChanged();
 
 	}
 
 	public void removeFilter() {
+		hashtagPeriodsBack = 0;
 		if (copyOfPosts != null) {
 			mPosts.removeAll(mPosts);
 			this.addAll(copyOfPosts);
 			copyOfPosts = null;
 		}
 		isFiltered = false;
+		filter = "";
 		// notifyDataSetChanged();
 	}
 
@@ -736,7 +729,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 		@Override
 		protected String doInBackground(String... params) {
-			String filter = params[0];
+			setStatus(true);
+			String filter_hashtag = params[0];
+			filter = filter_hashtag;
 			Log.d(tag, "FetchHashtagPosts called ");
 
 			ParseQuery<ParseObject> query = ParseQuery
@@ -744,31 +739,49 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			query.whereContains("hashTags", filter);
 			query.include("postId.user");
 
-			Calendar cal = Calendar.getInstance();
+			// Calendar cal = Calendar.getInstance();
+			// if (params.length > 1)
+			// if (params[1].equalsIgnoreCase("loadMore")) {
+			// cal.add(Calendar.DATE, -30 * hashtagPeriodsBack);
+			// }
+
+			query.setSkip(hashtagNumberMorePosts * hashtagPeriodsBack);
+			query.setLimit(hashtagNumberMorePosts);
+			// Log.d(tag,
+			// "hash date back 30 * "+hashtagPeriodsBack+": "+cal.getTime());
+
 			query.addDescendingOrder("postTime");
-//			query.whereLessThan("postTime", cal.getTime());
-//			cal.add(Calendar.DATE, -30);
-//			query.whereGreaterThan("postTime", cal.getTime());
 			query.findInBackground(new FindCallback<ParseObject>() {
 				public void done(List<ParseObject> List, ParseException e) {
 					Log.d(tag, "Retrieved " + List.size() + " hashtag posts");
+					if (List.size() == 0)
+						hashtagPeriodsBack = -1;
 					for (int i = 0; i < List.size(); i++) {
 						if (e == null) {
 							try {
-								if(List.get(i).getParseObject("postId").getString("status").equalsIgnoreCase("1")){
-									Post p = new Post(List.get(i).getParseObject("postId"), List.get(i).getParseObject("postId").getParseObject("user"), true);
+								
+								if (List.get(i).getParseObject("postId")
+										.getString("status")
+										.equalsIgnoreCase("1")) {
+									Post p = new Post(List.get(i)
+											.getParseObject("postId"), List
+											.get(i).getParseObject("postId")
+											.getParseObject("user"), true);
 									add(p);
 								}
-//								 notifyDataSetChanged();
+								// notifyDataSetChanged();
 							} catch (Exception ex) {
 								Log.e(tag, ex.toString());
 							}
 						} else {
 							Log.d(tag, "Error: " + e.getMessage());
+							hashtagPeriodsBack = -1;
+
 						}
 					}
 				}
 			});
+			setStatus(false);
 			return null;
 		}
 	}

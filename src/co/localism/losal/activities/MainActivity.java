@@ -73,6 +73,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -134,6 +135,8 @@ public class MainActivity extends ListActivity {
 		a.setCustomView(R.layout.actionbar_custome_view);
 		TextView title = (TextView) a.getCustomView().findViewById(
 				R.id.ab_title);
+		title.setTypeface(Typeface.createFromAsset(this.getAssets(),
+				"robotoslab_regular.ttf"));
 		title.setText("#LOSAL");
 		setContentView(R.layout.activity_main);
 		try {
@@ -180,6 +183,9 @@ public class MainActivity extends ListActivity {
 				(LinearLayout) findViewById(R.id.po), this,
 				PersonalOptionsOnClickListeners.ACTIVITY_MAIN);
 		LinearLayout ll_notices = (LinearLayout) findViewById(R.id.ll_notices);
+		TextView tv_notice_ab = (TextView) ll_notices.findViewById(R.id.tv_ab_notice_title);
+		tv_notice_ab.setTypeface(Typeface.createFromAsset(getAssets(),
+				"robotoslab_regular.ttf"));
 		iv_ad = (ImageView) ll_notices.findViewById(R.id.iv_notices_ad);
 		iv_ad.setOnClickListener(new OnClickListener() {
 			@Override
@@ -315,6 +321,7 @@ public class MainActivity extends ListActivity {
 						Log.i(tag, "Hooray! The user is logged in.");
 						// Hooray! The user is logged in.
 						Log.d(tag, "");
+						
 						String fname = user.getString("firstName");
 						String lname = user.getString("lastName");
 						String userType = user.getString("userType");
@@ -322,8 +329,10 @@ public class MainActivity extends ListActivity {
 						String faveColor = user.getString("faveColor");
 						String icon = user.getString("icon");
 						String userID = user.getString("objectId");
+						String prefix = user.getString("prefix");
+
 						saveUserDataToPhone(userID, userType, fname, lname,
-								icon, faveColor, year);
+								icon, faveColor, year, prefix);
 					} else {
 						Log.i(tag, "login failed. e: " + e.toString());
 						Toast.makeText(ctx,
@@ -342,7 +351,7 @@ public class MainActivity extends ListActivity {
 
 	private void saveUserDataToPhone(String userID, String userType,
 			String fName, String lName, String icon, String favColor,
-			String year) {
+			String year, String prefix) {
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
 				MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = user_info.edit();
@@ -354,8 +363,11 @@ public class MainActivity extends ListActivity {
 		prefEditor.putString("user_icon", icon);
 		prefEditor.putString("fav_color", favColor);
 		prefEditor.putString("year", year);
-
-		String user_name = fName + " " + lName.substring(0, 1) + ".";
+		String user_name = "";
+		if(!userType.equalsIgnoreCase("student") && prefix != null)
+			user_name = prefix +" "+lName;
+		else
+			user_name = fName + " " + lName.substring(0, 1) + ".";
 		prefEditor.putString("user_name", user_name);
 		prefEditor.commit();
 		/***** Update Personal Options pane ******/

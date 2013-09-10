@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -60,6 +61,8 @@ public class ScheduleActivity extends Activity{
 		a.setCustomView(R.layout.actionbar_custome_view);
 		TextView title = (TextView) a.getCustomView().findViewById(
 				R.id.ab_title);
+		title.setTypeface(Typeface.createFromAsset(this.getAssets(),
+				"robotoslab_regular.ttf"));
 		title.setText("Schedule");
         setContentView(R.layout.activity_schedule);
         sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);

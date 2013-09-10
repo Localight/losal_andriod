@@ -73,6 +73,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		TextView title = (TextView) a.getCustomView().findViewById(
 				R.id.ab_title);
 		title.setText("More Options");
+		title.setTypeface(Typeface.createFromAsset(this.getAssets(),
+				"robotoslab_regular.ttf"));
 		setContentView(R.layout.activity_more_options);
 		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);
 		new PersonalOptionsOnClickListeners(

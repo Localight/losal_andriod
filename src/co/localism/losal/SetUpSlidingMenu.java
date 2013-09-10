@@ -3,6 +3,7 @@ package co.localism.losal;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -174,9 +175,10 @@ public class SetUpSlidingMenu extends SlidingMenu {
 	}
 
 	public void configActionBar() {
+		activity.getApplicationContext();
 		SharedPreferences user_info = activity.getApplicationContext()
 				.getSharedPreferences("UserInfo",
-						activity.getApplicationContext().MODE_PRIVATE);
+						Context.MODE_PRIVATE);
 
 		TextView user_icon = (TextView) findViewById(R.id.tv_ab_user_icon);
 
@@ -193,6 +195,8 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		user_icon.setTextColor(Color.parseColor(user_info.getString(
 				"fav_color", "#FFFFFF")));
 		TextView user_name = (TextView) findViewById(R.id.tv_ab_user_name);
+		user_name.setTypeface(Typeface.createFromAsset(activity.getApplicationContext().getAssets(),
+				"robotoslab_regular.ttf"));
 		user_name.setText(user_info.getString("user_name", "Unregistered"));
 	}
 

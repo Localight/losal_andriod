@@ -8,6 +8,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -50,6 +51,8 @@ public class WebViewActivity extends Activity {
 		a.setCustomView(R.layout.actionbar_custome_view);
 		TextView title = (TextView) a.getCustomView().findViewById(
 				R.id.ab_title);
+		title.setTypeface(Typeface.createFromAsset(this.getAssets(),
+				"robotoslab_regular.ttf"));
 		title.setText(" ");
 		OnClickListener toggle = new OnClickListener(){
 

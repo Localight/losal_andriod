@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -63,9 +64,14 @@ public class NoticeDetailsActivity extends Activity {
 		Bundle extras = getIntent().getExtras();
 		TextView tv_title = (TextView) findViewById(R.id.tv_notice_details_title);
 		TextView tv_details = (TextView) findViewById(R.id.tv_notice_details);
+		tv_title.setTypeface(Typeface.createFromAsset(this.getAssets(),
+				"robotoslab_regular.ttf"));
+		tv_details.setTypeface(Typeface.createFromAsset(this.getAssets(),
+				"robotoslab_regular.ttf"));
 		ImageView iv = (ImageView) findViewById(R.id.iv_notice_details_image);
 		Button btn = (Button) findViewById(R.id.btn_notice_details);
-
+		btn.setTypeface(Typeface.createFromAsset(this.getAssets(),
+				"robotoslab_regular.ttf"));
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(this));
 

@@ -15,7 +15,8 @@
             android:id="@+id/iv_ob_verify_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
             android:background="@color/transparent"
             android:src="@drawable/close_circle" />
     </LinearLayout>
@@ -39,7 +40,7 @@
             android:gravity="center"
             android:inputType="phone"
             android:maxLength="10"
-            android:textSize="20sp" >
+            android:textSize="24sp" >
 
             <requestFocus />
         </EditText>

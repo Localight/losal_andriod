@@ -440,8 +440,8 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 			// strBuilder.
 			ss.setSpan(myActivityLauncher, x, x + 8, 0);
 
+			tv_message.setTypeface(slab_font);
 			tv_message.setText(ss);
-
 			tv_message.setClickable(true);
 			tv_message.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -505,8 +505,8 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 			// strBuilder.
 			ss.setSpan(myActivityLauncher, x, x + 8, 0);
 
+			tv_message.setTypeface(slab_font);
 			tv_message.setText(ss);
-
 			tv_message.setClickable(true);
 			tv_message.setMovementMethod(LinkMovementMethod.getInstance());
 		}

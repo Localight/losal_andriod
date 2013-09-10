@@ -12,6 +12,7 @@
     <color name="darken_bg">#AA000000</color>
     <color name="holo_light_blue">#33B5E5</color>
     <color name="trans_grey">#DD383838</color>
+    <color name="grey">#383838</color>
     <color name="localism_blue">#40C7F2</color>
     <color name="onboard_text">#DDDDDD</color>
     <color name="onboard_bg">#231F20</color>

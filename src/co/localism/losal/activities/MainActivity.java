@@ -116,12 +116,13 @@ public class MainActivity extends ListActivity {
 	private SlidingMenu sm;
 	private boolean isFiltered = false;
 	private boolean isInitialized = false;
-//	private HashMap<String, ArrayList<String>> hashtags;
+	// private HashMap<String, ArrayList<String>> hashtags;
 	private HashSet<String> hashtags = new HashSet<String>();
-	/**** Ad URL for top of right panel  ****/
+	/**** Ad URL for top of right panel ****/
 	public static String AD_URL = "";
 	public static ImageView iv_ad;
-	public static String AD_CLICK_URL  ="";
+	public static String AD_CLICK_URL = "";
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -135,14 +136,15 @@ public class MainActivity extends ListActivity {
 				R.id.ab_title);
 		title.setText("#LOSAL");
 		setContentView(R.layout.activity_main);
-		try{
-		Parse.initialize(this, getResources().getString(R.string.parse_app_id),
-				getResources().getString(R.string.parse_client_key));
-		ParseTwitterUtils.initialize(
-				getResources().getString(R.string.tw_consumer_key),
-				getResources().getString(R.string.tw_consumer_secret));
-		ParseAnalytics.trackAppOpened(getIntent());
-		}catch(Exception e){
+		try {
+			Parse.initialize(this,
+					getResources().getString(R.string.parse_app_id),
+					getResources().getString(R.string.parse_client_key));
+			ParseTwitterUtils.initialize(
+					getResources().getString(R.string.tw_consumer_key),
+					getResources().getString(R.string.tw_consumer_secret));
+			ParseAnalytics.trackAppOpened(getIntent());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		Uri data = getIntent().getData();
@@ -177,14 +179,15 @@ public class MainActivity extends ListActivity {
 		new PersonalOptionsOnClickListeners(
 				(LinearLayout) findViewById(R.id.po), this,
 				PersonalOptionsOnClickListeners.ACTIVITY_MAIN);
-		LinearLayout ll_notices =  (LinearLayout) findViewById(R.id.ll_notices);
+		LinearLayout ll_notices = (LinearLayout) findViewById(R.id.ll_notices);
 		iv_ad = (ImageView) ll_notices.findViewById(R.id.iv_notices_ad);
-		iv_ad.setOnClickListener(new OnClickListener(){
+		iv_ad.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if (AD_CLICK_URL.length() > 0) {
 					try {
-						Intent openURL = new Intent(Intent.ACTION_VIEW, Uri.parse(AD_CLICK_URL));
+						Intent openURL = new Intent(Intent.ACTION_VIEW, Uri
+								.parse(AD_CLICK_URL));
 						startActivity(openURL);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -231,7 +234,7 @@ public class MainActivity extends ListActivity {
 			showNoNetworkConnection();
 		}
 		SharedPreferences user_info = getSharedPreferences("UserInfo",
-		MODE_PRIVATE);
+				MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = user_info.edit();
 		prefEditor.putBoolean("isFirstVisit", false);
 		prefEditor.commit();
@@ -395,6 +398,7 @@ public class MainActivity extends ListActivity {
 
 	private void refresh() {
 		if (hasNetworkConnection()) {
+			resetFilter();
 			AD_URL = "";
 			AD_CLICK_URL = "";
 			ff.refresh(listadapter);
@@ -503,30 +507,30 @@ public class MainActivity extends ListActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-//		updateView();
+		// updateView();
 	}
 
 	private void createTestparseUser() {
-		try{
-		ParseUser user = new ParseUser();
-		user.setUsername("joe");
-		user.setPassword("1234");
-		user.setEmail("joeczubiak@gmail.com");
+		try {
+			ParseUser user = new ParseUser();
+			user.setUsername("joe");
+			user.setPassword("1234");
+			user.setEmail("joeczubiak@gmail.com");
 
-		// other fields can be set just like with ParseObject
-		// user.put("phone", "650-253-0000");
+			// other fields can be set just like with ParseObject
+			// user.put("phone", "650-253-0000");
 
-		user.signUpInBackground(new SignUpCallback() {
-			public void done(ParseException e) {
-				if (e == null) {
-					// Hooray! Let them use the app now.
-				} else {
-					// Sign up didn't succeed. Look at the ParseException
-					// to figure out what went wrong
+			user.signUpInBackground(new SignUpCallback() {
+				public void done(ParseException e) {
+					if (e == null) {
+						// Hooray! Let them use the app now.
+					} else {
+						// Sign up didn't succeed. Look at the ParseException
+						// to figure out what went wrong
+					}
 				}
-			}
-		});
-		}catch(Exception e){
+			});
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -635,11 +639,17 @@ public class MainActivity extends ListActivity {
 								Toast.makeText(ctx,
 										mHashtags[which].toString(),
 										Toast.LENGTH_SHORT).show();
-								setActionBarTitle(mHashtags[which].toString());
-								listadapter.removeFilter();
-								listadapter.Filter(mHashtags[which].toString(),
-										hashtags);
-								isFiltered = true;
+								if (which == 0)// #losal was selected
+									resetFilter();
+								else {
+									setActionBarTitle(mHashtags[which]
+											.toString());
+									listadapter.removeFilter();
+									listadapter.Filter(
+											mHashtags[which].toString(),
+											hashtags);
+									isFiltered = true;
+								}
 								dialog.dismiss();
 							}
 						});
@@ -668,15 +678,36 @@ public class MainActivity extends ListActivity {
 		int count = 0;
 		CharSequence[] tags = null;
 		if (!hashtags.isEmpty()) {
-			Object[] keyset = hashtags.toArray();//.keySet().toArray();
-
-			tags = new CharSequence[keyset.length];
+			Object[] keyset = hashtags.toArray();// .keySet().toArray();
+			// if the hashtag hashset does not contain #losal then we need to
+			// make the keyset bigger by one
+			if (hashtags.contains("#losal"))
+				tags = new CharSequence[keyset.length];
+			else {
+				tags = new CharSequence[keyset.length + 1];
+				tags[0] = "#losal";
+			}
+			// start at 1 because #losal is at index 0
+			int next = 1;
 			for (int i = 0; i < tags.length; i++) {
-				tags[i] = keyset[i].toString();
+				if (keyset[i].toString().equalsIgnoreCase("#losal")) {
+					tags[0] = keyset[i].toString();
+				} else {
+					tags[next] = keyset[i].toString();
+					next++;
+				}
 			}
 		}
 		return tags;
 
+	}
+
+	private void resetFilter() {
+		if (isFiltered) {
+			isFiltered = false;
+			listadapter.removeFilter();
+			setActionBarTitle("#LOSAL");
+		}
 	}
 
 	@Override
@@ -685,9 +716,7 @@ public class MainActivity extends ListActivity {
 			sm.toggle();
 		else if (isFiltered) {
 			// undo filtering
-			isFiltered = false;
-			listadapter.removeFilter();
-			setActionBarTitle("#LOSAL");
+			resetFilter();
 		} else
 			super.onBackPressed();
 
@@ -705,14 +734,15 @@ public class MainActivity extends ListActivity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-//			final HashMap<String, ArrayList<ParseObject>> hm = new HashMap<String, ArrayList<ParseObject>>();
+			// final HashMap<String, ArrayList<ParseObject>> hm = new
+			// HashMap<String, ArrayList<ParseObject>>();
 			final HashSet<String> hs = new HashSet<String>();
-			
+
 			Log.d(tag, "FetchHashtags called ");
 
 			ParseQuery<ParseObject> query = ParseQuery
 					.getQuery("HashTagsIndex");
-//			query.include("postId");
+			// query.include("postId");
 			query.findInBackground(new FindCallback<ParseObject>() {
 				public void done(List<ParseObject> List, ParseException e) {
 					Log.d(tag, "Retrieved " + List.size() + " hashtags");
@@ -724,18 +754,21 @@ public class MainActivity extends ListActivity {
 										"hashTags");
 								Log.d(tag, "hashtag " + hashtag);
 
-//								String postID = List.get(i).getParseObject("postId").getObjectId();//.getString("objectId");
-//								Log.d(tag, "postID " + postID);
-//								ParseObject po = List.get(i).getParseObject("postId");
+								// String postID =
+								// List.get(i).getParseObject("postId").getObjectId();//.getString("objectId");
+								// Log.d(tag, "postID " + postID);
+								// ParseObject po =
+								// List.get(i).getParseObject("postId");
 								if (hs.contains(hashtag)) {
-									
-//									hm.get(hashtag).add(po);
-//									hm.get(hashtag).add(postID);
+
+									// hm.get(hashtag).add(po);
+									// hm.get(hashtag).add(postID);
 								} else {
 									hs.add(hashtag);
-//									ArrayList<String> value = new ArrayList<String>();
-//									value.add(postID);
-//									hm.put(hashtag, value);
+									// ArrayList<String> value = new
+									// ArrayList<String>();
+									// value.add(postID);
+									// hm.put(hashtag, value);
 								}
 							} catch (Exception ex) {
 								Log.e(tag, ex.toString());
@@ -748,7 +781,7 @@ public class MainActivity extends ListActivity {
 			});
 			hashtags = hs;
 			Log.d(tag, "keyset: " + hashtags.toArray().toString());
-//					.keySet()
+			// .keySet()
 			return null;
 		}
 	}
@@ -756,6 +789,6 @@ public class MainActivity extends ListActivity {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
-		 Log.i(tag, "onNewIntent called : ");
+		Log.i(tag, "onNewIntent called : ");
 	}
 }

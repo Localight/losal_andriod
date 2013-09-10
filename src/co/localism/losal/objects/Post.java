@@ -31,8 +31,9 @@ public class Post implements Serializable {
 	private boolean is_system_post = false;
 	private String user_type = "";
 	
+	
 	public Post() {
-		this.setUserIcon("e00c");
+		this.setUserIcon("e017");
 	}
 	
 	
@@ -81,7 +82,7 @@ public class Post implements Serializable {
 		} catch (Exception e) {
 //			Log.e(tag, e.toString());
 			this.setName("Unknown");// placeholder data
-			this.setUserIcon("e00c");
+			this.setUserIcon("e017");
 			this.setFaveColor("#FFFFFF");
 		}
 		// Log.d(tag, ""+

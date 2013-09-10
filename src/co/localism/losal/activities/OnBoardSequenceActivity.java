@@ -60,10 +60,13 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -72,6 +75,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -79,6 +83,8 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 
 	private MyPageAdapter pageAdapter;
 	private static Context ctx;
+	private Context ctxx = this;
+
 	private String tag = "OnBoardSequence";
 	private String db_phone = "-1";
 	private static OnClickListener verify_onclick, close_page_onclick,
@@ -157,13 +163,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 					final EditText et_phone = (EditText) findViewById(R.id.et_phone);
 					if (et_phone.getText().toString().length() > 9) {
 						if (hasNetworkConnection()) {
-							Button btn_verify = (Button) findViewById(R.id.btn_verify);
-							btn_verify.setText(R.string.verify_button_retry);
-							btn_verify.setVisibility(View.GONE);
-							progress.setVisibility(View.VISIBLE);
-
-							new VerifyUser().execute(et_phone.getText()
-									.toString(), "", "");
+							verify();
 						} else {
 							showNoNetworkConnection();
 						}
@@ -330,6 +330,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				tv_lower_message.setTypeface(slab_font);
 
 				et_phone = (EditText) v.findViewById(R.id.et_phone);
+
 				tv_lower_message.setText(R.string.enter_phone);
 				iv_ob_verify_close = (ImageButton) v
 						.findViewById(R.id.iv_ob_verify_close);
@@ -387,9 +388,34 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 					}
 
 				});
+				et_phone.setImeActionLabel("Verify", KeyEvent.KEYCODE_ENTER);
+				
+			/*	et_phone.setOnEditorActionListener(new OnEditorActionListener(){
+
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						  if (actionId == EditorInfo.IME_NULL  
+							      && event.getAction() == KeyEvent.ACTION_DOWN) { 
+							  InputMethodManager imm = (InputMethodManager)getSystemService(
+								      Context.INPUT_METHOD_SERVICE);
+								imm.hideSoftInputFromWindow(myEditText.getWindowToken(), 0);
+
+						  
+//							  btn_verify.setText(R.string.verify_button_retry);
+//								btn_verify.setVisibility(View.GONE);
+//								progress.setVisibility(View.VISIBLE);
+//
+//								new VerifyUser().execute(et_phone.getText()
+//										.toString(), "", "");							 
+								}
+							   return true;
+					}
+					
+				});
+				*/
 
 				btn_verify.setOnClickListener(verify_onclick);
-
 				break;
 			}
 			// TextView messageTextView = (TextView)
@@ -398,6 +424,21 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 
 			return v;
 		}
+	}
+	
+	public void verify(){
+		Button btn_verify = (Button) findViewById(R.id.btn_verify);
+		verify(btn_verify);
+	}
+	
+	public void verify(Button btn_verify){
+//		Button btn_verify = (Button) findViewById(R.id.btn_verify);
+		btn_verify.setText(R.string.verify_button_retry);
+		btn_verify.setVisibility(View.GONE);
+		progress.setVisibility(View.VISIBLE);
+
+		new VerifyUser().execute(et_phone.getText()
+				.toString(), "", "");
 	}
 
 	private void showErrorScreen() {
@@ -520,7 +561,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		btn_verify.setVisibility(View.VISIBLE);
 	}
 
-	private class VerifyUser extends AsyncTask<String, String, String> {
+	public class VerifyUser extends AsyncTask<String, String, String> {
 		private String returnedString = "";
 
 		@Override

@@ -742,16 +742,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			ParseQuery<ParseObject> query = ParseQuery
 					.getQuery("HashTagsIndex");
 			query.whereContains("hashTags", filter);
-//			query.include("postId");
 			query.include("postId.user");
 
-			
-//			ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("HashTagsIndex");
-//			innerQuery.whereContains("hashTags", filter);
-//			ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-//			query.whereMatchesQuery("postId", innerQuery);
 			Calendar cal = Calendar.getInstance();
-			
 			query.addDescendingOrder("postTime");
 //			query.whereLessThan("postTime", cal.getTime());
 //			cal.add(Calendar.DATE, -30);
@@ -762,11 +755,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					for (int i = 0; i < List.size(); i++) {
 						if (e == null) {
 							try {
-								Post p = new Post(List.get(i).getParseObject("postId"), List.get(i).getParseObject("postId").getParseObject("user"), true);
-//								if(mPosts == null)
-//									Log.e(tag, "mPosts == null");
-
-								add(p);
+								if(List.get(i).getParseObject("postId").getString("status").equalsIgnoreCase("1")){
+									Post p = new Post(List.get(i).getParseObject("postId"), List.get(i).getParseObject("postId").getParseObject("user"), true);
+									add(p);
+								}
 //								 notifyDataSetChanged();
 							} catch (Exception ex) {
 								Log.e(tag, ex.toString());

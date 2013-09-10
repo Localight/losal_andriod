@@ -42,6 +42,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
+import co.localism.losal.MyApplication;
 import co.localism.losal.R;
 import co.localism.losal.SVGHandler;
 import co.localism.losal.SetUpSlidingMenu;
@@ -449,6 +450,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 	}
 
 	private void resetApp() {
+		
 		SharedPreferences sh;
 		sh = this.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		sh.edit().clear().commit();
@@ -460,8 +462,10 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		sh.edit().clear().commit();
 		unlinkUser();
 		Toast.makeText(this, "#LOSAL is now reset.", Toast.LENGTH_LONG).show();
-		startActivity(new Intent(this, OnBoardSequenceActivity.class));
-		finish();
+//		startActivity(new Intent(this, OnBoardSequenceActivity.class));
+//		finish();
+//		RestartApplicationActivity.doRestart((Activity)SplashScreenActivity.class);
+		startActivity(new Intent(this, SplashScreenActivity.class));
 	}
 
 	public void unlinkUser() {

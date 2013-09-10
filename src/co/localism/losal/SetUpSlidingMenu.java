@@ -186,7 +186,7 @@ public class SetUpSlidingMenu extends SlidingMenu {
 				.getApplicationContext().getAssets(), "icomoon.ttf"));
 
 		// if(!user_info.getString("user_icon", "").equalsIgnoreCase("")){
-		String s = ("\\u" + user_info.getString("user_icon", "e00c"));
+		String s = ("\\u" + user_info.getString("user_icon", "e017"));
 		Character c = (char) Integer.parseInt(s.substring(2), 16);
 		// }else{
 

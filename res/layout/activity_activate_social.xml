@@ -9,9 +9,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-                    android:gravity="center"
-        
         android:layout_marginBottom="30dp"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <TextView
@@ -31,23 +30,26 @@
             android:orientation="vertical" >
 
             <LinearLayout
-                android:id="@+id/ll_activate_tw"
+                android:id="@+id/ll_activate_social"
                 android:layout_width="fill_parent"
                 android:layout_height="60dp"
                 android:gravity="left"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/tv_activate_tw_text"
+                <!--
+                     <TextView
+                    android:id="@+id/tv_activate_social_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
-                    android:text="@string/tw"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="20sp" />
+                -->
             </LinearLayout>
 
-          <!--   <LinearLayout
+            <!--
+            <LinearLayout
                 android:id="@+id/ll_activate_fb"
                 android:layout_width="fill_parent"
                 android:layout_height="60dp"
@@ -63,7 +65,8 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
             </LinearLayout>
- -->
+            -->
+            <!--
             <LinearLayout
                 android:id="@+id/ll_activate_insta"
                 android:layout_width="fill_parent"
@@ -76,10 +79,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
-                    android:text="@string/insta"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="20sp" />
             </LinearLayout>
+            -->
         </LinearLayout>
     </LinearLayout>
 
@@ -87,6 +91,7 @@
         android:id="@+id/ll_social_footer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:gravity="center"
@@ -102,6 +107,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
             android:layout_marginTop="25dp"
             android:gravity="center"
             android:text="@string/social_footer"

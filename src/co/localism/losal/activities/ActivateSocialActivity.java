@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Picture;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,13 +44,17 @@ public class ActivateSocialActivity extends Activity {
 	private static final String tag = "ActivateSocialActivity";
 	private OnClickListener fb_onclick, tw_onclick, insta_onclick;
 
-	private static final int icon_width = 60;
-	private static final int icon_height = 60;
+	private static final int icon_width = 120;
+	private static final int icon_height = 120;
+	private static final int localism_logo_height = 100;
+	private static final int localism_logo_width = (int) (3.286 * localism_logo_height);
+
 	private ParseUser currentUser;
 	private Context ctx = this;
 	private BroadcastReceiver mResponseListener;
 	private SharedPreferences user_info;
-	LinearLayout.LayoutParams params;
+	private LinearLayout.LayoutParams params;
+	private LinearLayout ll_social;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +76,7 @@ public class ActivateSocialActivity extends Activity {
 		} else {
 			// show the signup or login screen
 		}
-
+		ll_social = (LinearLayout) findViewById(R.id.ll_activate_social);
 		LinearLayout ll = (LinearLayout) findViewById(R.id.ll_social_bg);
 		ll.setOnClickListener(new OnClickListener() {
 			@Override
@@ -82,11 +87,12 @@ public class ActivateSocialActivity extends Activity {
 
 		setup_onclick_listeners();
 		params = new LinearLayout.LayoutParams(icon_width, icon_height);
-
+		LayoutParams logo_params = new LinearLayout.LayoutParams(
+				localism_logo_width, localism_logo_height);
 		LinearLayout ll_footer = (LinearLayout) findViewById(R.id.ll_social_footer);
 		ll_footer.addView(
 				new SVGHandler().svg_to_imageview(this, R.raw.localism),
-				ll_footer.getChildCount());
+				ll_footer.getChildCount(), logo_params);
 
 		showTwitter(show_twitter);
 		showInstagram(show_instagram);
@@ -103,41 +109,33 @@ public class ActivateSocialActivity extends Activity {
 	}
 
 	private void showTwitter(Boolean show) {
-		setHeaderTitle(R.string.activate_twitter);
 
 		if (show) {
-			LinearLayout ll_insta = (LinearLayout) findViewById(R.id.ll_activate_insta);
-			ll_insta.setVisibility(View.GONE);
+			setHeaderTitle(R.string.activate_twitter);
 
-			LinearLayout ll_tw = (LinearLayout) findViewById(R.id.ll_activate_tw);
-			ll_tw.setVisibility(View.VISIBLE);
-			ll_tw.addView(
+			ll_social.removeAllViews();
+			ll_social.addView(
 					new SVGHandler().svg_to_imageview(this, R.raw.tw, 1.0f), 0,
 					params);
-			ll_tw.setOnClickListener(tw_onclick);
-			TextView tv_tw = (TextView) findViewById(R.id.tv_activate_tw_text);
-			tv_tw.setAlpha(1.0f);
+			ll_social.setOnClickListener(tw_onclick);
 		}
 	}
 
 	private void showInstagram(Boolean show) {
-		setHeaderTitle(R.string.activate_instagram);
 		if (show) {
-			LinearLayout ll_tw = (LinearLayout) findViewById(R.id.ll_activate_tw);
-			ll_tw.setVisibility(View.GONE);
-			LinearLayout ll_insta = (LinearLayout) findViewById(R.id.ll_activate_insta);
-			ll_insta.setVisibility(View.VISIBLE);
-			ll_insta.addView(
-					new SVGHandler().svg_to_imageview(this, R.raw.insta, 1.0f),
-					0, params);
-			TextView tv_insta = (TextView) findViewById(R.id.tv_activate_insta_text);
-			tv_insta.setAlpha(1.0f);
-			ll_insta.setOnClickListener(insta_onclick);
+			setHeaderTitle(R.string.activate_instagram);
+			ll_social.removeAllViews();
+			ll_social.addView(
+					new SVGHandler().svg_to_imageview(this, R.raw.insta, 1.0f), 0,
+					params);
+			ll_social.setOnClickListener(insta_onclick);
 		}
 	}
 
 	private void setHeaderTitle(int s) {
 		TextView title = (TextView) findViewById(R.id.tv_activate_title);
+		title.setTypeface(Typeface.createFromAsset(this.getAssets(),
+				"robotoslab_regular.ttf"));
 		title.setText(s);
 	}
 

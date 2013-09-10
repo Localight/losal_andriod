@@ -72,6 +72,7 @@ public class FetchFeed {// extends Observable {
 	public void refresh(PostAdapter pa) {
 		this.pa = pa;
 		Log.d(tag, "fetch refresh called");
+		Log.d(tag, "pa size: "+this.pa.getSize());
 		if (pa.getSize() > 0)
 			new FetchPosts().execute("refresh", "", "");
 		else
@@ -175,7 +176,8 @@ public class FetchFeed {// extends Observable {
 			query.addDescendingOrder("postTime");
 			Log.d(tag, "Last Post Date" + MainActivity.LAST_POST_DATE);
 
-			if (args[0].equalsIgnoreCase("refresh")) {
+			Log.d(tag, "Last Post Date" + args[0].toString());
+			if (args[0].toString().equalsIgnoreCase("refresh")) {
 				Log.d(tag, "query setting to refresh");
 				AddToTop = true;
 				cal.setTime(pa.getPost(0).getPostTime());

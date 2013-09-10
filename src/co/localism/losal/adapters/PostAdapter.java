@@ -175,7 +175,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	}
 
 	public int getSize() {
-		if (mPosts == null)
+		if (mPosts != null)
 			return mPosts.size();
 		else
 			return -1;

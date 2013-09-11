@@ -32,7 +32,7 @@ public class WebViewActivity extends Activity {
 
 	private final String GRADES_URL = "https://demo.aeries.net/ParentPortal/m/parents?demo=True&user=parent%40aeries.com&pwd=1234";
 	private final String EVENTS_URL = "http://losal.tandemcal.com/";
-	private final String SOCRATIVE_URL = "http://m.socrative.com/";
+	private final String SOCRATIVE_URL = "http://m.socrative.com";
 	private final String LOSAL_URL = "http://www.losal.org/lahs";
 	private final String EDMODO_URL = "https://www.edmodo.com/m";
 	private SlidingMenu sm;

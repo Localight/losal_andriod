@@ -82,28 +82,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				(LinearLayout) findViewById(R.id.po), this,
 				PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS);
 
-		
 		LinearLayout ll_suggest = (LinearLayout) findViewById(R.id.ll_mo_suggest);
 		ll_suggest.setOnClickListener(this);
-		// TextView tv_help = (TextView) findViewById(R.id.tv_mo_help);
-		// tv_suggest.setOnClickListener(this);
-		// TextView tv_about = (TextView) findViewById(R.id.tv_mo_about);
-		// tv_suggest.setOnClickListener(this);
-		TextView tv_reset = (TextView) findViewById(R.id.tv_mo_reset);
-		tv_reset.setOnClickListener(this);
-
-		// try {
-		// // LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_main);
-		// LinearLayout ll_main = (LinearLayout) findViewById(R.id.ll_mo);
-		//
-		// Bitmap bmImg = (BitmapFactory.decodeFile(Environment
-		// .getExternalStorageDirectory() + "/losal_bg.jpg"));
-		// Drawable d = new BitmapDrawable(getResources(), bmImg);
-		// Log.d(tag, "used image as background sucessfully!");
-		// ll_main.setBackgroundDrawable(d);// .setBackground(d);
-		// } catch (Exception e) {
-		// Log.e(tag, "failed to use image as background. e: " + e.toString());
-		// }
 
 		ll_mo_suggest_more = (LinearLayout) findViewById(R.id.ll_mo_suggest_more);
 		ll_mo_about_more = (LinearLayout) findViewById(R.id.ll_mo_about_more);
@@ -115,12 +95,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				R.raw.localism, R.color.white, R.color.black);
 		ImageView iv = (ImageView) findViewById(R.id.iv_local_logo);
 		iv.setImageDrawable(local_logo);
-		// iv.setScaleType(ScaleType.FIT_XY);
-		// iv.setScaleX(2);
-		// iv.setScaleY(2);
 		iv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		// setAllChevrons();
-
 		setFontOnHeaders();
 		setLinks();
 		setEasterEgg();
@@ -225,13 +200,20 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 			}
 		};
 
+		ClickableSpan link_reset = new ClickableSpan() {
+			public void onClick(View view) {
+				resetApp();
+			}
+		};
+
 		Typeface slab_font = Typeface.createFromAsset(this.getAssets(),
 				"robotoslab_regular.ttf");
 		int[] ids = { R.id.tv_mo_about_more, R.id.tv_mo_suggest_more,
 				R.id.tv_mo_faq_more, R.id.tv_mo_help_more,
 				R.id.tv_mo_faq_more1, R.id.tv_mo_safety_more,
 				R.id.tv_mo_safety_more1, R.id.tv_mo_safety_more2,
-				R.id.tv_mo_safety_more3 };
+				R.id.tv_mo_safety_more3, R.id.tv_mo_reset,
+				R.id.tv_mo_reset_more };
 
 		for (int i = 0; i < ids.length; i++) {
 			TextView tv = (TextView) findViewById(ids[i]);
@@ -345,6 +327,20 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				tv.setClickable(true);
 				tv.setMovementMethod(LinkMovementMethod.getInstance());
 				break;
+			case R.id.tv_mo_reset_more:
+				x = tv.getText().toString().toLowerCase(Locale.US)
+						.indexOf("click here");
+				if (x != -1) {
+					ss = new SpannableString(tv.getText()
+							.toString());
+					ss.setSpan(link_reset, x, x + 10, 0);
+					tv.setText(ss);
+					tv.setClickable(true);
+					tv.setMovementMethod(LinkMovementMethod.getInstance());
+				}
+
+				break;
+
 			}
 
 		}
@@ -441,16 +437,15 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 			// viewSwitcher.showNext();
 			// }
 			break;
-		case R.id.tv_mo_reset:
-			resetApp();
-
-			break;
+		// case R.id.tv_mo_reset:
+		// resetApp();
+		// break;
 
 		}
 	}
 
 	private void resetApp() {
-		
+
 		SharedPreferences sh;
 		sh = this.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 		sh.edit().clear().commit();
@@ -462,9 +457,9 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		sh.edit().clear().commit();
 		unlinkUser();
 		Toast.makeText(this, "#LOSAL is now reset.", Toast.LENGTH_LONG).show();
-//		startActivity(new Intent(this, OnBoardSequenceActivity.class));
-//		finish();
-//		RestartApplicationActivity.doRestart((Activity)SplashScreenActivity.class);
+		// startActivity(new Intent(this, OnBoardSequenceActivity.class));
+		// finish();
+		// RestartApplicationActivity.doRestart((Activity)SplashScreenActivity.class);
 		startActivity(new Intent(this, SplashScreenActivity.class));
 	}
 
@@ -482,7 +477,6 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 			try {
 				ParseTwitterUtils.unlink(currentUser);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ParseUser.logOut();
@@ -573,5 +567,4 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		}
 
 	}
-
 }

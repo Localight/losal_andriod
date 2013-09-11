@@ -32,7 +32,7 @@
             
                         <dimen name="actionbar_title_size">30sp</dimen>
                     
-    
+    <dimen name="post_top_margin">25dp</dimen>             
     <dimen name="post_side_margin">20dp</dimen>
       <dimen name="post_user_icon_size">32sp</dimen>
     

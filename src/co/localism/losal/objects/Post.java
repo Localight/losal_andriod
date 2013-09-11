@@ -52,9 +52,7 @@ public class Post implements Serializable {
 //		Log.i(tag, "objectID: " + po.getObjectId());
 		// if(user != null);
 		try {
-//			Log.e(tag, "name"							+ user.getString("firstName"));
 			this.setUserType(user.getString("userType"));
-			
 			if(this.getUserType().equalsIgnoreCase("student")){
 //				student users show as first name and first initial of last
 				this.setName(user
@@ -71,10 +69,8 @@ public class Post implements Serializable {
 						.getString("lastName"));
 				this.setClassYear(this.getUserType());
 			}
+//			Log.e("Post", "userType: "+ user.getString("userType")+" getYear:"+this.getClassYear());			
 			
-		
-			this.setClassYear(user
-					.getString("year"));
 			this.setUserIcon(user
 					.getString("icon"));
 			this.setFaveColor(user
@@ -84,6 +80,8 @@ public class Post implements Serializable {
 			this.setName("Unknown");// placeholder data
 			this.setUserIcon("e017");
 			this.setFaveColor("#FFFFFF");
+			this.setClassYear("");
+
 		}
 		// Log.d(tag, ""+
 		// user.get("firstName"));

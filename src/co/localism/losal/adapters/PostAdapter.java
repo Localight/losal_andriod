@@ -447,12 +447,16 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder.ll_social.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+				try{
 					Log.d(tag, "social clicked!");
-					Log.d(tag, mPosts.get((Integer) v.getTag()).getText());
+//					Log.d(tag, mPosts.get((Integer) v.getTag()).getText());
 					int pos = (Integer) v.getTag();
 					socialLikeClicked(mPosts.get(pos));
 					setSocialIcons(v, pos);
 					Log.d(tag, "" + mPosts.get(pos).getUserLiked());
+				}catch(Exception e){
+					socialLikeClicked(null);
+				}
 				}
 			});
 
@@ -573,9 +577,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	}
 
 	private void socialLikeClicked(Post post) {
-		Log.d(tag, post.getText());
+//		Log.d(tag, post.getText());
 		if (hasNetworkConnection()) {
-			// TODO: CHECK IF LOGGED IN
 			String site = post.getSocialNetworkName();
 
 			if (site.equalsIgnoreCase(ctx.getResources().getString(R.string.tw))) {

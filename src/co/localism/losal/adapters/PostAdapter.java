@@ -52,6 +52,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -196,7 +197,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				if (hashtagPeriodsBack != -1) {
 					hashtagPeriodsBack++;
 					new FetchHashtagPosts().execute(filter, "loadMore");
-				}else
+				} else
 					setStatus(false);
 			} else {
 
@@ -288,166 +289,172 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			// }
 
 		} else {
-			holder.post_header.setVisibility(View.INVISIBLE);
+			holder.post_header.setVisibility(View.GONE);
 			holder.tv_post_text.setVisibility(View.GONE);
+
 		}
 
-		// TODO: change what is visible based on whether the user is registered
-		// or not
-		try {
-			if (TH.showTimeBreak()) {
-				holder.time_break.setVisibility(View.VISIBLE);
-				holder.time_break_time.setText(TH.getTimeBreak(cur
-						.getPostTime()));
-			} else
-				holder.time_break.setVisibility(View.GONE);
+	
+			try {
+				if (TH.showTimeBreak()) {
+					holder.time_break.setVisibility(View.VISIBLE);
+					holder.time_break_time.setText(TH.getTimeBreak(cur
+							.getPostTime()));
+				} else if(!user_info.getBoolean("registered", false) && (cur.getUrl() == null || cur.getUrl().length() < 3)){
+					holder.time_break.setVisibility(View.GONE);
+				}else
+					holder.time_break.setVisibility(View.INVISIBLE);
 
-			holder.tv_name.setText(cur.getName());
-			// holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
+				holder.tv_name.setText(cur.getName());
+				// holder.tv_name.setTextColor(ctx.getResources().getColor(R.color.holo_light_blue));
 
-			holder.tv_class_year.setText(cur.getClassYear());
+				holder.tv_class_year.setText(cur.getClassYear());
 
-			holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
-			// Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
-			holder.tv_post_text.setText(cur.getText());
+				holder.tv_time_posted.setText(TH.getTimeAgo(cur.getPostTime()));
+				// Log.d(tag, "TimeAgo: " + TH.getTimeAgo(cur.getPostTime()));
+				holder.tv_post_text.setText(cur.getText());
 
-			holder.tv_user_icon.setTypeface(icon_font);
-			if (cur.getFaveColor().length() > 5)
-				holder.tv_user_icon.setTextColor(Color.parseColor(cur
-						.getFaveColor()));
-			else
-				holder.tv_user_icon.setTextColor(Color.WHITE);
-			// holder.tv_user_icon.setText(cur.getUserIcon());
+				holder.tv_user_icon.setTypeface(icon_font);
+				if (cur.getFaveColor().length() > 5)
+					holder.tv_user_icon.setTextColor(Color.parseColor(cur
+							.getFaveColor()));
+				else
+					holder.tv_user_icon.setTextColor(Color.WHITE);
+				// holder.tv_user_icon.setText(cur.getUserIcon());
 
-			holder.tv_user_icon.setText(cur.getUserIcon().toString());
+				holder.tv_user_icon.setText(cur.getUserIcon().toString());
 
-			/**** Social Site LIKE Icon ****/
-			// Log.d(tag, "UL: " +
-			// user_likes.getString(cur.getSocialNetworkPostId(), "-1"));
-			// Log.d(tag, "POID: " + cur.getParseObjectId());
-			if (!cur.getUserLiked())
-				if (!user_likes.getString(cur.getSocialNetworkPostId(), "")
-						.equalsIgnoreCase(""))
-					cur.setUserLiked(true);
+				/**** Social Site LIKE Icon ****/
+				// Log.d(tag, "UL: " +
+				// user_likes.getString(cur.getSocialNetworkPostId(), "-1"));
+				// Log.d(tag, "POID: " + cur.getParseObjectId());
+				if (!cur.getUserLiked())
+					if (!user_likes.getString(cur.getSocialNetworkPostId(), "")
+							.equalsIgnoreCase(""))
+						cur.setUserLiked(true);
 
-			if (cur.getUserLiked()) {
+				if (cur.getUserLiked()) {
+					// holder.iv_social_like_icon.setAlpha(1f);
+					if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+						holder.iv_social_like_icon
+								.setImageDrawable(INSTA_LIKE_ICON_LIKED);
+					else if (cur.getSocialNetworkName().equalsIgnoreCase(
+							TWITTER))
+						holder.iv_social_like_icon
+								.setImageDrawable(TW_LIKE_ICON_LIKED);
+				} else {
+					if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
+						holder.iv_social_like_icon
+								.setImageDrawable(INSTA_LIKE_ICON);
+					else if (cur.getSocialNetworkName().equalsIgnoreCase(
+							TWITTER))
+						holder.iv_social_like_icon
+								.setImageDrawable(TW_LIKE_ICON);
+
+					// holder.iv_social_like_icon.setAlpha(0.6f);
+				}
 				// holder.iv_social_like_icon.setAlpha(1f);
-				if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
-					holder.iv_social_like_icon
-							.setImageDrawable(INSTA_LIKE_ICON_LIKED);
-				else if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
-					holder.iv_social_like_icon
-							.setImageDrawable(TW_LIKE_ICON_LIKED);
-			} else {
-				if (cur.getSocialNetworkName().equalsIgnoreCase(INSTAGRAM))
-					holder.iv_social_like_icon
-							.setImageDrawable(INSTA_LIKE_ICON);
-				else if (cur.getSocialNetworkName().equalsIgnoreCase(TWITTER))
-					holder.iv_social_like_icon.setImageDrawable(TW_LIKE_ICON);
 
-				// holder.iv_social_like_icon.setAlpha(0.6f);
-			}
-			// holder.iv_social_like_icon.setAlpha(1f);
+				holder.iv_social_like_icon.setLayerType(
+						View.LAYER_TYPE_SOFTWARE, null);
 
-			holder.iv_social_like_icon.setLayerType(View.LAYER_TYPE_SOFTWARE,
-					null);
+				/****** Social Site Icon ******/
+				if (cur.getSocialNetworkName().equalsIgnoreCase("instagram")) {
+					holder.iv_social_site_icon.setImageDrawable(INSTA_ICON);
+					if (user_info.getBoolean("hasInstagram", false)) {
+						holder.iv_social_site_icon.setAlpha(1f);
+						holder.iv_social_like_icon.setAlpha(1f);
 
-			/****** Social Site Icon ******/
-			if (cur.getSocialNetworkName().equalsIgnoreCase("instagram")) {
-				holder.iv_social_site_icon.setImageDrawable(INSTA_ICON);
-				if (user_info.getBoolean("hasInstagram", false)) {
-					holder.iv_social_site_icon.setAlpha(1f);
-					holder.iv_social_like_icon.setAlpha(1f);
+					} else {
+						holder.iv_social_site_icon.setAlpha(.6f);
+						holder.iv_social_like_icon.setAlpha(.6f);
 
-				} else {
-					holder.iv_social_site_icon.setAlpha(.6f);
-					holder.iv_social_like_icon.setAlpha(.6f);
-
-				}
-			} else if (cur.getSocialNetworkName().equalsIgnoreCase("twitter")) {
-				holder.iv_social_site_icon.setImageDrawable(TW_ICON);
-				if (user_info.getBoolean("hasTwitter", false)) {
-					holder.iv_social_site_icon.setAlpha(1f);
-					holder.iv_social_like_icon.setAlpha(1f);
-
-				} else {
-					holder.iv_social_site_icon.setAlpha(.6f);
-					holder.iv_social_like_icon.setAlpha(.6f);
-
-				}
-			}
-			holder.iv_social_site_icon.setLayerType(View.LAYER_TYPE_SOFTWARE,
-					null);
-
-			/****** System Post ******/
-			if (cur.isSystemPost()) {
-				// holder.tv_name.setText(cur.getText());
-				if (cur.getSocialNetworkName().equalsIgnoreCase("twitter")) {
-					if (!user_info.getBoolean("hasTwitter", false)) {
-						holder.iv_social_like_icon.setImageDrawable(ADD_ICON);
-						holder.iv_social_like_icon.setLayerType(
-								View.LAYER_TYPE_SOFTWARE, null);
 					}
 				} else if (cur.getSocialNetworkName().equalsIgnoreCase(
-						"instagram")) {
-					if (!user_info.getBoolean("hasInstagram", false)) {
-						holder.iv_social_like_icon.setImageDrawable(ADD_ICON);
-						holder.iv_social_like_icon.setLayerType(
-								View.LAYER_TYPE_SOFTWARE, null);
+						"twitter")) {
+					holder.iv_social_site_icon.setImageDrawable(TW_ICON);
+					if (user_info.getBoolean("hasTwitter", false)) {
+						holder.iv_social_site_icon.setAlpha(1f);
+						holder.iv_social_like_icon.setAlpha(1f);
+
+					} else {
+						holder.iv_social_site_icon.setAlpha(.6f);
+						holder.iv_social_like_icon.setAlpha(.6f);
+
 					}
 				}
-			}
+				holder.iv_social_site_icon.setLayerType(
+						View.LAYER_TYPE_SOFTWARE, null);
 
-			/****** Post Image ******/
-			if (cur.getUrl() != null && cur.getUrl().length() > 3) {
-				// this post has an image to display
-				holder.tv_post_text
-						.setBackgroundResource(R.drawable.gradient_text);
-				holder.iv_post_image.setVisibility(View.VISIBLE);
-				//
-				// Make imageview as tall as it is wide. This will act as a
-				// place
-				// holder when there is no image loaded yet
-				mImageLoader.displayImage(cur.getUrl(), holder.iv_post_image,
-						options, animateFirstListener);
-				holder.iv_post_image.setTag(cur.getUrl());
-				holder.iv_post_image.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(ctx,
-								FullScreenImageActivity.class);
-						String url = (String) v.getTag();// xx.getUrl();
-						intent.putExtra("imageURL", url);// mPosts.get(pos-1).getUrl());
-						ctx.startActivity(intent);
+				/****** System Post ******/
+				if (cur.isSystemPost()) {
+					// holder.tv_name.setText(cur.getText());
+					if (cur.getSocialNetworkName().equalsIgnoreCase("twitter")) {
+						if (!user_info.getBoolean("hasTwitter", false)) {
+							holder.iv_social_like_icon
+									.setImageDrawable(ADD_ICON);
+							holder.iv_social_like_icon.setLayerType(
+									View.LAYER_TYPE_SOFTWARE, null);
+						}
+					} else if (cur.getSocialNetworkName().equalsIgnoreCase(
+							"instagram")) {
+						if (!user_info.getBoolean("hasInstagram", false)) {
+							holder.iv_social_like_icon
+									.setImageDrawable(ADD_ICON);
+							holder.iv_social_like_icon.setLayerType(
+									View.LAYER_TYPE_SOFTWARE, null);
+						}
 					}
-				});
+				}
 
-			} else {
-				// this post does not have an image to display so hide the
-				// imageview
-				holder.tv_post_text.setBackgroundResource(0);
-				holder.iv_post_image.setVisibility(View.GONE);
+				/****** Post Image ******/
+				if (cur.getUrl() != null && cur.getUrl().length() > 3) {
+					// this post has an image to display
+					holder.tv_post_text
+							.setBackgroundResource(R.drawable.gradient_text);
+					holder.iv_post_image.setVisibility(View.VISIBLE);
+					//
+					// Make imageview as tall as it is wide. This will act as a
+					// place
+					// holder when there is no image loaded yet
+					mImageLoader
+							.displayImage(cur.getUrl(), holder.iv_post_image,
+									options, animateFirstListener);
+					holder.iv_post_image.setTag(cur.getUrl());
+					holder.iv_post_image
+							.setOnClickListener(new OnClickListener() {
+
+								@Override
+								public void onClick(View v) {
+									Intent intent = new Intent(ctx,
+											FullScreenImageActivity.class);
+									String url = (String) v.getTag();// xx.getUrl();
+									intent.putExtra("imageURL", url);// mPosts.get(pos-1).getUrl());
+									ctx.startActivity(intent);
+								}
+							});
+
+				} else {
+					// this post does not have an image to display so hide the
+					// imageview
+					holder.tv_post_text.setBackgroundResource(0);
+					holder.iv_post_image.setVisibility(View.GONE);
+				}
+			} catch (Exception e) {
+				Log.e(tag, e.toString());
 			}
-		} catch (Exception e) {
-			Log.e(tag, e.toString());
-		}
-		holder.ll_social.setTag(position);
-		holder.ll_social.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.d(tag, "social clicked!");
-				Log.d(tag, mPosts.get((Integer) v.getTag()).getText());
-				int pos = (Integer) v.getTag();
-				socialLikeClicked(mPosts.get(pos));
-				setSocialIcons(v, pos);
-				Log.d(tag, "" + mPosts.get(pos).getUserLiked());
-			}
-		});
-
-		// if(user_info.getBoolean("hasTwitter", false)){
-
-		// }
+			holder.ll_social.setTag(position);
+			holder.ll_social.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Log.d(tag, "social clicked!");
+					Log.d(tag, mPosts.get((Integer) v.getTag()).getText());
+					int pos = (Integer) v.getTag();
+					socialLikeClicked(mPosts.get(pos));
+					setSocialIcons(v, pos);
+					Log.d(tag, "" + mPosts.get(pos).getUserLiked());
+				}
+			});
 
 		return convertView;
 	}
@@ -759,7 +766,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 					for (int i = 0; i < List.size(); i++) {
 						if (e == null) {
 							try {
-								
+
 								if (List.get(i).getParseObject("postId")
 										.getString("status")
 										.equalsIgnoreCase("1")) {

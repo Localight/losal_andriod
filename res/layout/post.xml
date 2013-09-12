@@ -3,9 +3,9 @@
     android:id="@+id/ll_post_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/post_top_margin"
     android:layout_marginLeft="@dimen/post_side_margin"
     android:layout_marginRight="@dimen/post_side_margin"
-    android:layout_marginBottom="@dimen/post_top_margin"
     android:orientation="vertical" >
 
     <LinearLayout

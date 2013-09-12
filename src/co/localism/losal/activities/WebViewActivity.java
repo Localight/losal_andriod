@@ -32,7 +32,7 @@ public class WebViewActivity extends Activity {
 
 	private final String GRADES_URL = "https://abi.losal.org/abi/loginhome.asp";
 	private final String EVENTS_URL = "http://losal.tandemcal.com/";
-	private final String SOCRATIVE_URL = "http://m.socrative.com";
+	private final String SOCRATIVE_URL = "http://m.socrative.com/student/#joinRoom";
 	private final String LOSAL_URL = "http://www.losal.org/lahs";
 	private final String EDMODO_URL = "https://www.edmodo.com/m";
 	private SlidingMenu sm;
@@ -122,7 +122,8 @@ public class WebViewActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			sm.showMenu();
+//			sm.showMenu();
+			onBackPressed();
 			break;
 		}
 		return super.onOptionsItemSelected(item);

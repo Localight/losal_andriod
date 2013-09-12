@@ -106,7 +106,8 @@ public class ScheduleActivity extends Activity{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			sm.showMenu();
+//			sm.showMenu();
+			onBackPressed();
 			break;
 		}
 		return super.onOptionsItemSelected(item);

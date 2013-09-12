@@ -109,7 +109,8 @@ public class SchoolLinksActivity extends Activity implements OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			sm.showMenu();
+//			sm.showMenu();
+			onBackPressed();
 			break;
 		}
 		return super.onOptionsItemSelected(item);

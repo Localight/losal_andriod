@@ -190,7 +190,7 @@ public class MainActivity extends ListActivity {
 		iv_ad.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (AD_CLICK_URL.length() > 0) {
+				if (AD_CLICK_URL != null && AD_CLICK_URL.length() > 0) {
 					try {
 						Intent openURL = new Intent(Intent.ACTION_VIEW, Uri
 								.parse(AD_CLICK_URL));

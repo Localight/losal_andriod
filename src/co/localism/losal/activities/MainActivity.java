@@ -375,7 +375,7 @@ public class MainActivity extends ListActivity {
 	}
 
 	private void getNotices() {
-		FetchNotices fn = new FetchNotices();
+		FetchNotices fn = new FetchNotices(this);
 		// fn.addObserver(this);
 		if (notices.size() > 0)
 			notices.removeAll(notices);

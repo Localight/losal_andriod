@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -25,9 +27,11 @@ public class FetchNotices extends Observable {
 
 	private NoticeAdapter na;
 	private static final String tag = "FetchNotices";
+	private Context ctx;
 
-	public FetchNotices() {
+	public FetchNotices(Context ctx) {
 		// fetch();
+		this.ctx = ctx;
 	}
 
 	/**
@@ -63,11 +67,27 @@ public class FetchNotices extends Observable {
 							"notice title: "
 									+ noticesList.get(i).getString("title"));
 					if (noticesList.get(i).getInt("ad") == 1) {
-						MainActivity.AD_URL = noticesList.get(i).getString(
-								"image");
-						MainActivity.AD_CLICK_URL = noticesList.get(i)
-								.getString("buttonLink");
 						isAd = true;
+						SharedPreferences user_info = ctx.getSharedPreferences(
+								"UserInfo", Context.MODE_PRIVATE);
+						if (user_info.getString("user_type", "")
+								.equalsIgnoreCase("student")) {
+//							they are a student and should only be shown ads targeted to them or no ad at all
+							if (noticesList.get(i).getString("audienceTypes")
+									.contains("Students")) {
+								MainActivity.AD_URL = noticesList.get(i)
+										.getString("image");
+								MainActivity.AD_CLICK_URL = noticesList.get(i)
+										.getString("buttonLink");
+							}
+						} else {
+//							they are not a student and are shown this ad that is targeted at non students
+							MainActivity.AD_URL = noticesList.get(i).getString(
+									"image");
+							MainActivity.AD_CLICK_URL = noticesList.get(i)
+									.getString("buttonLink");
+						}
+
 					} else {
 						n.setTitle(noticesList.get(i).getString("title"));
 						n.setDetails(noticesList.get(i)

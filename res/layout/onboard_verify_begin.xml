@@ -6,7 +6,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -21,9 +21,9 @@
                 android:id="@+id/tv_ob_verify_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="45dp"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:text=""
+                android:text="@string/verify_start"
                 android:textColor="@color/onboard_text"
                 android:textSize="@dimen/ob_large_text" />
 
@@ -40,7 +40,7 @@
                 android:id="@+id/tv_ob_verify_lower_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="35dp"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/ob_small_text" />

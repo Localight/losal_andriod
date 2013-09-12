@@ -100,9 +100,9 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	private static TextView tv_message;
 	private static TextView tv_lower_message;
 	private static ImageButton iv_ob_verify_close;
-	
+
 	private static Typeface slab_font;
-	
+
 	private String address = "";
 	private String subject = "";
 	private String EMAIL_NO_TEXT = "losalsmserror@localism.zendesk.com";
@@ -240,12 +240,14 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 					case 2:
 						bgShape3.setColor(getResources().getColor(
 								R.color.activated_circle));
+						et_phone.setImeActionLabel("Verify",
+								KeyEvent.KEYCODE_ENTER);
+
+						et_phone.setOnEditorActionListener(edit_action);
+
 						break;
-
 					}
-
 				}
-
 			});
 		}
 	}
@@ -347,8 +349,6 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 
 				iv_ob_verify_close.setOnClickListener(close_page_onclick);
 
-				
-
 				et_phone.addTextChangedListener(new TextWatcher() {
 
 					@Override
@@ -388,32 +388,6 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 					}
 
 				});
-				et_phone.setImeActionLabel("Verify", KeyEvent.KEYCODE_ENTER);
-				
-			/*	et_phone.setOnEditorActionListener(new OnEditorActionListener(){
-
-					@Override
-					public boolean onEditorAction(TextView v, int actionId,
-							KeyEvent event) {
-						  if (actionId == EditorInfo.IME_NULL  
-							      && event.getAction() == KeyEvent.ACTION_DOWN) { 
-							  InputMethodManager imm = (InputMethodManager)getSystemService(
-								      Context.INPUT_METHOD_SERVICE);
-								imm.hideSoftInputFromWindow(myEditText.getWindowToken(), 0);
-
-						  
-//							  btn_verify.setText(R.string.verify_button_retry);
-//								btn_verify.setVisibility(View.GONE);
-//								progress.setVisibility(View.VISIBLE);
-//
-//								new VerifyUser().execute(et_phone.getText()
-//										.toString(), "", "");							 
-								}
-							   return true;
-					}
-					
-				});
-				*/
 
 				btn_verify.setOnClickListener(verify_onclick);
 				break;
@@ -421,24 +395,43 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 			// TextView messageTextView = (TextView)
 			// v.findViewById(R.id.textView);
 			// messageTextView.setText(message);
-
 			return v;
 		}
 	}
-	
-	public void verify(){
+
+	private OnEditorActionListener edit_action = new OnEditorActionListener() {
+
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			if (actionId == EditorInfo.IME_NULL
+					&& event.getAction() == KeyEvent.ACTION_DOWN) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(et_phone.getWindowToken(), 0);
+				if (et_phone.getText().length() == 10) {
+					btn_verify.setText(R.string.verify_button_retry);
+					btn_verify.setVisibility(View.GONE);
+					progress.setVisibility(View.VISIBLE);
+					new VerifyUser().execute(et_phone.getText().toString(), "",
+							"");
+				}
+			}
+			return true;
+		}
+
+	};
+
+	public void verify() {
 		Button btn_verify = (Button) findViewById(R.id.btn_verify);
 		verify(btn_verify);
 	}
-	
-	public void verify(Button btn_verify){
-//		Button btn_verify = (Button) findViewById(R.id.btn_verify);
+
+	public void verify(Button btn_verify) {
+		// Button btn_verify = (Button) findViewById(R.id.btn_verify);
 		btn_verify.setText(R.string.verify_button_retry);
 		btn_verify.setVisibility(View.GONE);
 		progress.setVisibility(View.VISIBLE);
 
-		new VerifyUser().execute(et_phone.getText()
-				.toString(), "", "");
+		new VerifyUser().execute(et_phone.getText().toString(), "", "");
 	}
 
 	private void showErrorScreen() {

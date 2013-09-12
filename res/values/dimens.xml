@@ -49,7 +49,7 @@
     
         		<dimen name="ob_small_text">20sp</dimen>
     
-    		<dimen name="ob_large_text">25sp</dimen>
+    		<dimen name="ob_large_text">23sp</dimen>
     		
 	<dimen name="schedule_bottom_margin">30dp</dimen>
 	<dimen name="schedule_text_size">18sp</dimen>

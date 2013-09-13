@@ -24,7 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SchoolLinksActivity extends Activity implements OnClickListener{
-	private SlidingMenu sm;
+//	private SlidingMenu sm;
 	private String FLICKR = "http://www.flickr.com/photos/97669165@N06/";
 	private String INSTA = "http://instagram.com/LosAlamitosHigh";
 	private String FB = "http://www.facebook.com/losalamitoshighschool";
@@ -50,18 +50,18 @@ public class SchoolLinksActivity extends Activity implements OnClickListener{
 				"robotoslab_regular.ttf"));
 		title.setText("School Links");
 		setContentView(R.layout.activity_school_links);
-		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);
-		new PersonalOptionsOnClickListeners(
-				(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_SCHOOL_LINKS);
+//		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);
+//		new PersonalOptionsOnClickListeners(
+//				(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_SCHOOL_LINKS);
 
-		LinearLayout l = (LinearLayout) findViewById(R.id.po);
-		l.findViewById(R.id.po_events).setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				sm.toggle();
-			}
-		});
-		
+//		LinearLayout l = (LinearLayout) findViewById(R.id.po);
+//		l.findViewById(R.id.po_events).setOnClickListener(new OnClickListener(){
+//			@Override
+//			public void onClick(View v) {
+//				sm.toggle();
+//			}
+//		});
+//		
 		
 		ImageView iv = new SVGHandler().svg_to_imageview(this, R.raw.social_links_instagram);
 		LinearLayout ll = (LinearLayout) findViewById(R.id.sl_insta);

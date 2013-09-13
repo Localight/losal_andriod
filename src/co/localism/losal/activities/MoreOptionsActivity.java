@@ -49,7 +49,7 @@ import co.localism.losal.SetUpSlidingMenu;
 import co.localism.losal.listens.PersonalOptionsOnClickListeners;
 
 public class MoreOptionsActivity extends Activity implements OnClickListener {
-	private SlidingMenu sm;
+//	private SlidingMenu sm;
 	private static final String SUGGEST_FEATURE_EMAIL = "losalsuggestion@localism.zendesk.com";
 	private static final String HELP_EMAIL = "losalhelp@localism.zendesk.com";
 	private String tag = "MoreOptionsActivity";
@@ -77,10 +77,10 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		title.setTypeface(Typeface.createFromAsset(this.getAssets(),
 				"robotoslab_regular.ttf"));
 		setContentView(R.layout.activity_more_options);
-		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);
-		new PersonalOptionsOnClickListeners(
-				(LinearLayout) findViewById(R.id.po), this,
-				PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS);
+//		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);
+//		new PersonalOptionsOnClickListeners(
+//				(LinearLayout) findViewById(R.id.po), this,
+//				PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS);
 
 		LinearLayout ll_suggest = (LinearLayout) findViewById(R.id.ll_mo_suggest);
 		ll_suggest.setOnClickListener(this);
@@ -99,15 +99,15 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		setFontOnHeaders();
 		setLinks();
 		setEasterEgg();
-		LinearLayout l = (LinearLayout) findViewById(R.id.po);
-		l.findViewById(R.id.po_more_options).setOnClickListener(
-				new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						sm.toggle();
-					}
-				});
+//		LinearLayout l = (LinearLayout) findViewById(R.id.po);
+//		l.findViewById(R.id.po_more_options).setOnClickListener(
+//				new OnClickListener() {
+//
+//					@Override
+//					public void onClick(View v) {
+////						sm.toggle();
+//					}
+//				});
 	}
 
 	private void setFontOnHeaders() {
@@ -399,7 +399,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			sm.showMenu();
+			onBackPressed();
+//			sm.showMenu();
 			break;
 		}
 		return super.onOptionsItemSelected(item);

@@ -41,7 +41,7 @@ public class WebViewActivity extends Activity {
 	private final String LOSAL_URL = "http://www.losal.org/lahs";
 	private final String EDMODO_URL = "https://www.edmodo.com/m";
 	private final String GOOGLE_CAL_URL = "http://www.google.com/calendar/render?cid=http%3A%2F%2Flosal.tandemcal.com%2Findex.php%3Ftype%3Dexport%26action%3Dical%26export_type%3Dnow_to_infinity%26schools%3D6%26activities%3D15%26event_status_types%3D1%26limit%3Dnone%26date_start%3D2013-08-28%26page%3D2";
-	private SlidingMenu sm;
+//	private SlidingMenu sm;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,16 +60,16 @@ public class WebViewActivity extends Activity {
 		title.setTypeface(Typeface.createFromAsset(this.getAssets(),
 				"robotoslab_regular.ttf"));
 		title.setText(" ");
-		OnClickListener toggle = new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				sm.toggle();
-			}
-		};
+//		OnClickListener toggle = new OnClickListener(){
+//
+//			@Override
+//			public void onClick(View v) {
+//				sm.toggle();
+//			}
+//		};
 		setContentView(R.layout.webview);
-		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW,
-				true);
+//		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW,
+//				true);
 //		new PersonalOptionsOnClickListeners(
 //				(LinearLayout) findViewById(R.id.po), this);
 		

@@ -53,8 +53,12 @@
  <string name="calendar_dialog_message">Subscribe to Losal\'s calendar and you will stay informed\!</string>
  <string name="calendar_dialog_yes">Yes</string>
   <string name="calendar_dialog_no">Not Now</string>
- 
-
+  <string name="calendar_url">http://www.google.com/calendar/render?cid=http%3A%2F%2Flosal.tandemcal.com%2Findex.php%3Ftype%3Dexport%26action%3Dical%26export_type%3Dnow_to_infinity%26activities%3D15%26limit%3Dnone%26date_start%3D2013-09-12%26page%3D2</string>
+  <string name="success">Success!</string>
+  <string name="calendar_footer">This will display school-wide events on your calendar app.</string>
+    <string name="calendar_message">Now sync major\nschool events with\nyour Calendar.</string>
+    <string name="calendar_button">Sync Calendar</string>
+    
     <!--Social  -->
     <string name="login_fb">Login to Facebook</string>
     <string name="activate_social">Activate Your Social Networks</string>

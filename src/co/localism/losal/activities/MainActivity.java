@@ -244,6 +244,7 @@ public class MainActivity extends ListActivity {
 		SharedPreferences.Editor prefEditor = user_info.edit();
 		prefEditor.putBoolean("isFirstVisit", false);
 		prefEditor.commit();
+//		showCalendarDialog(); //used for testing
 	}
 
 	private boolean hasNetworkConnection() {
@@ -333,6 +334,7 @@ public class MainActivity extends ListActivity {
 
 						saveUserDataToPhone(userID, userType, fname, lname,
 								icon, faveColor, year, prefix);
+						Toast.makeText(ctx, "Successfully paired your device!", Toast.LENGTH_SHORT).show();
 					} else {
 						Log.i(tag, "login failed. e: " + e.toString());
 						Toast.makeText(ctx,
@@ -372,8 +374,52 @@ public class MainActivity extends ListActivity {
 		prefEditor.commit();
 		/***** Update Personal Options pane ******/
 		((SetUpSlidingMenu) sm).configActionBar();
+		showCalendarDialog();
 	}
 
+
+	private void showCalendarDialog() {
+		// String dialog_title, String dialog_message, String yes_btn, String
+		// no_btn){
+		startActivity(new Intent(this, SyncCalendarActivity.class));
+		
+		/*
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+
+		builder.setMessage(R.string.calendar_dialog_message).setTitle(
+				R.string.calendar_dialog_title);
+
+		builder.setPositiveButton(R.string.calendar_dialog_yes,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User clicked OK button
+//						openURL("webcal://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
+						 openURL(getResources().getString(R.string.calendar_url));
+					}
+				});
+		builder.setNegativeButton(R.string.calendar_dialog_no,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User cancelled the dialog
+					}
+				});
+
+		AlertDialog dialog = builder.create();
+		dialog.show();
+		*/
+
+	}
+	public void openURL(String URL) {
+		if (URL != null && URL.length() > 1) {
+			try {
+				Intent openURL = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+				ctx.startActivity(openURL);
+			} catch (Exception e) {
+
+			}
+		}
+	}
+	
 	private void getNotices() {
 		FetchNotices fn = new FetchNotices(this);
 		// fn.addObserver(this);

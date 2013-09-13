@@ -1,0 +1,12 @@
+body{
+	background:#00FF00;
+}
+.cal-dialog {
+top: 0 !important;
+}
+.cal-dialog-title-text {
+font-size: 40px !important;
+}
+.cal-dialog-content {
+display: none !important;
+}

@@ -1,5 +1,10 @@
 package co.localism.losal.activities;
 
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import co.localism.losal.R;
 import co.localism.losal.SetUpSlidingMenu;
 import co.localism.losal.listens.PersonalOptionsOnClickListeners;
@@ -11,12 +16,15 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +43,7 @@ public class WebViewActivity extends Activity {
 	private final String SOCRATIVE_URL = "http://m.socrative.com/student/#joinRoom";
 	private final String LOSAL_URL = "http://www.losal.org/lahs";
 	private final String EDMODO_URL = "https://www.edmodo.com/m";
+	private final String GOOGLE_CAL_URL = "http://www.google.com/calendar/render?cid=http%3A%2F%2Flosal.tandemcal.com%2Findex.php%3Ftype%3Dexport%26action%3Dical%26export_type%3Dnow_to_infinity%26schools%3D6%26activities%3D15%26event_status_types%3D1%26limit%3Dnone%26date_start%3D2013-08-28%26page%3D2";
 	private SlidingMenu sm;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +75,14 @@ public class WebViewActivity extends Activity {
 				true);
 //		new PersonalOptionsOnClickListeners(
 //				(LinearLayout) findViewById(R.id.po), this);
+		
+		CookieSyncManager.createInstance(this);
+		CookieSyncManager.getInstance().startSync();
+
+		
 		webView = (WebView) findViewById(R.id.webview);
+//		CookieManager.getInstance().setAcceptCookie(true);
+		
 		webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
 		LinearLayout l = (LinearLayout) findViewById(R.id.po);
@@ -75,18 +91,50 @@ public class WebViewActivity extends Activity {
 		switch (extras.getInt("which")) {
 		case GRADES:
 			title.setText("Grades");
-			new PersonalOptionsOnClickListeners(
-					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_GRADES);
-			l.findViewById(R.id.po_grades).setOnClickListener(toggle);
+//			new PersonalOptionsOnClickListeners(
+//					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_GRADES);
+//			l.findViewById(R.id.po_grades).setOnClickListener(toggle);
 			webView.loadUrl(GRADES_URL);
 			break;
 		case SOCRATIVE:
 			title.setText("Socrative");
-			new PersonalOptionsOnClickListeners(
-					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_SOCRATIVE);
-			l.findViewById(R.id.po_socrative).setOnClickListener(toggle);
+//			new PersonalOptionsOnClickListeners(
+//					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_SOCRATIVE);
+//			l.findViewById(R.id.po_socrative).setOnClickListener(toggle);
+//			webView.getSettings().setLoadWithOverviewMode(true);
+//			webView.getSettings().setUseWideViewPort(true);
+			
+//			webView.setInitialScale(25);
+//			webView.getSettings().setLoadWithOverviewMode(true);
+//			webView.getSettings().setUseWideViewPort(true);
+//			webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+//			webView.setScrollbarFadingEnabled(false);
+//			try {
+//				Jsoup j = new Jsoup();
+//				Document doc = Jsoup.connect("https://www.google.com/calendar").get();
+//				doc.head().getElementsByTag("link").remove();
+//				doc.head().appendElement("link").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "google_cal_style.css");
+//				String htmlData = doc.outerHtml();
+//				webView.loadDataWithBaseURL("file:///android_asset/.", htmlData, "text/html", "UTF-8", null);
 
-			webView.loadUrl(SOCRATIVE_URL);
+//			} catch (IOException e) {
+				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			webView.
+
+//			webView.loadUrl("http://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
+
+//			htmlData = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />" + htmlData;
+			// lets assume we have /assets/style.css file
+//			webView.loadDataWithBaseURL("file:///android_asset/", htmlData, "text/html", "UTF-8", null);
+
+			
+//			google_cal_style.css
+//			new NetworkThread().execute();
+			webView.loadUrl(GOOGLE_CAL_URL);
+
+//			webView.loadUrl(SOCRATIVE_URL);
 			break;
 		case EVENTS: //no longer used
 			title.setText("Events");
@@ -98,19 +146,43 @@ public class WebViewActivity extends Activity {
 			break;
 		case EDMODO:
 			title.setText("Edmodo");
-			new PersonalOptionsOnClickListeners(
-					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_EDMODO);
-			l.findViewById(R.id.po_edmodo).setOnClickListener(toggle);
+//			new PersonalOptionsOnClickListeners(
+//					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_EDMODO);
+//			l.findViewById(R.id.po_edmodo).setOnClickListener(toggle);
 			webView.loadUrl(EDMODO_URL);
 			break;
 		}
-		
-	
-		
-		
-
 	}
 
+	public class NetworkThread extends AsyncTask<Void, Void, Void>{
+		Boolean isLoading= true;
+		String htmlData = "";
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			Document doc;
+			try {
+				doc = Jsoup.connect(GOOGLE_CAL_URL).get();
+//				doc.head().getElementsByTag("link").remove();
+				doc.head().appendElement("link").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "google_cal_style.css");
+				htmlData = doc.outerHtml();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			isLoading = false;
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void v) {		
+			while(isLoading){}
+			webView.loadDataWithBaseURL("file:///android_asset/.", htmlData, "text/html", "UTF-8", null);
+
+			
+		}
+		
+	}
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();

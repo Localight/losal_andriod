@@ -2,9 +2,6 @@ package co.localism.losal.activities;
 
 import java.io.IOException;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import co.localism.losal.R;
 import co.localism.losal.SetUpSlidingMenu;
 import co.localism.losal.listens.PersonalOptionsOnClickListeners;
@@ -101,40 +98,7 @@ public class WebViewActivity extends Activity {
 //			new PersonalOptionsOnClickListeners(
 //					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_SOCRATIVE);
 //			l.findViewById(R.id.po_socrative).setOnClickListener(toggle);
-//			webView.getSettings().setLoadWithOverviewMode(true);
-//			webView.getSettings().setUseWideViewPort(true);
-			
-//			webView.setInitialScale(25);
-//			webView.getSettings().setLoadWithOverviewMode(true);
-//			webView.getSettings().setUseWideViewPort(true);
-//			webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-//			webView.setScrollbarFadingEnabled(false);
-//			try {
-//				Jsoup j = new Jsoup();
-//				Document doc = Jsoup.connect("https://www.google.com/calendar").get();
-//				doc.head().getElementsByTag("link").remove();
-//				doc.head().appendElement("link").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "google_cal_style.css");
-//				String htmlData = doc.outerHtml();
-//				webView.loadDataWithBaseURL("file:///android_asset/.", htmlData, "text/html", "UTF-8", null);
-
-//			} catch (IOException e) {
-				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			webView.
-
-//			webView.loadUrl("http://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
-
-//			htmlData = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />" + htmlData;
-			// lets assume we have /assets/style.css file
-//			webView.loadDataWithBaseURL("file:///android_asset/", htmlData, "text/html", "UTF-8", null);
-
-			
-//			google_cal_style.css
-//			new NetworkThread().execute();
-			webView.loadUrl(GOOGLE_CAL_URL);
-
-//			webView.loadUrl(SOCRATIVE_URL);
+			webView.loadUrl(SOCRATIVE_URL);
 			break;
 		case EVENTS: //no longer used
 			title.setText("Events");
@@ -153,36 +117,7 @@ public class WebViewActivity extends Activity {
 			break;
 		}
 	}
-
-	public class NetworkThread extends AsyncTask<Void, Void, Void>{
-		Boolean isLoading= true;
-		String htmlData = "";
-		@Override
-		protected Void doInBackground(Void... arg0) {
-			Document doc;
-			try {
-				doc = Jsoup.connect(GOOGLE_CAL_URL).get();
-//				doc.head().getElementsByTag("link").remove();
-				doc.head().appendElement("link").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "google_cal_style.css");
-				htmlData = doc.outerHtml();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			isLoading = false;
-			return null;
-		}
 		
-		@Override
-		protected void onPostExecute(Void v) {		
-			while(isLoading){}
-			webView.loadDataWithBaseURL("file:///android_asset/.", htmlData, "text/html", "UTF-8", null);
-
-			
-		}
-		
-	}
-	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();

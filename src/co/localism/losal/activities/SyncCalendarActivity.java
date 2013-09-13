@@ -16,7 +16,8 @@ import android.widget.TextView;
 
 public class SyncCalendarActivity extends Activity {
 
-	private String LOSAL_CAL_URL = "http://los.al/lahs/t/t.htm?=acal";
+	private String LOSAL_CAL_URL = " http://los.al/lahs/acal/t.htm?=1";
+//			"http://los.al/lahs/t/t.htm?=acal";
 	private Context ctx = this;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -152,6 +152,16 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 						.createChooser(emailIntent, "Send email..."));
 			}
 		};
+
+		ClickableSpan help_email= new ClickableSpan() {
+			public void onClick(View view) {
+				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+						Uri.fromParts("mailto", HELP_EMAIL, null));
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Having trouble with the #LOSAL app.");
+				startActivity(Intent
+						.createChooser(emailIntent, "Send email..."));
+			}
+		};
 		ClickableSpan parents_suggest_email = new ClickableSpan() {
 			public void onClick(View view) {
 				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
@@ -241,6 +251,21 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 					SpannableString ss = new SpannableString(tv.getText()
 							.toString());
 					ss.setSpan(suggest_email, x, x + 8, 0);
+					tv.setText(ss);
+					tv.setClickable(true);
+					tv.setMovementMethod(LinkMovementMethod.getInstance());
+				}
+
+				break;
+				
+			case R.id.tv_mo_help_more:
+
+				x = tv.getText().toString().toLowerCase(Locale.US)
+						.indexOf("email us");
+				if (x != -1) {
+					SpannableString ss = new SpannableString(tv.getText()
+							.toString());
+					ss.setSpan(help_email, x, x + 8, 0);
 					tv.setText(ss);
 					tv.setClickable(true);
 					tv.setMovementMethod(LinkMovementMethod.getInstance());

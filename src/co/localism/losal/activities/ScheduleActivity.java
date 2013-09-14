@@ -57,7 +57,7 @@ public class ScheduleActivity extends Activity{
 		Drawable dd = new ColorDrawable(R.color.transparent);
 		a.setIcon(dd);
 		a.setDisplayShowCustomEnabled(true);
-		a.setTitle("");
+		a.setTitle("   ");
 		a.setCustomView(R.layout.actionbar_custome_view);
 		TextView title = (TextView) a.getCustomView().findViewById(
 				R.id.ab_title);

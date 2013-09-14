@@ -131,7 +131,7 @@ public class MainActivity extends ListActivity {
 		a.setDisplayHomeAsUpEnabled(true);
 		a.setDisplayShowTitleEnabled(true);
 		a.setDisplayUseLogoEnabled(false);
-		a.setTitle("");
+		a.setTitle("   ");
 		a.setCustomView(R.layout.actionbar_custome_view);
 		TextView title = (TextView) a.getCustomView().findViewById(
 				R.id.ab_title);

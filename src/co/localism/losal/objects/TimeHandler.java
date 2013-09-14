@@ -53,7 +53,7 @@ public class TimeHandler {
 	public int[] getTimeInterval() {
 		int[] i = new int[2];
 		i[0] = TimeHandler.TimeIntervalHours;
-		i[0] = TimeHandler.TimeIntervalMinutes;
+		i[1] = TimeHandler.TimeIntervalMinutes;
 		return i;
 	}
 
@@ -169,6 +169,8 @@ public class TimeHandler {
 			ampm = "pm";
 		if(hour.equalsIgnoreCase("0"))
 			hour = "12";
+		if(minutes.equalsIgnoreCase("0"))
+			minutes = "00";
 		return day + ", " + hour + ":" + minutes + ampm;
 	}
 

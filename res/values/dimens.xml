@@ -67,7 +67,7 @@
 	
 	
 	<dimen name="sl_margin_left">20dp</dimen>
-	<dimen name="sl_margin_bottom">20dp</dimen>
+	<dimen name="sl_margin_bottom">0dp</dimen>
 	<dimen name="sl_text_size">16sp</dimen>
 			
 	

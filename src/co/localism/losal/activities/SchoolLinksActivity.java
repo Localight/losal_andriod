@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class SchoolLinksActivity extends Activity implements OnClickListener{
@@ -62,35 +63,36 @@ public class SchoolLinksActivity extends Activity implements OnClickListener{
 //			}
 //		});
 //		
-		
+		LayoutParams params = new LinearLayout.LayoutParams(100, 100);
+
 		ImageView iv = new SVGHandler().svg_to_imageview(this, R.raw.social_links_instagram);
 		LinearLayout ll = (LinearLayout) findViewById(R.id.sl_insta);
-		ll.addView(iv, 0);
+		ll.addView(iv, 0, params);
 		ll.setOnClickListener(this);
 		
 		ImageView iv2 = new SVGHandler().svg_to_imageview(this, R.raw.social_links_facebook);
 		LinearLayout ll2 = (LinearLayout) findViewById(R.id.sl_fb);
-		ll2.addView(iv2, 0);
+		ll2.addView(iv2, 0, params);
 		ll2.setOnClickListener(this);
 		
 		ImageView iv3 = new SVGHandler().svg_to_imageview(this, R.raw.social_links_twitter);
 		LinearLayout ll3 = (LinearLayout) findViewById(R.id.sl_tw);
-		ll3.addView(iv3, 0);
+		ll3.addView(iv3, 0, params);
 		ll3.setOnClickListener(this);
 		
 		ImageView iv4 = new SVGHandler().svg_to_imageview(this, R.raw.social_links_flicker);
 		LinearLayout ll4 = (LinearLayout) findViewById(R.id.sl_flickr);
-		ll4.addView(iv4, 0);
+		ll4.addView(iv4, 0, params);
 		ll4.setOnClickListener(this);
 		
 		ImageView iv5 = new SVGHandler().svg_to_imageview(this, R.raw.social_links_youtube);
 		LinearLayout ll5 = (LinearLayout) findViewById(R.id.sl_yt);
-		ll5.addView(iv5, 0);
+		ll5.addView(iv5, 0, params);
 		ll5.setOnClickListener(this);
 		
 		ImageView iv6 = new SVGHandler().svg_to_imageview(this, R.raw.social_links_youtube);
 		LinearLayout ll6 = (LinearLayout) findViewById(R.id.sl_yt_2);
-		ll6.addView(iv6, 0);
+		ll6.addView(iv6, 0, params);
 		ll6.setOnClickListener(this);
 		
   }

@@ -4,25 +4,27 @@
     android:layout_height="match_parent"
     android:background="#282828"
     android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
     android:paddingLeft="@dimen/sl_margin_left"
     android:paddingTop="@dimen/sl_margin_left"
-    android:weightSum="7" >
+    
+    >
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+		android:layout_gravity="center_horizontal"
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:id="@+id/sl_insta"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sl_margin_bottom"
-                android:layout_weight="1"
+                android:layout_height="75dp"
                 android:orientation="horizontal" >
 
                 <!-- image goes here -->
@@ -54,9 +56,8 @@
             <LinearLayout
                 android:id="@+id/sl_flickr"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sl_margin_bottom"
-                android:layout_weight="1"
+                android:layout_height="75dp"
                 android:orientation="horizontal" >
 
                 <!-- image goes here -->
@@ -89,9 +90,8 @@
             <LinearLayout
                 android:id="@+id/sl_fb"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sl_margin_bottom"
-                android:layout_weight="1"
+                android:layout_height="75dp"
                 android:orientation="horizontal" >
 
                 <!-- image goes here -->
@@ -123,9 +123,8 @@
             <LinearLayout
                 android:id="@+id/sl_tw"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sl_margin_bottom"
-                android:layout_weight="1"
+                android:layout_height="75dp"
                 android:orientation="horizontal" >
 
                 <!-- image goes here -->
@@ -157,9 +156,8 @@
             <LinearLayout
                 android:id="@+id/sl_yt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sl_margin_bottom"
-                android:layout_weight="1"
+                android:layout_height="75dp"
                 android:orientation="horizontal" >
 
                 <!-- image goes here -->
@@ -191,9 +189,8 @@
             <LinearLayout
                 android:id="@+id/sl_yt_2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sl_margin_bottom"
-                android:layout_weight="1"
+                android:layout_height="75dp"
                 android:orientation="horizontal" >
 
                 <!-- image goes here -->

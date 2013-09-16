@@ -171,6 +171,8 @@ public class TimeHandler {
 			hour = "12";
 		if(minutes.equalsIgnoreCase("0"))
 			minutes = "00";
+		else if(Integer.parseInt(minutes) < 10)
+			minutes = "0"+minutes;
 		return day + ", " + hour + ":" + minutes + ampm;
 	}
 

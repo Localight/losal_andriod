@@ -150,7 +150,7 @@
 		
 	<string name="mo_about_more">The #LOSAL APP is managed as a service of Localism Inc. using the Localism! Community Engagement Platform (CEP).  Localism! is connecting and empowering local organizations through community-centric technology. \nLearn more at Localism.co/schools</string>
 	<string name="mo_suggest_more">We want to make the #LOSAL APP the #BestAppEver!  Have an idea?  Email us!</string>
-		<string name="mo_help_more">If you\'re having issues with the app or not sure how to use it, please email us and describe the issue in detail. Please mention your phone\'s make and model (such as HTC One or Apple iPhone 5c) and your carrier (i.e., AT&amp;T or Verizon).  This info will help us trouble-shoot the issue.</string>
+		<string name="mo_help_more">If you\'re having issues with the app or not sure how to use it, please email us and describe the issue in detail. Note: This link will send some non-personal diagnostic info about your phone so we can troubleshoot any issues.</string>
 	
 	
 	

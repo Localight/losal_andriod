@@ -20,6 +20,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.SpannableString;
@@ -49,7 +50,7 @@ import co.localism.losal.SetUpSlidingMenu;
 import co.localism.losal.listens.PersonalOptionsOnClickListeners;
 
 public class MoreOptionsActivity extends Activity implements OnClickListener {
-//	private SlidingMenu sm;
+	// private SlidingMenu sm;
 	private static final String SUGGEST_FEATURE_EMAIL = "losalsuggestion@localism.zendesk.com";
 	private static final String HELP_EMAIL = "losalhelp@localism.zendesk.com";
 	private String tag = "MoreOptionsActivity";
@@ -77,10 +78,11 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		title.setTypeface(Typeface.createFromAsset(this.getAssets(),
 				"robotoslab_regular.ttf"));
 		setContentView(R.layout.activity_more_options);
-//		sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);// .SLIDING_CONTENT);
-//		new PersonalOptionsOnClickListeners(
-//				(LinearLayout) findViewById(R.id.po), this,
-//				PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS);
+		// sm = new SetUpSlidingMenu(this, SlidingMenu.SLIDING_WINDOW, true);//
+		// .SLIDING_CONTENT);
+		// new PersonalOptionsOnClickListeners(
+		// (LinearLayout) findViewById(R.id.po), this,
+		// PersonalOptionsOnClickListeners.ACTIVITY_MORE_OPTIONS);
 
 		LinearLayout ll_suggest = (LinearLayout) findViewById(R.id.ll_mo_suggest);
 		ll_suggest.setOnClickListener(this);
@@ -99,15 +101,15 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		setFontOnHeaders();
 		setLinks();
 		setEasterEgg();
-//		LinearLayout l = (LinearLayout) findViewById(R.id.po);
-//		l.findViewById(R.id.po_more_options).setOnClickListener(
-//				new OnClickListener() {
-//
-//					@Override
-//					public void onClick(View v) {
-////						sm.toggle();
-//					}
-//				});
+		// LinearLayout l = (LinearLayout) findViewById(R.id.po);
+		// l.findViewById(R.id.po_more_options).setOnClickListener(
+		// new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// // sm.toggle();
+		// }
+		// });
 	}
 
 	private void setFontOnHeaders() {
@@ -135,6 +137,36 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		 */
 	}
 
+	public String getDeviceInfo() {
+		String manufacturer = Build.MANUFACTURER;
+		String model = Build.MODEL;
+		String version = "" + Build.VERSION.SDK_INT;
+		String app_ver = "";
+		try {
+			app_ver = this.getPackageManager().getPackageInfo(
+					this.getPackageName(), 0).versionName;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (model.startsWith(manufacturer)) {
+			return capitalize(model);
+		} else {
+			return capitalize(manufacturer) + " " + model +". Android SDK "+ version +". #LOSAL v."+app_ver;
+		}
+	}
+
+	private String capitalize(String s) {
+		if (s == null || s.length() == 0) {
+			return "";
+		}
+		char first = s.charAt(0);
+		if (Character.isUpperCase(first)) {
+			return s;
+		} else {
+			return Character.toUpperCase(first) + s.substring(1);
+		}
+	}
+
 	private void setLinks() {
 
 		ClickableSpan link_schools = new ClickableSpan() {
@@ -147,17 +179,19 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 			public void onClick(View view) {
 				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
 						Uri.fromParts("mailto", EMAIL_APP_IDEAS, null));
-				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My idea!)");
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My idea!");
 				startActivity(Intent
 						.createChooser(emailIntent, "Send email..."));
 			}
 		};
 
-		ClickableSpan help_email= new ClickableSpan() {
+		ClickableSpan help_email = new ClickableSpan() {
 			public void onClick(View view) {
 				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
 						Uri.fromParts("mailto", HELP_EMAIL, null));
-				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Having trouble with the #LOSAL app.");
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT,
+						"Having trouble with the #LOSAL app.");
+				emailIntent.putExtra(Intent.EXTRA_TEXT, "\n\n\n\n\n\nMy Device Info.\n"+getDeviceInfo());
 				startActivity(Intent
 						.createChooser(emailIntent, "Send email..."));
 			}
@@ -257,7 +291,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				}
 
 				break;
-				
+
 			case R.id.tv_mo_help_more:
 
 				x = tv.getText().toString().toLowerCase(Locale.US)
@@ -356,8 +390,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 				x = tv.getText().toString().toLowerCase(Locale.US)
 						.indexOf("click here");
 				if (x != -1) {
-					ss = new SpannableString(tv.getText()
-							.toString());
+					ss = new SpannableString(tv.getText().toString());
 					ss.setSpan(link_reset, x, x + 10, 0);
 					tv.setText(ss);
 					tv.setClickable(true);
@@ -425,7 +458,7 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();
-//			sm.showMenu();
+			// sm.showMenu();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -444,9 +477,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 
 		case R.id.tv_mo_about:
 
-
 			break;
-		
+
 		}
 	}
 
@@ -492,6 +524,4 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 
 	}
 
-	
-	
 }

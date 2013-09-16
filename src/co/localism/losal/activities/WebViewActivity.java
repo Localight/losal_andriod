@@ -37,7 +37,7 @@ public class WebViewActivity extends Activity {
 
 	private final String GRADES_URL = "https://abi.losal.org/abi/loginhome.asp";
 	private final String EVENTS_URL = "http://losal.tandemcal.com/";
-	private final String SOCRATIVE_URL = "http://m.socrative.com/student/#joinRoom";
+	private final String SOCRATIVE_URL = "http://m.socrative.com/";//student/#joinRoom";
 	private final String LOSAL_URL = "http://www.losal.org/lahs";
 	private final String EDMODO_URL = "https://www.edmodo.com/m";
 	private final String GOOGLE_CAL_URL = "http://www.google.com/calendar/render?cid=http%3A%2F%2Flosal.tandemcal.com%2Findex.php%3Ftype%3Dexport%26action%3Dical%26export_type%3Dnow_to_infinity%26schools%3D6%26activities%3D15%26event_status_types%3D1%26limit%3Dnone%26date_start%3D2013-08-28%26page%3D2";
@@ -98,6 +98,8 @@ public class WebViewActivity extends Activity {
 //			new PersonalOptionsOnClickListeners(
 //					(LinearLayout) findViewById(R.id.po), this, PersonalOptionsOnClickListeners.ACTIVITY_SOCRATIVE);
 //			l.findViewById(R.id.po_socrative).setOnClickListener(toggle);
+//			webView.setInitialScale(10);      
+
 			webView.loadUrl(SOCRATIVE_URL);
 			break;
 		case EVENTS: //no longer used

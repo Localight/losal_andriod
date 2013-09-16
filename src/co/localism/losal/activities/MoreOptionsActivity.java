@@ -436,17 +436,6 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		Log.d(tag, "click");
 		switch (v.getId()) {
 		case R.id.ll_mo_suggest:
-			// if (ll_mo_suggest_more.getVisibility() == View.GONE)
-			// ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f, 0f,
-			// 1.0f, 500, ll_mo_suggest_more, false));
-			// else
-			// ll_mo_suggest_more.startAnimation(new MyScaler(1.0f, 1.0f,
-			// 1.0f, 0.0f, 500, ll_mo_suggest_more, true));
-
-			// new DropDownAnim(v,50, true).setDuration(500)
-
-			// email(MoreOptionsActivity.SUGGEST_FEATURE_EMAIL,
-			// "My Suggestion");
 			break;
 
 		case R.id.tv_mo_help:
@@ -455,18 +444,9 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 
 		case R.id.tv_mo_about:
 
-			v.startAnimation(new MyScaler(1.0f, 1.0f, 1.0f, 0.0f, 500, v, true));
 
-			// if (viewSwitcher.getCurrentView() != myFirstView) {
-			// viewSwitcher.showPrevious();
-			// } else if (viewSwitcher.getCurrentView() != mySecondView) {
-			// viewSwitcher.showNext();
-			// }
 			break;
-		// case R.id.tv_mo_reset:
-		// resetApp();
-		// break;
-
+		
 		}
 	}
 
@@ -512,85 +492,6 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 
 	}
 
-	public class DropDownAnim extends Animation {
-		int targetHeight;
-		View view;
-		boolean down;
-
-		public DropDownAnim(View view, int targetHeight, boolean down) {
-			this.view = view;
-			this.targetHeight = targetHeight;
-			this.down = down;
-		}
-
-		@Override
-		protected void applyTransformation(float interpolatedTime,
-				Transformation t) {
-			int newHeight;
-			if (down) {
-				newHeight = (int) (targetHeight * interpolatedTime);
-			} else {
-				newHeight = (int) (targetHeight * (1 - interpolatedTime));
-			}
-			view.getLayoutParams().height = newHeight;
-			view.requestLayout();
-		}
-
-		@Override
-		public void initialize(int width, int height, int parentWidth,
-				int parentHeight) {
-			super.initialize(width, height, parentWidth, parentHeight);
-		}
-
-		@Override
-		public boolean willChangeBounds() {
-			return true;
-		}
-	}
-
-	public class MyScaler extends ScaleAnimation {
-
-		private View mView;
-
-		private LayoutParams mLayoutParams;
-		private ViewGroup.MarginLayoutParams lp;
-		private int mMarginBottomFromY, mMarginBottomToY;
-
-		private boolean mVanishAfter = false;
-
-		public MyScaler(float fromX, float toX, float fromY, float toY,
-				int duration, View view, boolean vanishAfter) {
-			super(fromX, toX, fromY, toY);
-			setDuration(duration);
-			mView = view;
-			mVanishAfter = vanishAfter;
-			mLayoutParams = (LayoutParams) view.getLayoutParams();
-			int height = mView.getHeight();
-			lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-			mMarginBottomFromY = (int) (height * fromY) + lp.bottomMargin
-					- height;
-			mMarginBottomToY = (int) (0 - ((height * toY) + lp.bottomMargin))
-					- height;
-
-		}
-
-		@Override
-		protected void applyTransformation(float interpolatedTime,
-				Transformation t) {
-			super.applyTransformation(interpolatedTime, t);
-			if (interpolatedTime < 1.0f) {
-				int newMarginBottom = mMarginBottomFromY
-						+ (int) ((mMarginBottomToY - mMarginBottomFromY) * interpolatedTime);
-				lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin,
-						newMarginBottom);
-				mView.getParent().requestLayout();
-			} else if (mVanishAfter) {
-				mView.setVisibility(View.GONE);
-			} else {
-				mView.setVisibility(View.VISIBLE);
-
-			}
-		}
-
-	}
+	
+	
 }

@@ -22,6 +22,7 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 	public static Context ctx;
 	private static final String tag = "PersonalOptionsOnClickListeners";
 	private String LOSAL_URL = "http://www.losal.org/lahs";
+	private final String SOCRATIVE_URL = "http://m.socrative.com/";
 
 	public static final int ACTIVITY_MAIN = 0;
 	public static final int ACTIVITY_SCHOOL_LINKS = 1;
@@ -30,7 +31,6 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 	public static final int ACTIVITY_SOCRATIVE = 4;
 	public static final int ACTIVITY_EDMODO = 5;
 	public static final int ACTIVITY_MORE_OPTIONS = 6;
-
 	private int which_activity = -1;
 
 	public PersonalOptionsOnClickListeners() {
@@ -116,9 +116,15 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 		case R.id.po_socrative:
 			Log.d(tag, "Socrative");
 			if (which_activity != PersonalOptionsOnClickListeners.ACTIVITY_SOCRATIVE) {
-				intent = new Intent(ctx, WebViewActivity.class).putExtra(
-						"which", WebViewActivity.SOCRATIVE);
-				ctx.startActivity(intent);
+
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(SOCRATIVE_URL));
+				ctx.startActivity(i);
+
+				//
+				// intent = new Intent(ctx, WebViewActivity.class).putExtra(
+				// "which", WebViewActivity.SOCRATIVE);
+				// ctx.startActivity(intent);
 			}
 			break;
 		case R.id.po_edmodo:
@@ -132,7 +138,7 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 		// Log.d("PersonalOptionsOnClickListeners", "Other");
 		case R.id.po_footer:
 			Log.d(tag, "Footer");
-				openURL(LOSAL_URL);
+			openURL(LOSAL_URL);
 			break;
 		case R.id.po_more_options:
 			Log.d(tag, "More Options");
@@ -158,8 +164,8 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						// User clicked OK button
-//						openURL("webcal://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
-						 openURL("http://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
+						// openURL("webcal://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
+						openURL("http://losal.tandemcal.com/index.php?type=export&action=ical&export_type=now_to_infinity&limit=none&date_start=2013-08-26&page=2");
 					}
 				});
 		builder.setNegativeButton(R.string.calendar_dialog_no,

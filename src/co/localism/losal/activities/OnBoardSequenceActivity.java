@@ -161,6 +161,9 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				@Override
 				public void onClick(View v) {
 					final EditText et_phone = (EditText) findViewById(R.id.et_phone);
+					iv_circle1.setAlpha(1f);
+					iv_circle2.setAlpha(1f);
+					iv_circle3.setAlpha(1f);
 					if (et_phone.getText().toString().length() > 9) {
 						if (hasNetworkConnection()) {
 							verify();
@@ -348,7 +351,16 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				tv_ob_verify_full_experience.setTypeface(slab_font);
 
 				iv_ob_verify_close.setOnClickListener(close_page_onclick);
+				et_phone.setOnClickListener(new OnClickListener() {
 
+					@Override
+					public void onClick(View v) {
+						iv_circle1.setAlpha(0f);
+						iv_circle2.setAlpha(0f);
+						iv_circle3.setAlpha(0f);
+					}
+
+				});
 				et_phone.addTextChangedListener(new TextWatcher() {
 
 					@Override
@@ -719,5 +731,4 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	public void onResume() {
 		super.onResume();
 	}
-
 }

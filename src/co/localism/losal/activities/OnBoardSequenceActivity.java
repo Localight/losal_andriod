@@ -26,6 +26,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import co.localism.losal.R;
+import co.localism.losal.async.PushData;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
@@ -568,14 +569,14 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 
 	public class VerifyUser extends AsyncTask<String, String, String> {
 		private String returnedString = "";
-
+		private String phone_num = "";
 		@Override
 		protected String doInBackground(String... args) {
 			// if (checkPhoneInParse(args[0]))
 			// returnedString = "yesphone";
 			// else
 			// returnedString = "no";
-
+			phone_num = args[0];
 			return checkPhoneInParse(args[0]);
 		}
 
@@ -599,8 +600,8 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				new Twilio().execute(db_phone, "", "");
 			} else {
 				Log.d("OnBoard", "fail");
-
 				showErrorScreen();
+				new PushData().execute("failed_phone", phone_num);
 			}
 		}
 	}

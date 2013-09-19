@@ -20,7 +20,8 @@ public class PushData extends AsyncTask<String, String, String> {
 			pushTwitterId(args[1], args[2]);
 		else if (args[0].equalsIgnoreCase("instagramID"))
 			pushInstagramId(args[1], args[2]);
-
+		else if(args[0].equalsIgnoreCase("failed_phone"))
+			pushFailedLogin(args[1]);
 		return null;
 	}
 
@@ -39,17 +40,14 @@ public class PushData extends AsyncTask<String, String, String> {
 				public void done(com.parse.ParseException e) {
 					if (e != null) {
 						Log.e(tag, "not null " + e.toString());
-
 					} else {
 						Log.e(tag, "null ");
-
 					}
 				}
 			});
 		} catch (Exception e) {
 			Log.e(tag, "exception caught: " + e.toString());
 		}
-
 	}
 
 	private void pushInstagramId(String username, String id) {
@@ -62,22 +60,18 @@ public class PushData extends AsyncTask<String, String, String> {
 			user.put("userInstagramId", id);
 
 			user.saveInBackground(new SaveCallback() {
-
 				@Override
 				public void done(com.parse.ParseException e) {
 					if (e != null) {
 						Log.e(tag, "not null " + e.toString());
-
 					} else {
 						Log.e(tag, "null ");
-
 					}
 				}
 			});
 		} catch (Exception e) {
 			Log.e(tag, "exception caught: " + e.toString());
 		}
-
 	}
 
 	/**
@@ -93,7 +87,6 @@ public class PushData extends AsyncTask<String, String, String> {
 			ParseObject like = new ParseObject("Likes");
 			ParseUser pu = ParseUser.getCurrentUser();
 
-			// like.put("postID", postId);
 			ParseObject post = ParseObject.createWithoutData("Posts", postId);
 			like.put("postID", post);
 			ParseObject user = ParseObject.createWithoutData("User", userId);
@@ -103,7 +96,6 @@ public class PushData extends AsyncTask<String, String, String> {
 			like.saveInBackground(new SaveCallback() {
 				@Override
 				public void done(com.parse.ParseException e) {
-					// TODO Auto-generated method stub
 					if (e == null) {
 						Log.e("PushData", "pushed like successful");
 					} else {
@@ -115,4 +107,34 @@ public class PushData extends AsyncTask<String, String, String> {
 			Log.e("PushData", e.toString());
 		}
 	}
+	
+	/**
+	 * This logs the phone number of any failed attempts of logging.
+	 * 
+	 * @param phone the phonenumber attempted
+	 */
+	private void pushFailedLogin(String phone) {
+		Log.d(tag, "pushing failed login phone num to db");
+		try {
+			ParseObject fl = new ParseObject("FailedLogin");
+			fl.put("phoneNumber", phone);
+			fl.saveInBackground(new SaveCallback() {
+				@Override
+				public void done(com.parse.ParseException e) {
+					if (e == null) {
+						Log.i("PushData", "pushed FailedLogin successfully");
+					} else {
+						Log.e("PushData", e.toString());
+					}
+				}
+			});
+		} catch (Exception e) {
+			Log.e("PushData", e.toString());
+		}
+	}
+	
+	
+	
+	
+	
 }

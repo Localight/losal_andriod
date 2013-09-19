@@ -71,7 +71,7 @@ public class FetchNotices extends Observable {
 						SharedPreferences user_info = ctx.getSharedPreferences(
 								"UserInfo", Context.MODE_PRIVATE);
 						if (user_info.getString("user_type", "")
-								.equalsIgnoreCase("student")) {
+								.equalsIgnoreCase("student")  || !user_info.getBoolean("registered", false) ) {
 //							they are a student and should only be shown ads targeted to them or no ad at all
 							if (noticesList.get(i).getString("audienceTypes")
 									.contains("Students")) {

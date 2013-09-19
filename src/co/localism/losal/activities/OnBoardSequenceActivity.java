@@ -224,6 +224,13 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				@Override
 				public void onPageSelected(int x) {
 					Log.d(tag, "current page: " + x);
+					try {
+						iv_circle1.setAlpha(1f);
+						iv_circle2.setAlpha(1f);
+						iv_circle3.setAlpha(1f);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					switch (x) {
 					case 0:
 						bgShape1.setColor(getResources().getColor(
@@ -570,6 +577,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	public class VerifyUser extends AsyncTask<String, String, String> {
 		private String returnedString = "";
 		private String phone_num = "";
+
 		@Override
 		protected String doInBackground(String... args) {
 			// if (checkPhoneInParse(args[0]))

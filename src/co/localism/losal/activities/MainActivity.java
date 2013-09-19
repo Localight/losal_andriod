@@ -244,7 +244,7 @@ public class MainActivity extends ListActivity {
 		SharedPreferences.Editor prefEditor = user_info.edit();
 		prefEditor.putBoolean("isFirstVisit", false);
 		prefEditor.commit();
-//		showCalendarDialog(); //used for testing
+		showCalendarDialog(); //used for testing
 	}
 
 	private boolean hasNetworkConnection() {

@@ -576,6 +576,8 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 		btn_verify.setText(R.string.verify_button_retry);
 		btn_verify.setOnClickListener(verify_onclick);
 		btn_verify.setVisibility(View.VISIBLE);
+		btn_verify.setBackgroundColor(getResources()
+				.getColor(R.color.trans_white));	
 	}
 
 	public class VerifyUser extends AsyncTask<String, String, String> {

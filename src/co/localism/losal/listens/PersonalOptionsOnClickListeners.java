@@ -121,10 +121,10 @@ public class PersonalOptionsOnClickListeners implements View.OnClickListener {
 				i.setData(Uri.parse(SOCRATIVE_URL));
 				ctx.startActivity(i);
 
-				//
-				// intent = new Intent(ctx, WebViewActivity.class).putExtra(
-				// "which", WebViewActivity.SOCRATIVE);
-				// ctx.startActivity(intent);
+				
+//				 intent = new Intent(ctx, WebViewActivity.class).putExtra(
+//				 "which", WebViewActivity.SOCRATIVE);
+//				 ctx.startActivity(intent);
 			}
 			break;
 		case R.id.po_edmodo:

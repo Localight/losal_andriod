@@ -210,6 +210,8 @@ public class SetUpSlidingMenu extends SlidingMenu {
 					resetApp();	
 				}
 			});
+		}else{
+			user_name.setClickable(false);
 		}
 	}
 
@@ -226,6 +228,7 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		sh = ctx.getSharedPreferences("TwitterInfo", Context.MODE_PRIVATE);
 		sh.edit().clear().commit();
 		Intent i = new Intent(activity, SplashScreenActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		ctx.startActivity(i);
 	}
 	

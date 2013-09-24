@@ -549,6 +549,14 @@ public class MainActivity extends ListActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if ( keyCode == KeyEvent.KEYCODE_MENU ) {
+	    	sm.toggle();
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
 
 	public void updateView() {
 		Log.d(tag, "updateView called");

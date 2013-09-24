@@ -203,6 +203,11 @@ See our privacy policy for more information.
 \nA variety of factors give more weight to post, and only posts that surpass a threshold are displayed in the feed. Weighting factors can include the amount of likes and relevance to selected campus keywords.  Additionally the platform ignores posts that contain common NSFS terms (Not Safe For School).  The purpose of the social feed is to connect the campus with posts from students about school life and activities.  The algorithm and automatic filtering has been tuned to yield these results.</string>
 		
 		<string name="mo_reset_more">The #LOSAL App can be reset, which takes it back to the start screen and requests a mobile number for verification. Click here to reset.</string>
-	
+	<string name="mo_special_thanks">Special Thanks &amp; Acknowledgements</string>
+	<string name="mo_special_thanks_more">
+The Localism team would like to thank the following individuals for their vision, great support and friendship as we\'ve brought the #LOSAL App to life for Android and iPhone!  
+\nIn order of appearance:  LAHS staff and faculty including Principal Josh Arnold, Melissa Miller, Keely Hafer, Dan Bennett and Karissa Ferrell; Los Alamitos USD staff including Superintendent Sherry Kropp and Tina Dingillo, along with school board members Lisa Boyer, Karen Russell, David Boyer, Diana Hill, Meg Cutuli, and Jeff Barke;  A HUGE applause goes out to ASB and the student volunteers who helped to get the app launched;  A special shout out to Markus Manley and Robbie Brown from We Labs, along with the We Labs members who helped with feedback and testing;  and finally to LB Tech and Executive Director John Grefe (Los Al alum!). 
+\nThe Localism app team:  DW Ferrell, Joaquin Brown, James Hall, Joe Czubiak, Phoenix Singharatsavong, and special help from Jeff Algera of Principal.LA.
+</string>
 	
 </resources>

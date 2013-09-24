@@ -300,7 +300,7 @@ public class MainActivity extends ListActivity {
 			String user_password = data.substring(data.indexOf('/') + 2);
 			loginParseUser(phone, user_password);
 			Log.e(tag, "user data= " + phone + " :  " + user_password);
-			loginParseUser(phone, user_password);
+//			loginParseUser(phone, user_password);
 		} else {
 			showPairingError();
 			SharedPreferences user_info = getSharedPreferences("UserInfo",

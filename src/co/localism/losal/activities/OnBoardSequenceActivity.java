@@ -101,7 +101,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 	private static TextView tv_message;
 	private static TextView tv_lower_message;
 //	private static ImageButton iv_ob_verify_close;
-	private static LinearLayout ll_ob_verify_close;
+	private static ImageButton ll_ob_verify_close;
 
 	private static Typeface slab_font;
 
@@ -348,7 +348,7 @@ public class OnBoardSequenceActivity extends FragmentActivity {
 				tv_lower_message.setText(R.string.enter_phone);
 //				iv_ob_verify_close = (ImageButton) v
 //						.findViewById(R.id.iv_ob_verify_close);
-				ll_ob_verify_close = (LinearLayout) v.findViewById(R.id.ll_ob_verify_close);
+				ll_ob_verify_close = (ImageButton) v.findViewById(R.id.iv_ob_verify_close);
 //				iv_ob_verify_close.setOnClickListener(close_page_onclick);
 				ll_ob_verify_close.setOnClickListener(close_page_onclick);
 				

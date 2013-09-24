@@ -126,14 +126,13 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 	private void setEasterEgg() {
 		ImageView iv = (ImageView) findViewById(R.id.iv_arnold);
 		iv.setVisibility(View.GONE);
-		// taking this view out for the time being because we don't have a link
-		// yet.
+//		TODO: make this live for production version
 		// Also in the future we might want to make the image changeable and
 		// have that as part of the app settings.
 		/*
 		 * iv.setOnClickListener(new OnClickListener(){
 		 * 
-		 * @Override public void onClick(View v) { // openURL(""); } });
+		 * @Override public void onClick(View v) { // openURL("http://los.al/lahs/gogriffins"); } });
 		 */
 	}
 

@@ -337,7 +337,7 @@ Call 562-391-2193 to reach Los Al USD&apos;s campus safety. "
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:src="@drawable/arnold_white" />
+                    android:src="@drawable/dr_arnold_losal" />
 
                 <TextView
                     android:layout_width="match_parent"

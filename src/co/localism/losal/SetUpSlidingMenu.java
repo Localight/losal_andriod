@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -14,9 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import co.localism.losal.R;
 import co.localism.losal.R.color;
+import co.localism.losal.activities.SplashScreenActivity;
 import co.localism.losal.adapters.NoticeAdapter;
 import co.localism.losal.objects.Notice;
 
@@ -25,9 +28,11 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 public class SetUpSlidingMenu extends SlidingMenu {
 
 	private Activity activity;
+	private Context ctx;
 
 	public SetUpSlidingMenu(Activity activity, int slideStyle) {
 		this(activity, slideStyle, false);
+		this.ctx = activity.getApplicationContext();
 	}
 
 	public SetUpSlidingMenu(Activity activity, int slideStyle,
@@ -198,6 +203,30 @@ public class SetUpSlidingMenu extends SlidingMenu {
 		user_name.setTypeface(Typeface.createFromAsset(activity.getApplicationContext().getAssets(),
 				"robotoslab_regular.ttf"));
 		user_name.setText(user_info.getString("user_name", "Unregistered"));
+		if(user_name.getText().toString().equalsIgnoreCase("unregistered")){
+			user_name.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View arg0) {
+					resetApp();	
+				}
+			});
+		}
 	}
 
+	
+	private void resetApp() {
+
+		SharedPreferences sh;
+		sh = ctx.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+		sh.edit().clear().commit();
+		sh = ctx.getSharedPreferences("UserLikes", Context.MODE_PRIVATE);
+		sh.edit().clear().commit();
+		sh = ctx.getSharedPreferences("InstagramInfo", Context.MODE_PRIVATE);
+		sh.edit().clear().commit();
+		sh = ctx.getSharedPreferences("TwitterInfo", Context.MODE_PRIVATE);
+		sh.edit().clear().commit();
+		Intent i = new Intent(activity, SplashScreenActivity.class);
+		ctx.startActivity(i);
+	}
+	
 }

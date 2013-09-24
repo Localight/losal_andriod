@@ -125,15 +125,16 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 
 	private void setEasterEgg() {
 		ImageView iv = (ImageView) findViewById(R.id.iv_arnold);
-		iv.setVisibility(View.GONE);
-//		TODO: make this live for production version
+		// iv.setVisibility(View.GONE);
+		// TODO: make this live for production version
 		// Also in the future we might want to make the image changeable and
 		// have that as part of the app settings.
-		/*
-		 * iv.setOnClickListener(new OnClickListener(){
-		 * 
-		 * @Override public void onClick(View v) { // openURL("http://los.al/lahs/gogriffins"); } });
-		 */
+		iv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openURL("http://los.al/lahs/gogriffins");
+			}
+		});
 	}
 
 	public String getDeviceInfo() {
@@ -150,7 +151,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 		if (model.startsWith(manufacturer)) {
 			return capitalize(model);
 		} else {
-			return capitalize(manufacturer) + " " + model +". Android SDK "+ version +". #LOSAL v."+app_ver;
+			return capitalize(manufacturer) + " " + model + ". Android SDK "
+					+ version + ". #LOSAL v." + app_ver;
 		}
 	}
 
@@ -190,7 +192,8 @@ public class MoreOptionsActivity extends Activity implements OnClickListener {
 						Uri.fromParts("mailto", HELP_EMAIL, null));
 				emailIntent.putExtra(Intent.EXTRA_SUBJECT,
 						"Having trouble with the #LOSAL app.");
-				emailIntent.putExtra(Intent.EXTRA_TEXT, "\n\n\n\n\n\nMy Device Info.\n"+getDeviceInfo());
+				emailIntent.putExtra(Intent.EXTRA_TEXT,
+						"\n\n\n\n\n\nMy Device Info.\n" + getDeviceInfo());
 				startActivity(Intent
 						.createChooser(emailIntent, "Send email..."));
 			}
